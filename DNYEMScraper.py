@@ -87,7 +87,7 @@ def DNYEM(filename=None, year=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='Debrecen-Nyíregyházi egyházmegye papjainak születési éve')
+        description='Debrecen-Nyíregyházi egyházmegye papjainak adatai')
     parser.add_argument('--filename', required=False, action="store", default=None,
                         help="JSON to save. If not set, the result will be displayed on screen")
 

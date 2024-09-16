@@ -97,7 +97,7 @@ def SZFVEM(filename=None, year=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-                        description='Székesfehérvári egyházmegye papjainak születési éve')
+                        description='Székesfehérvári egyházmegye papjainak adatai')
     parser.add_argument('--filename', required=False, action="store", default=None, help="JSON to save. If not set, the result will be displayed on screen")
 
     args = parser.parse_args()
