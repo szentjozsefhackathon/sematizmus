@@ -33,7 +33,8 @@ def EFEM(filename=None, year=None):
             _papok.append({
                 "name": pap.select_one("h2").text,
                 "birth": int(pap.select_one(".col-sm-8 div").text.split(": ")[1].split(".")[0]),
-                "img": pap.select_one("img").get("src")
+                "img": pap.select_one("img").get("src"),
+                "src": link
             })
         return _papok
     

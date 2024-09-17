@@ -51,7 +51,7 @@ def EBFEM(filename=None, year=None):
                     print("Failed to fetch the website.")
             except:
                 print("Big error")
-                pass
+                continue
 
         soup = BeautifulSoup(html_content, 'html.parser')
         nev = soup.select_one("h1").text.strip()
@@ -130,7 +130,8 @@ def EBFEM(filename=None, year=None):
                 paplista.append({
                                 "name": nev,
                                 "birth": szul,
-                                "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src")
+                                "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
+                                "src": f"{url}/{pap.split('/')[1]}"
                             })
             else:
                 hibasak.append({"név": nev, "hiba": "Szentelése előbbi, mint születése"})

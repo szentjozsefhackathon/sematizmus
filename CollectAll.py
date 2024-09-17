@@ -7,6 +7,11 @@ from PEMScraper import PEM
 from SZFVEMScraper import SZFVEM
 from SZHEMScraper import SZHEM
 from VFEMScraper import VFEM
+from TPScraper import TP
+
+from HdFEMScraper import HdFEM
+from MEMScraper import MEM
+from NYEMScraper import NYEM
 
 import json
 import argparse
@@ -26,16 +31,17 @@ def priestList(year, filename):
         "Veszprémi főegyházmegye": VFEM(year=year),
         "Kaposvári egyházmegye": KEM(year=year),
         "Szombathelyi egyházmegye": SZHEM(year=year),
-        #"Hajdúdorogi főegyházmegye": ,
-        #"Miskolci egyházmegye": ,
-        #"Nyíregyházi egyházmegye": ,
-        #"Pannonhalmi területi főapátság": 
+        "Hajdúdorogi főegyházmegye": HdFEM(year=year),
+        "Miskolci egyházmegye": MEM(year=year),
+        "Nyíregyházi egyházmegye": NYEM(year=year),
+        #"Pannonhalmi területi főapátság": ,
+        "Tábori Püspökség": TP(year=year)
     }
 
     priests = []
     for diocese, data in _dioceses.items():
         for priest in data:
-            priests.append({"name": priest["name"], "diocese": diocese, "birth": priest["birth"], "img": priest["img"]})
+            priests.append({"name": priest["name"], "diocese": diocese, "birth": priest.get("birth"), "img": priest.get("img")})
 
 
 
@@ -45,7 +51,7 @@ def priestList(year, filename):
     else:
         with open(filename, "w") as outfile:
             outfile.write(json.dumps(priests))
-
+    print(len(priests))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

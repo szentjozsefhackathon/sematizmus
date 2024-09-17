@@ -42,7 +42,7 @@ def SZFVEM(filename=None, year=None):
                     print("Failed to fetch the website.")
             except:
                 print("Big error")
-                pass
+                continue
 
 
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -85,7 +85,8 @@ def SZFVEM(filename=None, year=None):
         paplista.append({
             "name": nev,
             "birth": szul,
-            "img": imgSrc
+            "img": imgSrc,
+            "src": url + pap
         })
 
 

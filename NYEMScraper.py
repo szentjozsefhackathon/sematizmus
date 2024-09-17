@@ -1,4 +1,3 @@
-
 import requests
 from bs4 import BeautifulSoup
 import re
@@ -6,9 +5,9 @@ from tqdm import tqdm
 import  json
 import argparse
 
-def PEM(filename=None, year=None):
+def NYEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
-    url = 'https://pecsiegyhazmegye.hu/egyhazmegye/papsag/papjaink'
+    url = 'https://www.nyirgorkat.hu/?q=papok&egyhazmegye=3&l=hu'
     response = requests.get(url)
     # Check if the request was successful
     if response.status_code == 200:
@@ -18,28 +17,23 @@ def PEM(filename=None, year=None):
 
     # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html_content, 'html.parser')
-
     papok = []
-    firstLine = True # Az első sor csak fejléc
-    for sor in soup.select_one(".item-page table").tbody.findAll("tr"): # Táblázat sorainak keresése
-        if firstLine:
-            firstLine = False
-            continue
-        if "nyugállományban" in sor.text or "megyéspüspök" in sor.text: # Nyugállományban lévő papokat és a püspököket nem számítjul
-            continue
-        papok.append(sor.findAll('td')[0].select_one('a')['href']) # Papi oldalak linkjei
+    for pap in soup.select('a[href*="?q=pap&"]'):
+        papok.append(pap["href"])
+
 
     paplista = []
+    
     for pap in tqdm(papok): # Nézze meg az összes pap linkjét
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(pap)
+            response = requests.get(f"https://www.nyirgorkat.hu/{pap}")
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(pap)
+                response = requests.get(f"https://www.nyirgorkat.hu/{pap}")
                 if response.status_code == 200:
                     html_content = response.content
                 else:
@@ -50,19 +44,19 @@ def PEM(filename=None, year=None):
 
 
         soup = BeautifulSoup(html_content, 'html.parser')
+        if "Elhunyt:" in soup.text: continue
+        
         imgSrc = ""
         try:
-            imgSrc = "https://pecsiegyhazmegye.hu" + soup.select_one(".item-page img").get("src")
+            imgSrc = "https://hd.gorogkatolikus.hu" + soup.select_one("img.indexpap").get("src")
         except:
             pass
-        for sor in soup.select_one(".kpriest-content-right table").findAll("tr"): # Papi táblázat
-            if(sor.select_one("th").text == "Született"): #A született fejléc számít
-                paplista.append({
-                    "name": soup.select_one(".page-header h2").text, # A pap neve
-                    "birth": int(sor.select_one("td").text.strip().split(", ")[1].split(".")[0]), # A vesszővel levágjuk a helyet, a .-tal meg az évet,
-                    "img": imgSrc, # A kép linkje,
-                    "src": pap
-                })
+
+        paplista.append({
+            "name": soup.select_one("#parokianev").text, # A pap neve
+            "img": imgSrc, # A kép linkje,
+            "src": f"https://nyirgorkat.hu/{pap}"
+        })
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
@@ -71,10 +65,10 @@ def PEM(filename=None, year=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-                        description='Pécsi egyházmegye papjainak adatai')
+                        description='Nyíregyházi egyházmegye papjainak adatai')
     parser.add_argument('--filename', required=False, action="store", default=None, help="JSON to save. If not set, the result will be displayed on screen")
 
     args = parser.parse_args()
 
-    if args.filename==None: print(PEM(args.filename))
-    else: PEM(args.filename)
+    if args.filename==None: print(NYEM(args.filename))
+    else: NYEM(args.filename)

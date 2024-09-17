@@ -40,7 +40,7 @@ def DNYEM(filename=None, year=None):
                     print("Failed to fetch the website.")
             except:
                 print("Big error")
-                pass
+                continue
 
         soup = BeautifulSoup(html_content, 'html.parser')
         firstLine = True
@@ -61,7 +61,8 @@ def DNYEM(filename=None, year=None):
                 paplista.append({
                     "name": soup.select_one("#main article h1").text,
                     "birth": 1971,
-                    "img": imgSrc
+                    "img": imgSrc,
+                    "src": pap
                 })
                 continue
             print(soup.select_one("#main article h1").text)

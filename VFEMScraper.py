@@ -41,7 +41,7 @@ def VFEM(filename=None, year=None):
                     print("Failed to fetch the website.")
             except:
                 print("Big error")
-                pass
+                continue
 
 
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -51,11 +51,11 @@ def VFEM(filename=None, year=None):
         except:
             pass
         nev = soup.select_one(".priest-details").select_one("h2").text.replace("  ", " ")
-        if nev == "Bedy Imre": paplista.append({"name": "Bedy Imre", "birth": 1982, "img": imgSrc}) #Nem jó weboldal, vessző hiányzik
-        elif nev == "Dékány Árpád Sixtus O. Cist": paplista.append({"name": "Dékány Árpád Sixtus O. Cist", "birth": 1969, "img": imgSrc}) #Forrás: https://hu.wikipedia.org/wiki/D%C3%A9k%C3%A1ny_Sixtus
-        elif nev == "Holubák Attila": paplista.append({"name": "Holubák Attila", "birth": 1970, "img": imgSrc}) #Nem jó weboldal, vessző hiányzik
-        elif nev == "Kulcsár Dávid dr.": paplista.append({"name": "Kulcsár Dávid dr.", "birth": 1990, "img": imgSrc}) #Nem jó weboldal, vessző hiányzik
-        else: paplista.append({"name": nev, "birth": int(soup.select_one(".pap-profil").text.split("Született")[1].split(", ")[1].split(".")[0]), "img": imgSrc})
+        if nev == "Bedy Imre": paplista.append({"name": "Bedy Imre", "birth": 1982, "img": imgSrc, "src": url + pap}) #Nem jó weboldal, vessző hiányzik
+        elif nev == "Dékány Árpád Sixtus O. Cist": paplista.append({"name": "Dékány Árpád Sixtus O. Cist", "birth": 1969, "img": imgSrc, "src": url + pap}) #Forrás: https://hu.wikipedia.org/wiki/D%C3%A9k%C3%A1ny_Sixtus
+        elif nev == "Holubák Attila": paplista.append({"name": "Holubák Attila", "birth": 1970, "img": imgSrc, "src": url + pap}) #Nem jó weboldal, vessző hiányzik
+        elif nev == "Kulcsár Dávid dr.": paplista.append({"name": "Kulcsár Dávid dr.", "birth": 1990, "img": imgSrc, "src": url + pap}) #Nem jó weboldal, vessző hiányzik
+        else: paplista.append({"name": nev, "birth": int(soup.select_one(".pap-profil").text.split("Született")[1].split(", ")[1].split(".")[0]), "img": imgSrc, "src": url + pap})
 
 
 

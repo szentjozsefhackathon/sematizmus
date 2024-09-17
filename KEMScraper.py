@@ -22,7 +22,8 @@ def KEM(filename=None, year=None):
         paplista.append({
             "name": pap.select_one("h4").text,
             "birth": int(pap.select_one(".qx-person-description p").text.split("Szent.:")[0].split(", ")[1].split(".")[0]),
-            "img": imgSrc
+            "img": imgSrc,
+            "src": url
         })
 
 

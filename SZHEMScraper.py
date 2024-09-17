@@ -67,7 +67,8 @@ def SZHEM(filename=None, year=None):
                     paplista.append({
                         "name": nev,
                         "birth": int(sor.text.split(".")[0].split(", ")[-1]),
-                        "img": imgSrc
+                        "img": imgSrc,
+                        "src": f"https://www.martinus.hu{pap}"
                     })
                 except: pass
                 break
