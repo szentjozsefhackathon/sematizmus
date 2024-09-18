@@ -6,7 +6,9 @@ from KEMScraper import KEM
 from PEMScraper import PEM
 from SZFVEMScraper import SZFVEM
 from SZHEMScraper import SZHEM
+from VEMScraper import VEM
 from VFEMScraper import VFEM
+
 from TPScraper import TP
 
 from HdFEMScraper import HdFEM
@@ -26,7 +28,7 @@ def priestList(year, filename):
         "Pécsi egyházmegye": PEM(year=year),
         #"Szeged-Csanádi egyházmegye": ,
         "Egri főegyházmegye": EFEM(year=year),
-        #"Váci egyházmegye":,
+        "Váci egyházmegye": VEM(year=year),
         "Debrecen-Nyíregyházi egyházmegye": DNYEM(year=year),
         "Veszprémi főegyházmegye": VFEM(year=year),
         "Kaposvári egyházmegye": KEM(year=year),
