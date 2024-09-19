@@ -2,8 +2,27 @@ import requests
 from bs4 import BeautifulSoup
 import re
 from tqdm import tqdm
-import  json
+import json
 import argparse
+import datetime
+honapok = {
+        "január": 1,
+        "február": 2,
+        "március": 3,
+        "április": 4,
+        "május": 5,
+        "június": 6,
+        "július": 7,
+        "augusztus": 8,
+        "szeptember": 9,
+        "október": 10,
+        "november": 11,
+        "december": 12
+}
+def str2date(datum):
+    reszek = [d.split(".")[0].strip() for d in datum.split(" ")]
+    return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
+
 
 def PEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
@@ -24,8 +43,7 @@ def PEM(filename=None, year=None):
         if firstLine:
             firstLine = False
             continue
-        if "nyugállományban" in sor.text or "megyéspüspök" in sor.text: # Nyugállományban lévő papokat és a püspököket nem számítjul
-            continue
+
         papok.append(sor.findAll('td')[0].select_one('a')['href']) # Papi oldalak linkjei
 
     paplista = []
@@ -54,14 +72,27 @@ def PEM(filename=None, year=None):
             imgSrc = "https://pecsiegyhazmegye.hu" + soup.select_one(".item-page img").get("src")
         except:
             pass
+        birth = None
+        ordination = None
         for sor in soup.select_one(".kpriest-content-right table").findAll("tr"): # Papi táblázat
-            if(sor.select_one("th").text == "Született"): #A született fejléc számít
-                paplista.append({
-                    "name": soup.select_one(".page-header h2").text, # A pap neve
-                    "birth": int(sor.select_one("td").text.strip().split(", ")[1].split(".")[0]), # A vesszővel levágjuk a helyet, a .-tal meg az évet,
-                    "img": imgSrc, # A kép linkje,
-                    "src": pap
-                })
+            if(sor.select_one("th").text == "Született"): 
+                birth = str2date(sor.select_one("td").text.strip().split(", ")[1])
+            
+            if(sor.select_one("th").text == "Szentelés"):
+                try:
+                    ordination = str2date(sor.select_one("td").text.strip().split(", ")[1])
+                except:
+                    ordination = str2date(sor.select_one("td").text.strip())
+        paplista.append({
+            "name": soup.select_one(".page-header h2").text, # A pap neve
+            "birth": birth,
+            "ordination": ordination,
+            "img": imgSrc, # A kép linkje,
+            "src": pap,
+            "retired": "nyugállományban" in soup.text or "ny. megyéspüspök" in soup.text,
+            "bishop": "megyéspüspök" in soup.text,
+            "deacon": "diakónus" in soup.text
+        })
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
