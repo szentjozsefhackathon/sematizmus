@@ -61,7 +61,16 @@ def KEM(filename=None, year=None):
             }
         },
     ]
-    paplista = []
+    paplista = [{
+        "name": "Varga László",
+        "birth": datetime.date(1956, 8, 17),
+        "ordination": datetime.date(1982, 4, 17),
+        "img": "https://kaposvar.egyhazmegye.hu/images/Megyespuspok/Varga_Laszlo_megyespuspok.jpg",
+        "src": "https://kaposvar.egyhazmegye.hu/index.php/papok/fopasztor",
+        "bishop": True,
+        "retired": False,
+        "deacon": False
+    }]
     for source in sources:
         response = requests.get(source["url"])
         if response.status_code == 200:
@@ -108,6 +117,7 @@ def KEM(filename=None, year=None):
                 "src": source["url"],
                 **options
             })
+    
 
     if filename == None:
         return paplista
