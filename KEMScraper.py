@@ -14,6 +14,7 @@ honapok = {
     "ápr": 4,
     "máj": 5,
     "jún": 6,
+    "június": 6,
     "júl": 7,
     "aug": 8,
     "szept": 9,
@@ -71,14 +72,38 @@ def KEM(filename=None, year=None):
         soup = BeautifulSoup(html_content, 'html.parser')
 
         for pap in soup.select(".qx-element-person"):
+            ordination = None
+            try:
+                ordination = str2date(".".join(pap.select_one(".qx-person-description p").text.split("Szent.:")[1].split(".")[:3]).split(", ")[1])
+            except:
+                if pap.select_one("h4").text == "Csendes Sándor József ":
+                    ordination = datetime.date(1998, 9, 19)
+                if pap.select_one("h4").text == "Galambos Ferenc":
+                    ordination = datetime.date(2003, 6, 28)
+                if pap.select_one("h4").text == "Háda László Dr.":
+                    ordination = datetime.date(2002, 6, 22)
+                if pap.select_one("h4").text == "Kóré Mihály":
+                    ordination = datetime.date(2002, 6, 29)
+                if pap.select_one("h4").text == "Tölgyesi Dávid":
+                    ordination = datetime.date(2019, 6, 29)
+                if pap.select_one("h4").text == "Fliszár Károly":
+                    ordination = datetime.date(1975, 6, 29)
+                if pap.select_one("h4").text == "Kovács Jenő":
+                    ordination = datetime.date(1975, 6, 23)
+                if pap.select_one("h4").text == "Marics József":
+                    ordination = datetime.date(1969, 6, 15)
+            if ordination == None:
+                print(pap.select_one("h4").text)
+
+                print("Szentelés hiba")
             options = {**source["options"]}
-            print(pap.select_one("h4").text)
             if pap.select_one("h4").text == "Balás Béla":
                 options["bishop"] = True
             imgSrc = pap.select_one("img").get("src")
             paplista.append({
                 "name": pap.select_one("h4").text,
                 "birth": str2date(pap.select_one(".qx-person-description p").text.split("Szent.:")[0].split(", ")[1]),
+                "ordination": ordination,
                 "img": imgSrc,
                 "src": source["url"],
                 **options
@@ -88,7 +113,7 @@ def KEM(filename=None, year=None):
         return paplista
     else:
         with open(filename, "w") as outfile:
-            outfile.write(json.dumps(paplista))
+            outfile.write(json.dumps(paplista, default=str))
 
 
 if __name__ == "__main__":

@@ -96,7 +96,7 @@ def PEM(filename=None, year=None):
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
-            outfile.write(json.dumps(paplista))
+            outfile.write(json.dumps(paplista, default=str))
 
 
 if __name__ == "__main__":
