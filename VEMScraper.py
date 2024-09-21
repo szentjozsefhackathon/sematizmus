@@ -77,8 +77,8 @@ def VEM(filename=None, year=None):
                 "name": soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip(), # A pap neve
                 "img": imgSrc, # A kép linkje,
                 "src": f"http://sematizmus.vaciegyhazmegye.hu/{pap}",
-                "deacon": "Diakónus igazolvány sorszáma" in str(html_content),
-                "bishop": "feladatkor.php?id=243" in str(html_content),
+                "deacon": "Diakónus igazolvány sorszáma" in str(soup.text),
+                "bishop": "feladatkor.php?id=243" in str(soup),
                 "retired": nyugdijas
             })
         except:
