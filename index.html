@@ -23,11 +23,11 @@
             <div class="col-lg-8 mx-auto">
                 <p class="lead mb-4">Magyarország római- és görögkatolikus egyházmegyéinek, katonai ordinariátusának
                     papjait hivatott összegyűjteni ez az oldal a honlapokon fellelhető adatok alapján.</p>
-                <div class="alert alert-warning">Az egyházmegyék honlapja folyamatos feldolgozás áll a <a
+                <div class="alert alert-warning">Az egyházmegyék honlapja folyamatos feldolgozás alatt áll a <a
                         href="https://github.com/szentjozsefhackathon/sematizmus">GitHubon</a> elérhető bányász
                     szkriptek segítségével. Az adatokban előfordulhatnak hibák, hiányosságok.
-                    A Szeged-Csanádi egyházmegye, a Kalocsa-Kecskeméti főegyházmegye és a Pannonhalmi Területi Főapátság
-                    papjai hiányoznak.
+                    A <b>Szeged-Csanádi egyházmegye, a Kalocsa-Kecskeméti főegyházmegye és a Pannonhalmi Területi Főapátság</b>
+                    papjai hiányoznak az <b>adatok hiánya vagy rendezetlensége miatt.</b>
                     A kinyert adatok elérhetőek <a href="data.json">ezen a linken.</a>
                 </div>
                 <div class="alert alert-success">Várjuk a <a
@@ -39,8 +39,8 @@
         </div>
     </div>
     <center><strong>Készítette: Vörös László.<br />További információ, forráskód, és bekapcsolódási
-        lehetőség:<br /> <a
-            href="https://github.com/szentjozsefhackathon/sematizmus">github.com/szentjozsefhackathon/sematizmus</a></strong>
+            lehetőség:<br /> <a
+                href="https://github.com/szentjozsefhackathon/sematizmus">github.com/szentjozsefhackathon/sematizmus</a></strong>
     </center>
     <script>
 
@@ -51,27 +51,36 @@
             .then(json => {
                 data = json;
                 console.log(data);
-                $.fn.dataTableExt.sErrMode='none'
+                $.fn.dataTableExt.sErrMode = 'none'
 
                 table = new DataTable('#datatable', {
+                    language: {
+                        url: 'hu.json',
+                    },
                     data: data,
                     columns: [
-                        { title: 'Név', data: 'name', render: (data, type, row) => {
-                            return row.src ? `<a href="${row.src}" target="_blank">${data}</a>` : data;
-                        } },
+                        {
+                            title: 'Név', data: 'name', render: (data, type, row) => {
+                                return row.src ? `<a href="${row.src}" target="_blank">${data}</a>` : data;
+                            }
+                        },
                         { title: 'Egyházmegye', data: 'diocese' },
-                        { title: 'Fénykép', data: 'img', render: (data, type, row) => {
-                            return `<img src="${data}" alt="${row.name}" style="max-width: 100px; max-height: 100px;" />`;
-                        } },
+                        {
+                            title: 'Fénykép', data: 'img', render: (data, type, row) => {
+                                return `<img src="${data}" style="max-width: 100px; max-height: 100px;" />`;
+                            }
+                        },
                         { title: 'Születés', data: 'birth' },
                         { title: 'Papszentelés', data: 'ordination' },
-                        { title: 'Infók', data: 'info', render: (data, type, row) => {
-                            let infok = [];
-                            if (row.retired) infok.push("Nyugalmazott")
-                            if (row.deacon) infok.push("Szerpap")
-                            if (row.bishop) infok.push("Püspök")
-                            return infok.join(", ");
-                        } }
+                        {
+                            title: 'Infók', data: 'info', render: (data, type, row) => {
+                                let infok = [];
+                                if (row.retired) infok.push("Nyugalmazott")
+                                if (row.deacon) infok.push("Szerpap")
+                                if (row.bishop) infok.push("Püspök")
+                                return infok.join(", ");
+                            }
+                        }
                     ],
                     paging: true,
                     pageLength: 10,

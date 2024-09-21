@@ -17,13 +17,38 @@ def VEM(filename=None, year=None):
 
     # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html_content, features="lxml")
-    papok = []
+    papok = {}
     for pap in soup.select(".grid-uri"): 
-        papok.append(pap['href']) # Papi oldalak linkjei
+        papok[pap['href']] = False # Papi oldalak linkjei
 
-
+    url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=ny'
+    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"})
+    # Check if the request was successful
+    if response.status_code == 200:
+        html_content = response.content
+    else:
+        print("Failed to fetch the website.")
+    
+    # Parse the HTML content with BeautifulSoup
+    soup = BeautifulSoup(html_content, features="lxml")
+    for pap in soup.select(".grid-uri"):
+        papok[pap['href']] = True # Aki nyugdíjas tegye nyugdíjba
+    
+    url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=tr'
+    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"})
+    # Check if the request was successful
+    if response.status_code == 200:
+        html_content = response.content
+    else:
+        print("Failed to fetch the website.")
+    
+    # Parse the HTML content with BeautifulSoup
+    soup = BeautifulSoup(html_content, features="lxml")
+    for pap in soup.select(".grid-uri"):
+        papok.pop(pap['href'], None) # Aki elhunyt, vegye ki
+    print("uj")
     paplista = []
-    for pap in tqdm(papok): # Nézze meg az összes pap linkjét
+    for pap, nyugdijas in tqdm(papok.items()): # Nézze meg az összes pap linkjét
         try: # Kétszeri próbálkozásra szokott menni
             response = requests.post("http://sematizmus.vaciegyhazmegye.hu/"+pap, data={"xajax": "acm_szemely_xr_create_acm_scms"})
             if response.status_code == 200:
@@ -52,7 +77,10 @@ def VEM(filename=None, year=None):
             paplista.append({
                 "name": soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip(), # A pap neve
                 "img": imgSrc, # A kép linkje,
-                "src": f"http://sematizmus.vaciegyhazmegye.hu/{pap}"
+                "src": f"http://sematizmus.vaciegyhazmegye.hu/{pap}",
+                "deacon": "Diakónus igazolvány sorszáma" in str(html_content),
+                "bishop": None,
+                "retired": nyugdijas
             })
         except:
             print(f"http://sematizmus.vaciegyhazmegye.hu/{pap}")
