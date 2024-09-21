@@ -11,7 +11,7 @@ def EBFEM(filename=None, year=None):
 
     url = 'https://www.esztergomi-ersekseg.hu/papsag'
     options = webdriver.FirefoxOptions()
-    options.headless = True
+    options.add_argument("--headless")
     driver = webdriver.Firefox(options=options)
 
     driver.get(url)
