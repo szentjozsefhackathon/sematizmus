@@ -10,7 +10,9 @@ import time
 def EBFEM(filename=None, year=None):
 
     url = 'https://www.esztergomi-ersekseg.hu/papsag'
-    driver = webdriver.Firefox()
+    options = webdriver.FirefoxOptions()
+    options.headless = True
+    driver = webdriver.Firefox(options=options)
 
     driver.get(url)
 
