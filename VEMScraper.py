@@ -46,7 +46,6 @@ def VEM(filename=None, year=None):
     soup = BeautifulSoup(html_content, features="lxml")
     for pap in soup.select(".grid-uri"):
         papok.pop(pap['href'], None) # Aki elhunyt, vegye ki
-    print("uj")
     paplista = []
     for pap, nyugdijas in tqdm(papok.items()): # Nézze meg az összes pap linkjét
         try: # Kétszeri próbálkozásra szokott menni
@@ -79,7 +78,7 @@ def VEM(filename=None, year=None):
                 "img": imgSrc, # A kép linkje,
                 "src": f"http://sematizmus.vaciegyhazmegye.hu/{pap}",
                 "deacon": "Diakónus igazolvány sorszáma" in str(html_content),
-                "bishop": None,
+                "bishop": "feladatkor.php?id=243" in str(html_content),
                 "retired": nyugdijas
             })
         except:
