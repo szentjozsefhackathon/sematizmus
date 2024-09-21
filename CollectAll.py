@@ -21,7 +21,7 @@ import numpy
 
 def priestList(year, filename): 
     _dioceses = {
-        "Esztergom-Budapesti főegyházmegye": EBFEM(year=year),
+        # "Esztergom-Budapesti főegyházmegye": EBFEM(year=year),
         "Győri egyházmegye": GYEM(year=year),
         "Székesfehérvári egyházmegye": SZFVEM(year=year),
         # "Kalocsa-Kecskeméti főegyházmegye": ,
@@ -43,7 +43,17 @@ def priestList(year, filename):
     priests = []
     for diocese, data in _dioceses.items():
         for priest in data:
-            priests.append({"name": priest["name"], "diocese": diocese, "birth": priest.get("birth"), "img": priest.get("img")})
+            priests.append({
+                "name": priest["name"], 
+                "diocese": diocese, 
+                "birth": priest.get("birth"), 
+                "img": priest.get("img"),
+                "src": priest.get("src"),
+                "ordination": priest.get("ordination"),
+                "retired": priest.get("retired"),
+                "bishop": priest.get("bishop"),
+                "deacon": priest.get("deacon")
+            })
 
 
 
@@ -52,7 +62,7 @@ def priestList(year, filename):
         return priests
     else:
         with open(filename, "w") as outfile:
-            outfile.write(json.dumps(priests))
+            outfile.write(json.dumps(priests, default=str))
     print(len(priests))
 
 if __name__ == "__main__":
