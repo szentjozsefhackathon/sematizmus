@@ -21,7 +21,7 @@ import numpy
 
 def priestList(year, filename): 
     _dioceses = {
-        # "Esztergom-Budapesti főegyházmegye": EBFEM(year=year),
+        "Esztergom-Budapesti főegyházmegye": EBFEM(year=year),
         "Győri egyházmegye": GYEM(year=year),
         "Székesfehérvári egyházmegye": SZFVEM(year=year),
         # "Kalocsa-Kecskeméti főegyházmegye": ,

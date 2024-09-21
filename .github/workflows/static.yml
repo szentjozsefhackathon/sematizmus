@@ -36,9 +36,16 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.x'
+      - name: geckodriver/firefox
+        run: |
+          echo "geckodriver/firefox"
+          which geckodriver
+          geckodriver --version
+          which firefox
+          firefox --version
       - name: install python modules
         run: pip install -r requirements.txt
-      - name: Prepare data with python
+      - name: Collect data with python
         run: python CollectAll.py --filename data.json
         shell: sh        
       - name: Setup Pages
