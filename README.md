@@ -1,10 +1,12 @@
 # sematizmus
 
+https://szentjozsefhackathon.github.io/sematizmus/
+
 A Magyar Katolikus Egyház papjainak névsora és néhány adata
 
 A magyarországi egyházmegyék honlapjairól bányássza ki az adatokat ez a script gyűjtemény, amit használ a katolikus KSH repo és talán majd a `papima` ami a papokért való imádságot segíti.
 
-##  Hogyan használd?
+##  Hogyan használd lokálisan?
 
 - Mindenekelőtt telepítsd a függősegeket: `pip3 install -r requirements.txt`
 - Ha csak egy egyházmegye papjait szeretnéd lekérni, akkor `python3 XScraper.py`, ahol X az egyházmegye rövidítése
