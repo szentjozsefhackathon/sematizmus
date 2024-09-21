@@ -48,7 +48,7 @@ def NYEM(filename=None, year=None):
         
         imgSrc = ""
         try:
-            imgSrc = "https://hd.gorogkatolikus.hu" + soup.select_one("img.indexpap").get("src")
+            imgSrc = "https://nyirgorkat.hu" + soup.select_one("img.indexpap").get("src")
         except:
             pass
 
