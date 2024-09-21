@@ -67,9 +67,9 @@
                         { title: 'Papszentelés', data: 'ordination' },
                         { title: 'Infók', data: 'info', render: (data, type, row) => {
                             let infok = [];
-                            if (row.retired) infok.append("Nyugalmazott")
-                            if (row.deacon) infok.append("Szerpap")
-                            if (row.bishop) infok.append("Püspök")
+                            if (row.retired) infok.push("Nyugalmazott")
+                            if (row.deacon) infok.push("Szerpap")
+                            if (row.bishop) infok.push("Püspök")
                             return infok.join(", ");
                         } }
                     ],
