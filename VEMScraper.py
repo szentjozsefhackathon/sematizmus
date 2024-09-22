@@ -4,6 +4,27 @@ import re
 from tqdm import tqdm
 import  json
 import argparse
+import datetime
+
+honapok = {
+    "I": 1,
+    "II": 2,
+    "III": 3,
+    "IV": 4,
+    "V": 5,
+    "VI": 6,
+    "VII": 7,
+    "VIII": 8,
+    "IX": 9,
+    "X": 10,
+    "XI": 11,
+    "XII": 12
+}
+def str2date(datum):
+    reszek = [d.strip() for d in datum.split(".")]
+    if reszek[0] == "1987 –": # Görbe József
+        return 1987
+    return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
 def VEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
@@ -67,6 +88,20 @@ def VEM(filename=None, year=None):
 
 
         soup = BeautifulSoup(html_content, features="lxml")
+
+        ordination = None
+        try:
+            for feladat in soup.select('[t="szemely_feladatkor_ellatasok"] tr'):
+                if "Papi igazolvány sorszáma" in str(soup.text) and "Áldozópap" in feladat.text:
+                    ordination = str2date(re.search(r'\(([^)]+)\)', feladat.text).group(1))
+                    continue
+                if "Diakónus igazolvány sorszáma" in str(soup.text) and "Állandó diakónus" in feladat.text:
+                    ordination = str2date(re.search(r'\(([^)]+)\)', feladat.text.split("(állandó nős diakónus)")[1].strip()).group(1))
+
+        except Exception as e:
+            print(soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip())
+            print(e)                
+
         imgSrc = ""
         try:
             imgSrc = "http://sematizmus.vaciegyhazmegye.hu" + re.search(r'<img src="([^"]+)" class="scm-szemely-fenykep"', str(html_content)).group(1)
@@ -74,21 +109,22 @@ def VEM(filename=None, year=None):
             pass
         try:
             paplista.append({
-                "name": soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip(), # A pap neve
+                "name": (" ".join([n for n in soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip().split(" ") if n[0].isupper()])).split(",")[0], # A pap neve
                 "img": imgSrc, # A kép linkje,
                 "src": f"http://sematizmus.vaciegyhazmegye.hu/{pap}",
                 "deacon": "Diakónus igazolvány sorszáma" in str(soup.text),
-                "bishop": "feladatkor.php?id=243" in str(soup),
-                "retired": nyugdijas
+                "bishop": "feladatkor.php?id=243" in str(soup) or "feladatkor_kategoria.php?id=15&egyhazmegye=true" in str(soup),
+                "retired": nyugdijas,
+                "ordination": ordination,
             })
-        except:
+        except Exception as e:
+            print(e)
             print(f"http://sematizmus.vaciegyhazmegye.hu/{pap}")
-
 
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
-            outfile.write(json.dumps(paplista))
+            outfile.write(json.dumps(paplista, default=str))
 
 
 if __name__ == "__main__":
