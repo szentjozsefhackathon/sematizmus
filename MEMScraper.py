@@ -8,7 +8,7 @@ import argparse
 def MEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'https://www.migorkat.hu/szolgalattevok?diocese=miskolc&pde=priest&status=active'
-    response = requests.get(url)
+    response = requests.get(url, verify=False)
     # Check if the request was successful
     if response.status_code == 200:
         html_content = response.content
@@ -25,14 +25,14 @@ def MEM(filename=None, year=None):
     paplista = []
     for pap in tqdm(papok): # Nézze meg az összes pap linkjét
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(f"https://www.migorkat.hu{pap}")
+            response = requests.get(f"https://www.migorkat.hu{pap}", verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(f"https://www.migorkat.hu{pap}")
+                response = requests.get(f"https://www.migorkat.hu{pap}", verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:

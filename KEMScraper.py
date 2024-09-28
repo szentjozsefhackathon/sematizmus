@@ -72,7 +72,7 @@ def KEM(filename=None, year=None):
         "deacon": False
     }]
     for source in sources:
-        response = requests.get(source["url"])
+        response = requests.get(source["url"], verify=False)
         if response.status_code == 200:
             html_content = response.content
         else:

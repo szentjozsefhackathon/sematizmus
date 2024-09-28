@@ -8,7 +8,7 @@ import argparse
 def TP(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'https://ktp.hu/js/ajax/listazo.php?url=lelkeszek%2Ftabori-lelkeszi-kar&fm=110&am=173'
-    response = requests.get(url)
+    response = requests.get(url, verify=False)
     # Check if the request was successful
     if response.status_code == 200:
         html_content = response.content
@@ -33,14 +33,14 @@ def TP(filename=None, year=None):
             })
             continue
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(f"https://ktp.hu{pap}")
+            response = requests.get(f"https://ktp.hu{pap}", verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(f"https://ktp.hu{pap}")
+                response = requests.get(f"https://ktp.hu{pap}", verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:

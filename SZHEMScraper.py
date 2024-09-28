@@ -9,7 +9,7 @@ def SZHEM(filename=None, year=None):
     url = "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok?oldal="
     papok = []
     def papkereso(link):
-        response = requests.get(link)
+        response = requests.get(link, verify=False)
         if response.status_code == 200:
             html_content = response.content
         else:
@@ -30,14 +30,14 @@ def SZHEM(filename=None, year=None):
     paplista = []
     for pap in tqdm(papok): # Nézze meg az összes pap linkjét
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(f"https://www.martinus.hu{pap}")
+            response = requests.get(f"https://www.martinus.hu{pap}", verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(f"https://www.martinus.hu{pap}")
+                response = requests.get(f"https://www.martinus.hu{pap}", verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:

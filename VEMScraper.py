@@ -29,7 +29,7 @@ def str2date(datum):
 def VEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=cl'
-    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"})
+    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"}, verify=False)
     # Check if the request was successful
     if response.status_code == 200:
         html_content = response.content
@@ -43,7 +43,7 @@ def VEM(filename=None, year=None):
         papok[pap['href']] = False # Papi oldalak linkjei
 
     url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=ny'
-    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"})
+    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"}, verify=False)
     # Check if the request was successful
     if response.status_code == 200:
         html_content = response.content
@@ -56,7 +56,7 @@ def VEM(filename=None, year=None):
         papok[pap['href']] = True # Aki nyugdíjas tegye nyugdíjba
     
     url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=tr'
-    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"})
+    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"}, verify=False)
     # Check if the request was successful
     if response.status_code == 200:
         html_content = response.content
@@ -70,14 +70,14 @@ def VEM(filename=None, year=None):
     paplista = []
     for pap, nyugdijas in tqdm(papok.items()): # Nézze meg az összes pap linkjét
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.post("http://sematizmus.vaciegyhazmegye.hu/"+pap, data={"xajax": "acm_szemely_xr_create_acm_scms"})
+            response = requests.post("http://sematizmus.vaciegyhazmegye.hu/"+pap, data={"xajax": "acm_szemely_xr_create_acm_scms"}, verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.post("http://sematizmus.vaciegyhazmegye.hu/"+pap, data={"xajax": "acm_szemely_xr_create_acm_scms"})
+                response = requests.post("http://sematizmus.vaciegyhazmegye.hu/"+pap, data={"xajax": "acm_szemely_xr_create_acm_scms"}, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:

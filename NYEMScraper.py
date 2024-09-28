@@ -8,7 +8,7 @@ import argparse
 def NYEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'https://www.nyirgorkat.hu/?q=papok&egyhazmegye=3&l=hu'
-    response = requests.get(url)
+    response = requests.get(url, verify=False)
     # Check if the request was successful
     if response.status_code == 200:
         html_content = response.content
@@ -26,14 +26,14 @@ def NYEM(filename=None, year=None):
     
     for pap in tqdm(papok): # Nézze meg az összes pap linkjét
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(f"https://www.nyirgorkat.hu/{pap}")
+            response = requests.get(f"https://www.nyirgorkat.hu/{pap}", verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(f"https://www.nyirgorkat.hu/{pap}")
+                response = requests.get(f"https://www.nyirgorkat.hu/{pap}", verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:

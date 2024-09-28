@@ -9,7 +9,7 @@ def EFEM(filename=None, year=None):
     url = "https://eger.egyhazmegye.hu/hitelet/papsag?page="
     paplista = []
     def papkereso(link):
-        response = requests.get(link)
+        response = requests.get(link, verify=False)
         if response.status_code == 200:
             html_content = response.content
         else:

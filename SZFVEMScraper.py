@@ -9,7 +9,7 @@ def SZFVEM(filename=None, year=None):
     url = "https://www.szfvar.katolikus.hu/"
     papok = []
     def papkereso(link):
-        response = requests.get(link)
+        response = requests.get(link, verify=False)
         if response.status_code == 200:
             html_content = response.content
         else:
@@ -28,14 +28,14 @@ def SZFVEM(filename=None, year=None):
     paplista = []
     for pap in tqdm(papok): # Nézze meg az összes pap linkjét
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(url+pap)
+            response = requests.get(url+pap, verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(url+pap)
+                response = requests.get(url+pap, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
