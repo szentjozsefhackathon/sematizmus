@@ -6,8 +6,29 @@ import json
 import argparse
 from selenium import webdriver
 import time
+import datetime
 
-def EBFEM(filename=None, year=None):
+honapok = {
+    "január": 1,
+    "február": 2,
+    "március": 3,
+    "április": 4,
+    "május": 5,
+    "június": 6,
+    "július": 7,
+    "augusztus": 8,
+    "szeptember": 9,
+    "október": 10,
+    "november": 11,
+    "december": 12
+}
+
+def str2date(datum):
+    reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
+    return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
+
+
+def EBFEM(filename=None, year=None, appendHibas=True):
 
     url = 'https://www.esztergomi-ersekseg.hu/papsag'
     options = webdriver.FirefoxOptions()
@@ -56,14 +77,16 @@ def EBFEM(filename=None, year=None):
 
         soup = BeautifulSoup(html_content, 'html.parser')
         nev = soup.select_one("h1").text.strip()
-        print(nev)
-        if soup.select_one(".titulus") and "érsek" in soup.select_one(".titulus").text:
-            continue
+        bishop = False
+        if soup.select_one(".titulus"):
+            if "érsek" in soup.select_one(".titulus").text or "segédpüspök" in soup.select_one(".titulus").text:
+                bishop = True
+            
         szent = 0
         for fieldset in soup.select("fieldset"):
             if "Szentelés" in fieldset.text:
                 try:
-                    szent = int(fieldset.text.split(", ")[1].split(".")[0])
+                    szent = str2date(fieldset.text.split(", ")[1])
                 except:
                     pass
             if not "Életrajz" in fieldset.text:
@@ -72,21 +95,28 @@ def EBFEM(filename=None, year=None):
                 continue
             szul = 0
             try:
-                szul = int(fieldset.text.split(", ")[1].split(".")[0])
+                szul = str2date(fieldset.text.split(", ")[1])
             except:
                 try:
-                    szul =  int(fieldset.text.split(", ")[0].split(".")[0].split(" ")[1])
+                    szul =  str2date(" ".join(fieldset.text.split(", ")[0].split(" ")[1:]))
                 except:
                     try:
-                        szul = int(fieldset.text.split(", ")[0].split(".")[0].split(" ")[2])
+                        szul = str2date(" ".join(fieldset.text.split(", ")[0].split("-")[0].split(" ")[2:]))
+
                     except:
                         try:
                             szul = int(fieldset.text.split("-")[0].split(" ")[1])
                         except:
                             try:
-                                szul = int(fieldset.text.split(".")[0].split(" ")[-1])
+                                szul = str2date(fieldset.text.split("-")[0].split(",")[1])
                             except:
-                                pass
+                                try:
+                                    szul = str2date(" ".join(fieldset.text.split("-")[0].split(" ")[1:]))
+                                except:
+                                    try:
+                                        szul = int(fieldset.text.split(".")[0].split(" ")[-1])
+                                    except:
+                                        pass
                                 
             
             if nev == "Fábry Kornél dr.": #https://hu.wikipedia.org/wiki/F%C3%A1bry_Korn%C3%A9l
@@ -124,17 +154,37 @@ def EBFEM(filename=None, year=None):
 
             if szul == 0:
                 hibasak.append({"név": nev, "hiba": "Születés nem található"})
+                if appendHibas: paplista.append({
+                    "name": nev,
+                    "birth": None,
+                    "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
+                    "src": f"{url}/{pap.split('/')[1]}",
+                    "ordination": szent,
+                    "bishop": bishop
+                })
                 break
-
-
-            if szul<szent:
+            
+            szulev = szul.year if isinstance(szul, datetime.date) else szul
+            szentev = szent.year if isinstance(szent, datetime.date) else szent
+            if szulev<szentev:
                 paplista.append({
                                 "name": nev,
                                 "birth": szul,
                                 "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
-                                "src": f"{url}/{pap.split('/')[1]}"
+                                "src": f"{url}/{pap.split('/')[1]}",
+                                "ordination": szent,
+                                "bishop": bishop
                             })
             else:
+                if appendHibas:
+                    paplista.append({
+                                "name": nev,
+                                "birth": szul,
+                                "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
+                                "src": f"{url}/{pap.split('/')[1]}",
+                                "ordination": szent,
+                                "bishop": bishop
+                            })
                 hibasak.append({"név": nev, "hiba": "Szentelése előbbi, mint születése"})
             break
 
@@ -146,7 +196,7 @@ def EBFEM(filename=None, year=None):
         return paplista
     else:
         with open(filename, "w") as outfile:
-            outfile.write(json.dumps(paplista))
+            outfile.write(json.dumps(paplista, default=str))
 
 
 if __name__ == "__main__":
