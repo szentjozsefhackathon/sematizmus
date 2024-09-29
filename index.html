@@ -67,7 +67,7 @@
                         { title: 'Egyházmegye', data: 'diocese' },
                         {
                             title: 'Fénykép', data: 'img', render: (data, type, row) => {
-                                return `<img src="${data}" style="max-width: 100px; max-height: 100px;" />`;
+                                return `<img src="${data}" style="max-width: 100px; max-height: 100px;" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='"/>`;
                             }
                         },
                         { title: 'Születés', data: 'birth' },
