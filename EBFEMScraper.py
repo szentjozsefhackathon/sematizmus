@@ -92,7 +92,7 @@ def EBFEM(filename=None, year=None, appendHibas=True, headless = True):
 
         bishop = False
         if soup.select_one(".titulus"):
-            if "érsek" in soup.select_one(".titulus").text or "segédpüspök" in soup.select_one(".titulus").text:
+            if "érsek" in soup.select_one(".titulus").text or "segédpüspök" in soup.select_one(".titulus").text and not "érseki" in soup.select_one(".titulus").text.lower():
                 bishop = True
         
         deacon = False
@@ -176,7 +176,7 @@ def EBFEM(filename=None, year=None, appendHibas=True, headless = True):
                     "birth": None,
                     "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
                     "src": f"{url}/{pap.split('/')[1]}",
-                    "ordination": szent,
+                    "ordination": szent if szent != 0 else None,
                     "bishop": bishop,
                     "deacon": deacon,
                     "retired": retired
