@@ -5,6 +5,8 @@ from tqdm import tqdm
 import json
 import argparse
 from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
 import time
 import datetime
 
@@ -28,22 +30,30 @@ def str2date(datum):
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
 
-def EBFEM(filename=None, year=None, appendHibas=True):
+def EBFEM(filename=None, year=None, appendHibas=True, headless = True):
 
     url = 'https://www.esztergomi-ersekseg.hu/papsag'
     options = webdriver.FirefoxOptions()
-    options.add_argument("--headless")
+    if headless:
+        options.add_argument("--headless")
     driver = webdriver.Firefox(options=options)
 
     driver.get(url)
 
 
     driver.implicitly_wait(2)
+    select = Select(driver.find_element(By.CSS_SELECTOR, "select[name='kat']"))
+    select.select_by_visible_text('mind')
 
+    driver.implicitly_wait(2)
+
+    driver.execute_script("(async function() {szuro()})()")
+
+    driver.implicitly_wait(2)
 
     driver.execute_script("(async function() {while (isDataAvailable) {listmore(); await new Promise(r => setTimeout(r, 3000))}})()")
 
-    for i in tqdm(range(15)):
+    for i in tqdm(range(40)):
         time.sleep(1)
 
     soup = BeautifulSoup(driver.page_source, 'html.parser')
@@ -77,11 +87,16 @@ def EBFEM(filename=None, year=None, appendHibas=True):
 
         soup = BeautifulSoup(html_content, 'html.parser')
         nev = soup.select_one("h1").text.strip()
+        if "†" in nev:
+            continue
+
         bishop = False
         if soup.select_one(".titulus"):
             if "érsek" in soup.select_one(".titulus").text or "segédpüspök" in soup.select_one(".titulus").text:
                 bishop = True
-            
+        
+        deacon = False
+        retired = False
         szent = 0
         for fieldset in soup.select("fieldset"):
             if "Szentelés" in fieldset.text:
@@ -89,10 +104,12 @@ def EBFEM(filename=None, year=None, appendHibas=True):
                     szent = str2date(fieldset.text.split(", ")[1])
                 except:
                     pass
+            if "Jelenlegi beosztások" in fieldset.text and "Diakónus" in fieldset.text:
+                deacon = True
             if not "Életrajz" in fieldset.text:
                 continue
             if "Nyugállományban" in fieldset.text:
-                continue
+                retired = True
             szul = 0
             try:
                 szul = str2date(fieldset.text.split(", ")[1])
@@ -160,12 +177,17 @@ def EBFEM(filename=None, year=None, appendHibas=True):
                     "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
                     "src": f"{url}/{pap.split('/')[1]}",
                     "ordination": szent,
-                    "bishop": bishop
+                    "bishop": bishop,
+                    "deacon": deacon,
+                    "retired": retired
                 })
                 break
             
             szulev = szul.year if isinstance(szul, datetime.date) else szul
             szentev = szent.year if isinstance(szent, datetime.date) else szent
+
+            if szent == 0:
+                szent = None
             if szulev<szentev:
                 paplista.append({
                                 "name": nev,
@@ -173,7 +195,9 @@ def EBFEM(filename=None, year=None, appendHibas=True):
                                 "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
                                 "src": f"{url}/{pap.split('/')[1]}",
                                 "ordination": szent,
-                                "bishop": bishop
+                                "bishop": bishop,
+                                "deacon": deacon,
+                                "retired": retired
                             })
             else:
                 if appendHibas:
@@ -183,7 +207,9 @@ def EBFEM(filename=None, year=None, appendHibas=True):
                                 "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
                                 "src": f"{url}/{pap.split('/')[1]}",
                                 "ordination": szent,
-                                "bishop": bishop
+                                "bishop": bishop,
+                                "deacon": deacon,
+                                "retired": retired
                             })
                 hibasak.append({"név": nev, "hiba": "Szentelése előbbi, mint születése"})
             break
@@ -208,6 +234,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.filename == None:
-        print(EBFEM(args.filename))
+        print(EBFEM(args.filename, headless = False))
     else:
-        EBFEM(args.filename)
+        EBFEM(args.filename, headless = False)
