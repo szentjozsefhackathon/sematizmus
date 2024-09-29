@@ -203,7 +203,7 @@ def EBFEM(filename=None, year=None, appendHibas=True, headless = True):
                 if appendHibas:
                     paplista.append({
                                 "name": nev,
-                                "birth": szul,
+                                "birth": None,
                                 "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
                                 "src": f"{url}/{pap.split('/')[1]}",
                                 "ordination": szent,
