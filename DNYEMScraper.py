@@ -112,37 +112,38 @@ def DNYEM(filename=None, year=None):
         soup = BeautifulSoup(html_content, 'html.parser')
         firstLine = True
         imgSrc = soup.select_one("#main img").get("src")
-        if soup.select_one("#main article h1").text == "P. Maczák Béla MI":
+        name = " ".join([n for n in soup.select_one("#main article h1").text.split(" ") if n[0].isupper()])
+        if name == "P. Maczák Béla MI":
             paplista.append({
-                "name": soup.select_one("#main article h1").text,
+                "name": name,
                 "birth": datetime.date(1980,5,16),
                 "img": imgSrc,
                 "src": pap
             })
             continue
         for sor in soup.select_one("#main table").findAll("tr"):
-            if firstLine and soup.select_one("#main article h1").text!="Mészáros Zsolt":
+            if firstLine and name !="Mészáros Zsolt":
                 firstLine = False
                 continue
 
-            if soup.select_one("#main article h1").text == "Molnár József":
+            if name == "Molnár József":
                 paplista.append({
-                    "name": soup.select_one("#main article h1").text,
+                    "name": name,
                     "birth": 1968,
                     "img": imgSrc,
                     "src": pap
                 })
                 break
-            if soup.select_one("#main article h1").text == "Sári András":
+            if name == "Sári András":
                 paplista.append({
-                    "name": soup.select_one("#main article h1").text,
+                    "name": name,
                     "birth": 1971,
                     "img": imgSrc,
                     "src": pap
                 })
                 break
 
-            print(soup.select_one("#main article h1").text)
+            print(name)
             try:
                 sor.select_one("br").replace_with("\n")
             except: pass
@@ -157,10 +158,10 @@ def DNYEM(filename=None, year=None):
                         pass
             
             if ordination == None:
-                ordinationFailed.append(soup.select_one("#main article h1").text)
+                ordinationFailed.append(name)
 
             paplista.append({
-                "name": soup.select_one("#main article h1").text,
+                "name": name,
                 "birth": str2date(sor.text.split("\n")[0].split(", ")[1]),
                 "ordination": ordination,
                 "img": imgSrc,
