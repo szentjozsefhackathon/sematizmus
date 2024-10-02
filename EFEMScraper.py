@@ -69,6 +69,8 @@ def EFEM(filename=None, year=None):
     
     for i in tqdm(range(1,13,1)):
         papok += papkereso(f"https://eger.egyhazmegye.hu/hitelet/papsag?page={i}")
+    
+    papok+=papkereso("https://eger.egyhazmegye.hu/hitelet/papsag/allando-diakonusok", deacon=True)
 
     paplista = []
     for pap in tqdm(papok):
@@ -96,8 +98,10 @@ def EFEM(filename=None, year=None):
         birth = None
         ordination = None
         for p in soup.select(".data-container p"):
-            if "életút" in p.text.lower():
+            if "életút" in p.text.lower() and not pap["deacon"]:
                 continue
+            elif pap["deacon"] and "életút" in p.text.lower() and "diakónussá szentelték" in p.text.lower():
+                ordination = str2date(".".join(p.text.split(".")[:3]).replace("-",".").split(",")[1])
             if "született" in p.text.lower():
                 birth = str2date(p.text.split(",")[-1].strip())
 
@@ -105,8 +109,10 @@ def EFEM(filename=None, year=None):
                 ordination = str2date(p.text.split(":")[1].split("-én")[0].split("-án")[0].split(",")[-1].strip())
 
         for div in soup.select(".data-container div"):
-            if "életút" in div.text.lower():
+            if "életút" in div.text.lower() and not pap["deacon"]:
                 continue
+            elif pap["deacon"] and "életút" in div.text.lower() and "diakónussá szentelték" in div.text.lower():
+                ordination = str2date(".".join(div.text.replace("-",".").split(".")[:3]).split(",")[1])
             if "született" in div.text.lower():
                 birth = str2date(div.text.split(",")[-1].strip())
             if "pappá szentelték" in div.text.lower():
