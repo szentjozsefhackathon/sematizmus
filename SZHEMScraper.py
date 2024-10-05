@@ -75,7 +75,7 @@ def SZHEM(filename=None, year=None):
         print(nev)
         imgSrc = ""
         try:
-            imgSrc = "https://www.martinus.hu" + soup.select_one("img.float-left").get("src")
+            imgSrc = "https://www.martinus.hu" + soup.select_one(".content img").get("src")
         except:
             pass
         birth = None
