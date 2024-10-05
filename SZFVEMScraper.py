@@ -4,6 +4,39 @@ import re
 from tqdm import tqdm
 import  json
 import argparse
+import datetime
+
+honapok = {
+    "január": 1,
+    "február": 2,
+    "március": 3,
+    "április": 4,
+    "május": 5,
+    "június": 6,
+    "július": 7,
+    "augusztus": 8,
+    "szeptember": 9,
+    "október": 10,
+    "november": 11,
+    "december": 12,
+    "01": 1,
+    "02": 2,
+    "03": 3,
+    "04": 4,
+    "05": 5,
+    "06": 6,
+    "07": 7,
+    "08": 8,
+    "09": 9,
+    "10": 10,
+    "11": 11,
+    "12": 12
+}
+
+def str2date(datum):
+    datum = datum.replace(".", ". ").replace("  ", " ")
+    reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
+    return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
 def SZFVEM(filename=None, year=None):
     url = "https://www.szfvar.katolikus.hu/"
@@ -53,30 +86,30 @@ def SZFVEM(filename=None, year=None):
 
         nev = soup.select_one("h1").text
         print(nev)
-        szul = 0
+        szul = None
+        szent = None
         tartalomText = soup.select_one(".tartalom").text.split("\n")
         for sor in tartalomText:
-            if nev == "Ébner Vilmos": # Term. nem jó ott sem a sor, mert vmi fura szóköz van
-                szul = 1996
-                break
-            if nev == "Mészáros Péter":
-                szul = 1974
-                break
-            if nev == "Orvos Levente, dr.":
-                szul = 1970
-                break
-            if nev == "Szilágyi Szabolcs":
-                szul = 1986
-                break
-            if nev == "Ugrits Tamás":
-                szul = 1961
-                break
             if nev == "Szemere János":
                 szul = 1977 #https://metropolita.hu/2017/05/interju-egy-papnovendekkel/
             if "Született" in sor:
-                szul = int(sor.split(", ")[1].split(".")[0])
-        if szul==0:
-            raise Exception(nev)
+                try:
+                    szul = str2date(sor.replace(u'\xa0', u' ').split(", ")[1])
+                except:
+                    try:
+                        szul = str2date(sor.replace(u'\xa0', u' ').split(" ")[-1])
+                    except:
+                        try:
+                            szul = str2date(sor.replace(u'\xa0', u' ').split("Született: ")[-1].split("\n")[0])
+                        except: 
+                            if nev == "Ugrits Tamás":
+                                szul = datetime.date(1961,2,7)
+            if "Szentelés" in sor:
+                try:
+                    szent = str2date(sor.split(", ")[1])
+                except:
+                    szent = str2date(sor.split("Szentelés: ")[1].split(", ")[1])
+
         imgSrc = ""
         try:
             imgSrc = "https://www.szfvar.katolikus.hu" + soup.select_one(".adatkepb img").get("src")
@@ -86,14 +119,17 @@ def SZFVEM(filename=None, year=None):
             "name": nev,
             "birth": szul,
             "img": imgSrc,
-            "src": url + pap
+            "src": url + pap,
+            "bishop": "megyés püspök" in adatlapText,
+            "retired": "nyugállományban" in adatlapText,
+            "ordination": szent
         })
 
 
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
-            outfile.write(json.dumps(paplista))
+            outfile.write(json.dumps(paplista, default=str))
 
 
 if __name__ == "__main__":
