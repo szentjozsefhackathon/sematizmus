@@ -44,11 +44,18 @@
     <center><strong>Készítette: Vörös László.<br />További információ, forráskód, és bekapcsolódási
             lehetőség:<br /> <a
                 href="https://github.com/szentjozsefhackathon/sematizmus">github.com/szentjozsefhackathon/sematizmus</a></strong>
+            <strong>Utolsó frissítés<span id="lastUpdate"></span></strong>
     </center>
     <script>
 
         let data = [];
         let table;
+
+        fetch('lastUpdate.json')
+            .then(response => response.json())
+            .then(json => {
+                document.getElementById('lastUpdate').innerText = json.lastUpdate;
+            });
         fetch('data.json')
             .then(response => response.json())
             .then(json => {

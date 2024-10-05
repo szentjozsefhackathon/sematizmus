@@ -55,14 +55,12 @@ def priestList(year, filename):
                 "deacon": priest.get("deacon")
             })
 
-
-
-    
     if filename == None:
         return priests
     else:
         with open(filename, "w") as outfile:
             outfile.write(json.dumps(priests, default=str))
+        
     print(len(priests))
 
 if __name__ == "__main__":
