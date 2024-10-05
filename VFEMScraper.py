@@ -4,10 +4,43 @@ import re
 from tqdm import tqdm
 import  json
 import argparse
+import datetime
+
+honapok = {
+    "január": 1,
+    "február": 2,
+    "március": 3,
+    "április": 4,
+    "május": 5,
+    "június": 6,
+    "július": 7,
+    "augusztus": 8,
+    "szeptember": 9,
+    "október": 10,
+    "november": 11,
+    "december": 12,
+    "01": 1,
+    "02": 2,
+    "03": 3,
+    "04": 4,
+    "05": 5,
+    "06": 6,
+    "07": 7,
+    "08": 8,
+    "09": 9,
+    "10": 10,
+    "11": 11,
+    "12": 12
+}
+
+def str2date(datum):
+    datum = datum.replace(".", ". ").replace("  ", " ")
+    reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
+    return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
 def VFEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
-    url = 'https://archiv.veszpremiersekseg.hu/kereso/'
+    url = 'https://www.veszpremiersekseg.hu/papok/'
     response = requests.get(url)
     # Check if the request was successful
     if response.status_code == 200:
@@ -17,52 +50,58 @@ def VFEM(filename=None, year=None):
 
     # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html_content, 'html.parser')
-    papok = []
-    for pap in soup.select_one(".priests-list").findAll("li"): 
-        if "Érsek" in pap.text or "Nyugalomban" in pap.text: # Nyugállományban lévő papokat és a püspököket nem számítjul
-            continue
-        papok.append(pap.select_one('a')['href']) # Papi oldalak linkjei
-
-
     paplista = []
-    for pap in tqdm(papok): # Nézze meg az összes pap linkjét
-        try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(url+pap, verify=False)
-            if response.status_code == 200:
-                html_content = response.content
-            else:
-                print("Failed to fetch the website.")
-        except:
-            try:
-                response = requests.get(url+pap, verify=False)
-                if response.status_code == 200:
-                    html_content = response.content
-                else:
-                    print("Failed to fetch the website.")
-            except:
-                print("Big error")
-                continue
+    for pap in tqdm(soup.select("article")):
+        birth = None
+        ordination = None
 
+        for p in pap.select("p"):
+            if "Született" in p.text or "zületett" in p.text:
+                try:
+                    birth = str2date(p.text.split(",")[-1].strip())
+                except:
+                    try:
+                        birth = str2date(" ".join(p.text.split(" ")[-3:]))
+                    except:
+                        try:
+                            birth = str2date(p.text.split(": ")[1].split("-")[0])
+                        except:
+                            try:
+                                birth = str2date(p.text.split(",")[-1].split("-")[0])
+                            except Exception as e:
+                                if pap.select_one(".entry-title").text=="Mail József dr.":
+                                    birth = datetime.date(1949,8,15)
+                                    continue
+                                raise e
 
-        soup = BeautifulSoup(html_content, 'html.parser')
-        imgSrc = ""
+            if "Pappá szentelték" in p.text:
+                try:
+                    ordination = str2date(p.text.split(",")[-1])
+                except:
+                    try:
+                        ordination = str2date(" ".join(p.text.split(" ")[-3:]))
+                    except:
+                        ordination = str2date(p.text.split(": ")[1].split("-")[0])
+        imgSrc = None
         try:
-            imgSrc = soup.select_one("#maincontent img").get("src")
-        except:
-            pass
-        nev = soup.select_one(".priest-details").select_one("h2").text.replace("  ", " ")
-        if nev == "Bedy Imre": paplista.append({"name": "Bedy Imre", "birth": 1982, "img": imgSrc, "src": url + pap}) #Nem jó weboldal, vessző hiányzik
-        elif nev == "Dékány Árpád Sixtus O. Cist": paplista.append({"name": "Dékány Árpád Sixtus O. Cist", "birth": 1969, "img": imgSrc, "src": url + pap}) #Forrás: https://hu.wikipedia.org/wiki/D%C3%A9k%C3%A1ny_Sixtus
-        elif nev == "Holubák Attila": paplista.append({"name": "Holubák Attila", "birth": 1970, "img": imgSrc, "src": url + pap}) #Nem jó weboldal, vessző hiányzik
-        elif nev == "Kulcsár Dávid dr.": paplista.append({"name": "Kulcsár Dávid dr.", "birth": 1990, "img": imgSrc, "src": url + pap}) #Nem jó weboldal, vessző hiányzik
-        else: paplista.append({"name": nev, "birth": int(soup.select_one(".pap-profil").text.split("Született")[1].split(", ")[1].split(".")[0]), "img": imgSrc, "src": url + pap})
+            imgSrc = pap.select_one("img").get("src")
+        except: pass
+        paplista.append({
+            "name": pap.select_one(".entry-title").text,
+            "img": imgSrc,
+            "src": "https://www.veszpremiersekseg.hu/papok/",
+            "birth": birth,
+            "ordination": ordination,
+            "retired": "ny." in pap.text.lower() or "nyugalomban" in pap.text.lower(),
+            "bishop": "Udvardy György dr." in pap.select_one(".entry-title").text or "Márfi Gyula" in pap.select_one(".entry-title").text
+        })
 
 
 
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
-            outfile.write(json.dumps(paplista))
+            outfile.write(json.dumps(paplista, default=str))
 
 
 if __name__ == "__main__":
