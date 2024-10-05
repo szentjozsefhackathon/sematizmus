@@ -4,6 +4,29 @@ import re
 from tqdm import tqdm
 import  json
 import argparse
+import datetime
+import urllib3
+urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
+honapok = {
+    "január": 1,
+    "február": 2,
+    "március": 3,
+    "április": 4,
+    "május": 5,
+    "június": 6,
+    "július": 7,
+    "augusztus": 8,
+    "szeptember": 9,
+    "október": 10,
+    "november": 11,
+    "december": 12
+}
+
+def str2date(datum):
+    nonBreakSpace = u'\xa0'
+    reszek = [d.split(".")[0].strip() for d in datum.split("\n")[0].strip().split(nonBreakSpace)]
+    return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
+
 
 def HdFEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
@@ -51,16 +74,37 @@ def HdFEM(filename=None, year=None):
             imgSrc = "https://hd.gorogkatolikus.hu/" + soup.select_one(".kep-terkep img").get("src")
         except:
             pass
+        name = soup.select_one(".aloldal_cim").text
+        birth = None
+        ordination = None
+        for sor in soup.select(".adattar_sor"):
+            if "Születés" in sor.text:
+                try:
+                    birth = str2date(sor.text.split(", ")[-1])
+                except: pass
+            if "Pappá szentelés" in sor.text:
+                try:
+                    ordination = str2date(sor.text.split(", ")[-1])
+                except: pass
+            if "Diakónussá szentelés" in sor.text and not "Pappá szentelés" in sor.text:
+                try:
+                    ordination = str2date(sor.text.split(", ")[-1])
+                except: pass
 
         paplista.append({
-            "name": soup.select_one(".aloldal_cim").text, # A pap neve
+            "name": name, # A pap neve
             "img": imgSrc, # A kép linkje,
-            "src": f"https://hd.gorogkatolikus.hu/{pap}"
+            "src": f"https://hd.gorogkatolikus.hu/{pap}",
+            "birth": birth,
+            "deacon": not "Pappá szentelés" in soup.text,
+            "ordination": ordination,
+            "bishop": name == "dr. Keresztes Szilárd" or name == "Kocsis Fülöp",
+            "retired": "Nyugállományban" in soup.text
         })
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
-            outfile.write(json.dumps(paplista))
+            outfile.write(json.dumps(paplista, default=str))
 
 
 if __name__ == "__main__":
