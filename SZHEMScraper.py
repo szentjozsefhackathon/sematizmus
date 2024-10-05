@@ -4,6 +4,26 @@ import re
 from tqdm import tqdm
 import  json
 import argparse
+import datetime
+
+honapok = {
+    "január": 1,
+    "február": 2,
+    "március": 3,
+    "április": 4,
+    "május": 5,
+    "június": 6,
+    "július": 7,
+    "augusztus": 8,
+    "szeptember": 9,
+    "október": 10,
+    "november": 11,
+    "december": 12
+}
+
+def str2date(datum):
+    reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
+    return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
 def SZHEM(filename=None, year=None):
     url = "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok?oldal="
@@ -51,32 +71,37 @@ def SZHEM(filename=None, year=None):
         nev = soup.select_one("#main .content h1").text
         if "+" in nev:
             continue
-        if "megyéspüspök" in soup.text:
-            continue
-        if "nyugállomány" in soup.text:
-            continue
+
         print(nev)
         imgSrc = ""
         try:
             imgSrc = "https://www.martinus.hu" + soup.select_one("img.float-left").get("src")
         except:
             pass
+        birth = None
+        ordination = None
+
         for sor in soup.select("#main .content p"):
             if "Születési hely, idő:" in sor.text:
                 try:
-                    paplista.append({
-                        "name": nev,
-                        "birth": int(sor.text.split(".")[0].split(", ")[-1]),
-                        "img": imgSrc,
-                        "src": f"https://www.martinus.hu{pap}"
-                    })
+                    birth = str2date(sor.text.split(", ")[-1].strip())
+                    
                 except: pass
-                break
-
+            if "Felszentelés" in sor.text:
+                ordination = str2date(sor.text.split(": ")[-1].split(", ")[-1].strip())
+        paplista.append({
+            "name": nev,
+            "birth": birth,
+            "img": imgSrc,
+            "src": f"https://www.martinus.hu{pap}",
+            "retired": "nyugállomány" in soup.text,
+            "bishop": "megyéspüspök" in soup.text,
+            "ordination": ordination
+        })
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
-            outfile.write(json.dumps(paplista))
+            outfile.write(json.dumps(paplista, default=str))
 
 
 if __name__ == "__main__":
