@@ -5,6 +5,9 @@ from tqdm import tqdm
 import  json
 import argparse
 import datetime
+from multiprocessing import Pool
+import urllib3
+urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
 honapok = {
     "I": 1,
@@ -25,66 +28,24 @@ def str2date(datum):
     if reszek[0] == "1987 –": # Görbe József
         return 1987
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
-
-def VEM(filename=None, year=None):
-    # Replace this with the URL of the website you want to scrape
-    url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=cl'
-    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"}, verify=False)
-    # Check if the request was successful
-    if response.status_code == 200:
-        html_content = response.content
-    else:
-        print("Failed to fetch the website.")
-
-    # Parse the HTML content with BeautifulSoup
-    soup = BeautifulSoup(html_content, features="lxml")
-    papok = {}
-    for pap in soup.select(".grid-uri"): 
-        papok[pap['href']] = False # Papi oldalak linkjei
-
-    url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=ny'
-    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"}, verify=False)
-    # Check if the request was successful
-    if response.status_code == 200:
-        html_content = response.content
-    else:
-        print("Failed to fetch the website.")
-    
-    # Parse the HTML content with BeautifulSoup
-    soup = BeautifulSoup(html_content, features="lxml")
-    for pap in soup.select(".grid-uri"):
-        papok[pap['href']] = True # Aki nyugdíjas tegye nyugdíjba
-    
-    url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=tr'
-    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"}, verify=False)
-    # Check if the request was successful
-    if response.status_code == 200:
-        html_content = response.content
-    else:
-        print("Failed to fetch the website.")
-    
-    # Parse the HTML content with BeautifulSoup
-    soup = BeautifulSoup(html_content, features="lxml")
-    for pap in soup.select(".grid-uri"):
-        papok.pop(pap['href'], None) # Aki elhunyt, vegye ki
-    paplista = []
-    for pap, nyugdijas in tqdm(papok.items()): # Nézze meg az összes pap linkjét
+def processPriest(link, retired):
+        print(link)
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.post("http://sematizmus.vaciegyhazmegye.hu/"+pap, data={"xajax": "acm_szemely_xr_create_acm_scms"}, verify=False)
+            response = requests.post(link, data={"xajax": "acm_szemely_xr_create_acm_scms"}, verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.post("http://sematizmus.vaciegyhazmegye.hu/"+pap, data={"xajax": "acm_szemely_xr_create_acm_scms"}, verify=False)
+                response = requests.post(link, data={"xajax": "acm_szemely_xr_create_acm_scms"}, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
                     print("Failed to fetch the website.")
             except:
                 print("Big error")
-                continue
+                return
 
 
         soup = BeautifulSoup(html_content, features="lxml")
@@ -108,18 +69,67 @@ def VEM(filename=None, year=None):
         except:
             pass
         try:
-            paplista.append({
+            return {
                 "name": (" ".join([n for n in soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip().split(" ") if n[0].isupper()])).split(",")[0], # A pap neve
                 "img": imgSrc, # A kép linkje,
-                "src": f"http://sematizmus.vaciegyhazmegye.hu/{pap}",
+                "src": link,
                 "deacon": "Diakónus igazolvány sorszáma" in str(soup.text),
                 "bishop": "feladatkor.php?id=243" in str(soup) or "feladatkor_kategoria.php?id=15&egyhazmegye=true" in str(soup),
-                "retired": nyugdijas,
+                "retired": retired,
                 "ordination": ordination,
-            })
+            }
         except Exception as e:
             print(e)
-            print(f"http://sematizmus.vaciegyhazmegye.hu/{pap}")
+            print(link)
+        return
+def VEM(filename=None, year=None):
+    # Replace this with the URL of the website you want to scrape
+    url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=cl'
+    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"}, verify=False)
+    # Check if the request was successful
+    if response.status_code == 200:
+        html_content = response.content
+    else:
+        print("Failed to fetch the website.")
+
+    # Parse the HTML content with BeautifulSoup
+    soup = BeautifulSoup(html_content, features="lxml")
+    papok = {}
+    for pap in soup.select(".grid-uri"): 
+        papok["http://sematizmus.vaciegyhazmegye.hu/"+pap['href']] = False # Papi oldalak linkjei
+
+    url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=ny'
+    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"}, verify=False)
+    # Check if the request was successful
+    if response.status_code == 200:
+        html_content = response.content
+    else:
+        print("Failed to fetch the website.")
+    
+    # Parse the HTML content with BeautifulSoup
+    soup = BeautifulSoup(html_content, features="lxml")
+    for pap in soup.select(".grid-uri"):
+        papok["http://sematizmus.vaciegyhazmegye.hu/"+pap['href']] = True # Aki nyugdíjas tegye nyugdíjba
+    
+    url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=tr'
+    response = requests.post(url, data={"xajax": "acm_szemely_lista_xr_create_acm_scms"}, verify=False)
+    # Check if the request was successful
+    if response.status_code == 200:
+        html_content = response.content
+    else:
+        print("Failed to fetch the website.")
+    
+    # Parse the HTML content with BeautifulSoup
+    soup = BeautifulSoup(html_content, features="lxml")
+    for pap in soup.select(".grid-uri"):
+        papok.pop("http://sematizmus.vaciegyhazmegye.hu/"+pap['href'], None) # Aki elhunyt, vegye ki
+
+            
+    print(list(papok.items()))
+    paplista = []
+    with Pool() as p:
+        paplista = p.starmap(processPriest, list(papok.items()))
+
 
     if filename == None: return paplista
     else:
