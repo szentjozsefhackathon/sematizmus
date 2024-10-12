@@ -131,7 +131,7 @@ def VEM(filename=None, year=None):
     with Pool() as p:
         paplista = p.starmap(processPriest, list(papok.items()))
 
-    paplista = [x for x in paplista if isinstance(x, Iterable)]
+    paplista = [x for x in paplista if is not None]
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
