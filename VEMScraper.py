@@ -6,6 +6,7 @@ import  json
 import argparse
 import datetime
 from multiprocessing import Pool
+from collection.abc import Iterable
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
@@ -130,7 +131,7 @@ def VEM(filename=None, year=None):
     with Pool() as p:
         paplista = p.starmap(processPriest, list(papok.items()))
 
-
+    paplista = [x for x in paplista if isinstance(x, Iterable)]
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
