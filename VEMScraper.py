@@ -6,7 +6,6 @@ import  json
 import argparse
 import datetime
 from multiprocessing import Pool
-from collection.abc import Iterable
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
