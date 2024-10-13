@@ -5,6 +5,7 @@ from tqdm import tqdm
 import  json
 import argparse
 import datetime
+from multiprocessing import Pool
 
 honapok = {
     "1": 1,
@@ -45,12 +46,64 @@ honapok = {
 def str2date(datum):
     datum = datum.replace(".", ". ").replace("  ", " ")
     reszek = datum.split("-") if "-" in datum and len(datum.split(" "))<4 else [d.split(".")[0].strip() for d in datum.strip().split(" ")]
-    print(reszek)
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
-def EFEM(filename=None, year=None):
-    papok = []
-    def papkereso(link, deacon=False):
+def processPriest(link, deacon):
+        try:
+            response = requests.get(link, verify=False)
+            if response.status_code == 200:
+                html_content = response.content
+            else:
+                print("Failed to fetch the website.")
+        except:
+            try:
+                response = requests.get(link, verify=False)
+                if response.status_code == 200:
+                    html_content = response.content
+                else:
+                    print("Failed to fetch the website.")
+            except:
+                print("Big error")
+                return
+
+        soup = BeautifulSoup(html_content, 'html.parser')
+        imgSrc = soup.select_one(".article img").get("src")
+        bishop = ("egri érsek" in soup.text.lower() and not "egri érseki" in soup.text.lower()) or "segédpüspök" in soup.text.lower()
+        birth = None
+        ordination = None
+        for p in soup.select(".data-container p"):
+            if "életút" in p.text.lower() and not deacon:
+                continue
+            elif deacon and "életút" in p.text.lower() and "diakónussá szentelték" in p.text.lower():
+                ordination = str2date(".".join(p.text.split(".")[:3]).replace("-",".").split(",")[1])
+            if "született" in p.text.lower():
+                birth = str2date(p.text.split(",")[-1].strip())
+
+            if "pappá szentelték" in p.text.lower():
+                ordination = str2date(p.text.split(":")[1].split("-én")[0].split("-án")[0].split(",")[-1].strip())
+
+        for div in soup.select(".data-container div"):
+            if "életút" in div.text.lower() and not deacon:
+                continue
+            elif deacon and "életút" in div.text.lower() and "diakónussá szentelték" in div.text.lower():
+                ordination = str2date(".".join(div.text.replace("-",".").split(".")[:3]).split(",")[1])
+            if "született" in div.text.lower():
+                birth = str2date(div.text.split(",")[-1].strip())
+            if "pappá szentelték" in div.text.lower():
+                ordination = str2date(div.text.split(":")[1].split("-én")[0].split("-án")[0].split(",")[-1].strip())
+        
+        return {
+            "name": soup.select_one(".article h2").text,
+            "birth": birth,
+            "ordination": ordination,
+            "img": imgSrc,
+            "src": link,
+            "bishop": bishop,
+            "deacon": deacon,
+            "retired": "nyugállományban" in soup.text.lower()
+        }
+
+def papkereso(link, deacon=False):
         response = requests.get(link, verify=False)
         if response.status_code == 200:
             html_content = response.content
@@ -66,73 +119,26 @@ def EFEM(filename=None, year=None):
 
             _papok.append({"url": pap.select_one("h2 a")["href"], "deacon": deacon})
         return _papok
+
+def EFEM(filename=None, year=None):
+    papok = []
+
     
-    for i in tqdm(range(1,13,1)):
-        papok += papkereso(f"https://eger.egyhazmegye.hu/hitelet/papsag?page={i}")
+    with Pool() as p:
+        papok = p.starmap(papkereso, [(f"https://eger.egyhazmegye.hu/hitelet/papsag?page={i}", False) for i in range(1,13,1)])
+    
+    papok = sum(papok, [])
     
     papok+=papkereso("https://eger.egyhazmegye.hu/hitelet/papsag/allando-diakonusok", deacon=True)
 
-    paplista = []
-    for pap in tqdm(papok):
-        try:
-            response = requests.get(pap["url"], verify=False)
-            if response.status_code == 200:
-                html_content = response.content
-            else:
-                print("Failed to fetch the website.")
-        except:
-            try:
-                response = requests.get(pap["url"], verify=False)
-                if response.status_code == 200:
-                    html_content = response.content
-                else:
-                    print("Failed to fetch the website.")
-            except:
-                print("Big error")
-                continue
+    papok = [(pap["url"], pap["deacon"]) for pap in papok]
 
-        soup = BeautifulSoup(html_content, 'html.parser')
-        print(soup.select_one(".article h2").text)
-        imgSrc = soup.select_one(".article img").get("src")
-        bishop = ("egri érsek" in soup.text.lower() and not "egri érseki" in soup.text.lower()) or "segédpüspök" in soup.text.lower()
-        birth = None
-        ordination = None
-        for p in soup.select(".data-container p"):
-            if "életút" in p.text.lower() and not pap["deacon"]:
-                continue
-            elif pap["deacon"] and "életút" in p.text.lower() and "diakónussá szentelték" in p.text.lower():
-                ordination = str2date(".".join(p.text.split(".")[:3]).replace("-",".").split(",")[1])
-            if "született" in p.text.lower():
-                birth = str2date(p.text.split(",")[-1].strip())
 
-            if "pappá szentelték" in p.text.lower():
-                ordination = str2date(p.text.split(":")[1].split("-én")[0].split("-án")[0].split(",")[-1].strip())
+    with Pool() as p:
+        paplista = p.starmap(processPriest, papok)
 
-        for div in soup.select(".data-container div"):
-            if "életút" in div.text.lower() and not pap["deacon"]:
-                continue
-            elif pap["deacon"] and "életút" in div.text.lower() and "diakónussá szentelték" in div.text.lower():
-                ordination = str2date(".".join(div.text.replace("-",".").split(".")[:3]).split(",")[1])
-            if "született" in div.text.lower():
-                birth = str2date(div.text.split(",")[-1].strip())
-            if "pappá szentelték" in div.text.lower():
-                ordination = str2date(div.text.split(":")[1].split("-én")[0].split("-án")[0].split(",")[-1].strip())
+    paplista = [x for x in paplista if x is not None]
         
-        paplista.append({
-            "name": soup.select_one(".article h2").text,
-            "birth": birth,
-            "ordination": ordination,
-            "img": imgSrc,
-            "src": pap["url"],
-            "bishop": bishop,
-            "deacon": pap["deacon"],
-            "retired": "nyugállományban" in soup.text.lower()
-        })
-        
-
-
-
-
 
     if filename == None: return paplista
     else:
