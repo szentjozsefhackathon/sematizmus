@@ -6,6 +6,7 @@ import  json
 import argparse
 import datetime
 import re
+from tqdm.contrib.concurrent import process_map
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 honapok = {
@@ -27,47 +28,28 @@ def str2date(datum):
     reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
-def NYEM(filename=None, year=None):
-    # Replace this with the URL of the website you want to scrape
-    url = 'https://www.nyirgorkat.hu/?q=papok&egyhazmegye=3&l=hu'
-    response = requests.get(url, verify=False)
-    # Check if the request was successful
-    if response.status_code == 200:
-        html_content = response.content
-    else:
-        print("Failed to fetch the website.")
-
-    # Parse the HTML content with BeautifulSoup
-    soup = BeautifulSoup(html_content, 'html.parser')
-    papok = []
-    for pap in soup.select('a[href*="?q=pap&"]'):
-        papok.append(pap["href"])
-
-
-    paplista = []
-    
-    for pap in tqdm(papok): # Nézze meg az összes pap linkjét
+def processPriest(link):
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(f"https://www.nyirgorkat.hu/{pap}", verify=False)
+            response = requests.get(link, verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(f"https://www.nyirgorkat.hu/{pap}", verify=False)
+                response = requests.get(link, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
                     print("Failed to fetch the website.")
             except:
                 print("Big error")
-                continue
+                return
 
 
         soup = BeautifulSoup(html_content, 'html.parser')
-        if "Elhunyt:" in soup.text: continue
-        if not "Pappá szentelés" in soup.text and not "Diakónussá szentelés" in soup.text: continue
+        if "Elhunyt:" in soup.text: return
+        if not "Pappá szentelés" in soup.text and not "Diakónussá szentelés" in soup.text: return
         imgSrc = ""
         try:
             imgSrc = "https://nyirgorkat.hu" + soup.select_one("img.indexpap").get("src")
@@ -93,16 +75,37 @@ def NYEM(filename=None, year=None):
 
         if retired == False and "nyugállományban" in soup.text.lower(): retired = True
 
-        paplista.append({
+        return {
             "name": soup.select_one("#parokianev").text, # A pap neve
             "img": imgSrc, # A kép linkje,
-            "src": f"https://nyirgorkat.hu/{pap}",
+            "src": link,
             "birth": birth,
             "ordination": ordination,
             "deacon": not "Pappá szentelés" in soup.text,
             "bishop": "Szocska A. Ábel" in soup.select_one("#parokianev").text,
             "retired": retired
-        })
+        }
+
+def NYEM(filename=None, year=None):
+    # Replace this with the URL of the website you want to scrape
+    url = 'https://www.nyirgorkat.hu/?q=papok&egyhazmegye=3&l=hu'
+    response = requests.get(url, verify=False)
+    # Check if the request was successful
+    if response.status_code == 200:
+        html_content = response.content
+    else:
+        print("Failed to fetch the website.")
+
+    # Parse the HTML content with BeautifulSoup
+    soup = BeautifulSoup(html_content, 'html.parser')
+    papok = []
+    for pap in soup.select('a[href*="?q=pap&"]'):
+        papok.append("https://www.nyirgorkat.hu/"+pap["href"])
+    
+    paplista = process_map(processPriest, papok)
+
+    paplista = [pap for pap in paplista if pap != None]
+
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
