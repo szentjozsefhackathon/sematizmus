@@ -5,6 +5,7 @@ from tqdm import tqdm
 import  json
 import argparse
 import datetime
+from tqdm.contrib.concurrent import process_map
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 honapok = {
@@ -27,45 +28,23 @@ def str2date(datum):
     reszek = [d.split(".")[0].strip() for d in datum.split("\n")[0].strip().split(nonBreakSpace)]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
-
-def HdFEM(filename=None, year=None):
-    # Replace this with the URL of the website you want to scrape
-    url = 'https://hd.gorogkatolikus.hu/adattar-papjaink'
-    response = requests.get(url, verify=False)
-    # Check if the request was successful
-    if response.status_code == 200:
-        html_content = response.content
-    else:
-        print("Failed to fetch the website.")
-
-    # Parse the HTML content with BeautifulSoup
-    soup = BeautifulSoup(html_content, 'html.parser')
-    papok = []
-    for pap in soup.select(".adattar_cont"):
-        papok.append(pap['onclick'][15:-1])
-
-    for pap in soup.select(".adattar_cont_left"):
-        papok.append(pap['onclick'][15:-1])
-
-    paplista = []
-    
-    for pap in tqdm(papok): # Nézze meg az összes pap linkjét
+def processPriest(link):
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(f"https://hd.gorogkatolikus.hu/{pap}", verify=False)
+            response = requests.get(link, verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(f"https://hd.gorogkatolikus.hu/{pap}", verify=False)
+                response = requests.get(link, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
                     print("Failed to fetch the website.")
             except:
                 print("Big error")
-                continue
+                return
 
 
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -91,16 +70,44 @@ def HdFEM(filename=None, year=None):
                     ordination = str2date(sor.text.split(", ")[-1])
                 except: pass
 
-        paplista.append({
+        return {
             "name": name, # A pap neve
             "img": imgSrc, # A kép linkje,
-            "src": f"https://hd.gorogkatolikus.hu/{pap}",
+            "src": link,
             "birth": birth,
             "deacon": not "Pappá szentelés" in soup.text,
             "ordination": ordination,
             "bishop": name == "dr. Keresztes Szilárd" or name == "Kocsis Fülöp",
             "retired": "Nyugállományban" in soup.text
-        })
+        }
+
+
+def HdFEM(filename=None, year=None):
+    # Replace this with the URL of the website you want to scrape
+    url = 'https://hd.gorogkatolikus.hu/adattar-papjaink'
+    response = requests.get(url, verify=False)
+    # Check if the request was successful
+    if response.status_code == 200:
+        html_content = response.content
+    else:
+        print("Failed to fetch the website.")
+
+    # Parse the HTML content with BeautifulSoup
+    soup = BeautifulSoup(html_content, 'html.parser')
+    papok = []
+    for pap in soup.select(".adattar_cont"):
+        papok.append("https://hd.gorogkatolikus.hu/"+pap['onclick'][15:-1])
+
+    for pap in soup.select(".adattar_cont_left"):
+        papok.append("https://hd.gorogkatolikus.hu/"+pap['onclick'][15:-1])
+
+
+
+    
+    paplista = process_map(processPriest, papok)
+
+    paplista = [pap for pap in paplista if pap != None]
+
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
