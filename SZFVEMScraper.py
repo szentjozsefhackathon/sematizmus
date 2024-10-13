@@ -5,7 +5,9 @@ from tqdm import tqdm
 import  json
 import argparse
 import datetime
-
+from tqdm.contrib.concurrent import process_map
+import urllib3
+urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 honapok = {
     "január": 1,
     "február": 2,
@@ -38,54 +40,30 @@ def str2date(datum):
     reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
-def SZFVEM(filename=None, year=None):
-    url = "https://www.szfvar.katolikus.hu/"
-    papok = []
-    def papkereso(link):
-        response = requests.get(link, verify=False)
-        if response.status_code == 200:
-            html_content = response.content
-        else:
-            print("Failed to fetch the website.")
-        soup = BeautifulSoup(html_content, 'html.parser')
-        _papok = []
-        for pap in soup.select_one(".adattar").select(".listadoboz"):
-            _papok.append(pap.select_one("h3 a")["href"])
-        
-        return _papok
-    
-    papok += papkereso("https://www.szfvar.katolikus.hu/adattar/papok/?min=0")
-    papok += papkereso("https://www.szfvar.katolikus.hu/adattar/papok/?min=50")
-
-
-    paplista = []
-    for pap in tqdm(papok): # Nézze meg az összes pap linkjét
+def processPriest(link):
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(url+pap, verify=False)
+            response = requests.get(link, verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(url+pap, verify=False)
+                response = requests.get(link, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
                     print("Failed to fetch the website.")
             except:
                 print("Big error")
-                continue
+                return
 
 
         soup = BeautifulSoup(html_content, 'html.parser')
 
         adatlapText = soup.select_one(".adatlap").text
-        if "megyés püspök" in adatlapText or "nyugállományban" in adatlapText: continue
-
 
         nev = soup.select_one("h1").text
-        print(nev)
         szul = None
         szent = None
         tartalomText = soup.select_one(".tartalom").text.split("\n")
@@ -115,16 +93,37 @@ def SZFVEM(filename=None, year=None):
             imgSrc = "https://www.szfvar.katolikus.hu" + soup.select_one(".adatkepb img").get("src")
         except:
             pass
-        paplista.append({
+        return {
             "name": nev,
             "birth": szul,
             "img": imgSrc,
-            "src": url + pap,
+            "src": link,
             "bishop": "megyés püspök" in adatlapText,
             "retired": "nyugállományban" in adatlapText,
             "ordination": szent
-        })
+        }
 
+def SZFVEM(filename=None, year=None):
+    url = "https://www.szfvar.katolikus.hu/"
+    papok = []
+    def papkereso(link):
+        response = requests.get(link, verify=False)
+        if response.status_code == 200:
+            html_content = response.content
+        else:
+            print("Failed to fetch the website.")
+        soup = BeautifulSoup(html_content, 'html.parser')
+        _papok = []
+        for pap in soup.select_one(".adattar").select(".listadoboz"):
+            _papok.append(url+pap.select_one("h3 a")["href"])
+        
+        return _papok
+    
+    papok += papkereso("https://www.szfvar.katolikus.hu/adattar/papok/?min=0")
+    papok += papkereso("https://www.szfvar.katolikus.hu/adattar/papok/?min=50")
+
+
+    paplista = process_map(processPriest, papok)
 
     if filename == None: return paplista
     else:
