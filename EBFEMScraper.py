@@ -9,6 +9,8 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 import time
 import datetime
+from multiprocessing import Pool
+
 
 honapok = {
     "január": 1,
@@ -29,66 +31,28 @@ def str2date(datum):
     reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
-
-def EBFEM(filename=None, year=None, appendHibas=True, headless = True):
-
-    url = 'https://www.esztergomi-ersekseg.hu/papsag'
-    options = webdriver.FirefoxOptions()
-    if headless:
-        options.add_argument("--headless")
-    driver = webdriver.Firefox(options=options)
-
-    driver.get(url)
-
-
-    driver.implicitly_wait(2)
-    select = Select(driver.find_element(By.CSS_SELECTOR, "select[name='kat']"))
-    select.select_by_visible_text('mind')
-
-    driver.implicitly_wait(2)
-
-    driver.execute_script("(async function() {szuro()})()")
-
-    driver.implicitly_wait(2)
-
-    driver.execute_script("(async function() {while (isDataAvailable) {listmore(); await new Promise(r => setTimeout(r, 3000))}})()")
-
-    for i in tqdm(range(40)):
-        time.sleep(1)
-
-    soup = BeautifulSoup(driver.page_source, 'html.parser')
-    driver.quit()
-    papok = []
-
-    for pap in soup.select_one("#listazas").select(".hirbox"):
-        papok.append(pap.select_one('a')['href'])  # Papi oldalak linkjei
-    
-    firstLine = 0
-    paplista = []
-    hibasak = []
-
-    for pap in tqdm(papok):  # Nézze meg az összes pap linkjét
+def processPriest(link, appendHibas):
         try:  # Kétszeri próbálkozásra szokott menni
-            response = requests.get(f"{url}/{pap.split('/')[1]}")
+            response = requests.get(link)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(f"{url}/{pap.split('/')[1]}")
+                response = requests.get(link)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
                     print("Failed to fetch the website.")
             except:
                 print("Big error")
-                continue
+                return
 
         soup = BeautifulSoup(html_content, 'html.parser')
         nev = soup.select_one("h1").text.strip()
         if "†" in nev:
-            continue
+            return
 
         bishop = False
         if soup.select_one(".titulus"):
@@ -170,53 +134,83 @@ def EBFEM(filename=None, year=None, appendHibas=True, headless = True):
                 szul = 1974
 
             if szul == 0:
-                hibasak.append({"név": nev, "hiba": "Születés nem található"})
-                if appendHibas: paplista.append({
+                print({"név": nev, "hiba": "Születés nem található"})
+                if appendHibas: return {
                     "name": nev,
                     "birth": None,
                     "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
-                    "src": f"{url}/{pap.split('/')[1]}",
+                    "src": link,
                     "ordination": szent if szent != 0 else None,
                     "bishop": bishop,
                     "deacon": deacon,
                     "retired": retired
-                })
-                break
+                }
+                
             
             szulev = szul.year if isinstance(szul, datetime.date) else szul
             szentev = szent.year if isinstance(szent, datetime.date) else szent
 
             if szent == 0:
                 szent = None
-            if szulev<szentev:
-                paplista.append({
+
+            if szulev>szentev:
+                print({"név": nev, "hiba": "Szentelése előbbi, mint születése"})
+
+            if szulev<szentev or appendHibas:
+                return {
                                 "name": nev,
-                                "birth": szul,
+                                "birth": szul if szulev<szentev else None,
                                 "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
-                                "src": f"{url}/{pap.split('/')[1]}",
+                                "src": link,
                                 "ordination": szent,
                                 "bishop": bishop,
                                 "deacon": deacon,
                                 "retired": retired
-                            })
-            else:
-                if appendHibas:
-                    paplista.append({
-                                "name": nev,
-                                "birth": None,
-                                "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
-                                "src": f"{url}/{pap.split('/')[1]}",
-                                "ordination": szent,
-                                "bishop": bishop,
-                                "deacon": deacon,
-                                "retired": retired
-                            })
-                hibasak.append({"név": nev, "hiba": "Szentelése előbbi, mint születése"})
+                            }
             break
 
-    print(hibasak)
-    print("Hibás:", len(hibasak))
-    print("Talán jó:", len(paplista))
+
+def EBFEM(filename=None, year=None, appendHibas=True, headless = True):
+
+    url = 'https://www.esztergomi-ersekseg.hu/papsag'
+    options = webdriver.FirefoxOptions()
+    if headless:
+        options.add_argument("--headless")
+    driver = webdriver.Firefox(options=options)
+
+    driver.get(url)
+
+
+    driver.implicitly_wait(2)
+    select = Select(driver.find_element(By.CSS_SELECTOR, "select[name='kat']"))
+    select.select_by_visible_text('mind')
+
+    driver.implicitly_wait(2)
+
+    driver.execute_script("(async function() {szuro()})()")
+
+    driver.implicitly_wait(2)
+
+    driver.execute_script("(async function() {while (isDataAvailable) {listmore(); await new Promise(r => setTimeout(r, 3000))}})()")
+
+    for i in tqdm(range(40)):
+        time.sleep(1)
+
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    driver.quit()
+    papok = []
+
+    for pap in soup.select_one("#listazas").select(".hirbox"):
+        papok.append(pap.select_one('a')['href'])  # Papi oldalak linkjei
+    
+    paplista = []
+    hibasak = []
+
+    paplista = []
+    with Pool() as p:
+        paplista = p.starmap(processPriest, [(f"{url}/{pap.split('/')[1]}", appendHibas) for pap in papok])
+
+    paplista = [x for x in paplista if x is not None]
 
     if filename == None:
         return paplista
