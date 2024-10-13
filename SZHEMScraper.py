@@ -5,6 +5,9 @@ from tqdm import tqdm
 import  json
 import argparse
 import datetime
+from tqdm.contrib.concurrent import process_map
+import urllib3
+urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
 honapok = {
     "január": 1,
@@ -25,54 +28,30 @@ def str2date(datum):
     reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
-def SZHEM(filename=None, year=None):
-    url = "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok?oldal="
-    papok = []
-    def papkereso(link):
-        response = requests.get(link, verify=False)
-        if response.status_code == 200:
-            html_content = response.content
-        else:
-            print("Failed to fetch the website.")
-        soup = BeautifulSoup(html_content, 'html.parser')
-        _papok = []
-        for pap in soup.select_one(".content ul").select("li"):
-            _papok.append(pap.select_one("a")["href"])
-        
-        return _papok
-    
-    for i in tqdm(range(6,-1,-1)):
-        papok += papkereso(f"{url}{i}")
-
-
-
-
-    paplista = []
-    for pap in tqdm(papok): # Nézze meg az összes pap linkjét
+def processPriest(link):
         try: # Kétszeri próbálkozásra szokott menni
-            response = requests.get(f"https://www.martinus.hu{pap}", verify=False)
+            response = requests.get(link, verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
                 print("Failed to fetch the website.")
         except:
             try:
-                response = requests.get(f"https://www.martinus.hu{pap}", verify=False)
+                response = requests.get(link, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
                     print("Failed to fetch the website.")
             except:
                 print("Big error")
-                pass
+                return
 
 
         soup = BeautifulSoup(html_content, 'html.parser')
         nev = soup.select_one("#main .content h1").text
         if "+" in nev:
-            continue
+            return
 
-        print(nev)
         imgSrc = ""
         try:
             imgSrc = "https://www.martinus.hu" + soup.select_one(".content img").get("src")
@@ -89,15 +68,40 @@ def SZHEM(filename=None, year=None):
                 except: pass
             if "Felszentelés" in sor.text:
                 ordination = str2date(sor.text.split(": ")[-1].split(", ")[-1].strip())
-        paplista.append({
+        return {
             "name": nev,
             "birth": birth,
             "img": imgSrc,
-            "src": f"https://www.martinus.hu{pap}",
+            "src": link,
             "retired": "nyugállomány" in soup.text,
             "bishop": "megyéspüspök" in soup.text,
             "ordination": ordination
-        })
+        }
+
+def papkereso(link):
+        response = requests.get(link, verify=False)
+        if response.status_code == 200:
+            html_content = response.content
+        else:
+            print("Failed to fetch the website.")
+        soup = BeautifulSoup(html_content, 'html.parser')
+        _papok = []
+        for pap in soup.select_one(".content ul").select("li"):
+            _papok.append("https://www.martinus.hu"+pap.select_one("a")["href"])
+        
+        return _papok
+
+def SZHEM(filename=None, year=None):
+    url = "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok?oldal="
+    papok = []
+
+    
+    papok = process_map(papkereso, [f"{url}{i}" for i in range(6,-1,-1)])
+    papok = sum(papok, [])
+
+    paplista = process_map(processPriest, papok)
+    paplista = [p for p in paplista if p != None]
+
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:
