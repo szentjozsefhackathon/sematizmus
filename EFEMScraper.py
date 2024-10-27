@@ -68,7 +68,7 @@ def processPriest(link, deacon):
 
         soup = BeautifulSoup(html_content, 'html.parser')
         imgSrc = soup.select_one(".article img").get("src")
-        bishop = ("egri érsek" in soup.text.lower() and not "egri érseki" in soup.text.lower()) or "segédpüspök" in soup.text.lower()
+        bishop = ("egri érsek" in soup.select_one(".data-container").text.lower() and not "egri érseki" in soup.select_one(".data-container").text.lower()) or "segédpüspök" in soup.select_one(".data-container").text.lower()
         birth = None
         ordination = None
         for p in soup.select(".data-container p"):
