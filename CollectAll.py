@@ -9,7 +9,7 @@ from SZHEMScraper import SZHEM
 from VEMScraper import VEM
 from VFEMScraper import VFEM
 
-from TPScraper import TP
+from KOScraper import KO
 
 from HdFEMScraper import HdFEM
 from MEMScraper import MEM
@@ -19,7 +19,7 @@ import json
 import argparse
 import numpy
 
-def priestList(year, filename): 
+def priestList(year, filename=None): 
     _dioceses = {
         "Esztergom-Budapesti főegyházmegye": EBFEM(year=year),
         "Győri egyházmegye": GYEM(year=year),
@@ -37,11 +37,12 @@ def priestList(year, filename):
         "Miskolci egyházmegye": MEM(year=year),
         "Nyíregyházi egyházmegye": NYEM(year=year),
         #"Pannonhalmi területi főapátság": ,
-        "Tábori Püspökség": TP(year=year)
+        "Katonai Ordinariátus": KO(year=year)
     }
 
     priests = []
     for diocese, data in _dioceses.items():
+        print(f"{diocese}: {len(data)}")
         for priest in data:
             priests.append({
                 "name": priest["name"], 

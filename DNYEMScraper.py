@@ -45,7 +45,19 @@ honapok = {
     "10": 10,
     "11": 11,
     "12": 12,
-    "júni": 6
+    "júni": 6,
+    "jan": 1,
+    "febr": 2,
+    "márc": 3,
+    "ápr": 4,
+    "máj": 5,
+    "jún": 6,
+    "júl": 7,
+    "aug": 8,
+    "szept": 9,
+    "okt": 10,
+    "nov": 11,
+    "dec": 12
 }
 
 def str2date(datum):

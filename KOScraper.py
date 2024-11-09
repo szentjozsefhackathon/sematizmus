@@ -5,7 +5,7 @@ from tqdm import tqdm
 import  json
 import argparse
 
-def TP(filename=None, year=None):
+def KO(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'https://ktp.hu/js/ajax/listazo.php?url=lelkeszek%2Ftabori-lelkeszi-kar&fm=110&am=173'
     response = requests.get(url, verify=False)

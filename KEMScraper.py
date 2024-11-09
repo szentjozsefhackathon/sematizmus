@@ -108,7 +108,7 @@ def KEM(filename=None, year=None):
             options = {**source["options"]}
             if pap.select_one("h4").text == "Balás Béla":
                 options["bishop"] = True
-            imgSrc = f"https://kaposvar.egyhazmegye.hu{pap.select_one("img").get("src")}"
+            imgSrc = f"https://kaposvar.egyhazmegye.hu{pap.select_one('img').get('src')}"
             paplista.append({
                 "name": pap.select_one("h4").text,
                 "birth": str2date(pap.select_one(".qx-person-description p").text.split("Szent.:")[0].split(", ")[1]),

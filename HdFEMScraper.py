@@ -100,9 +100,6 @@ def HdFEM(filename=None, year=None):
 
     for pap in soup.select(".adattar_cont_left"):
         papok.append("https://hd.gorogkatolikus.hu/"+pap['onclick'][15:-1])
-
-
-
     
     paplista = process_map(processPriest, papok)
 
