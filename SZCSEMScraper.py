@@ -57,7 +57,7 @@ def processDeanDistrict(link):
                                 })
                 except:
                     print(f"{link} - {row}")
-        return papok
+        return [p.split("P.")[-1].strip() for p in papok]
 
 
 def SZCSEM(filename=None, year=None):
@@ -88,7 +88,7 @@ def SZCSEM(filename=None, year=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='Szeged-csanádi egyházmegye papjainak adatai')
+        description='Szeged-Csanádi egyházmegye papjainak adatai')
     parser.add_argument('--filename', required=False, action="store", default=None,
                         help="JSON to save. If not set, the result will be displayed on screen")
 
