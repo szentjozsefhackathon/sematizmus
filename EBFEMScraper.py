@@ -37,16 +37,16 @@ def processPriest(link, appendHibas):
             if response.status_code == 200:
                 html_content = response.content
             else:
-                print("Failed to fetch the website.")
+                print(f"{link} - Failed to fetch the website.")
         except:
             try:
                 response = requests.get(link)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
-                    print("Failed to fetch the website.")
+                    print(f"{link} - Failed to fetch the website.")
             except:
-                print("Big error")
+                print(f"{link} - Big error")
                 return
 
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -134,7 +134,7 @@ def processPriest(link, appendHibas):
                 szul = 1974
 
             if szul == 0:
-                print({"név": nev, "hiba": "Születés nem található"})
+                print(f"{link} - Születés nem található")
                 if appendHibas: return {
                     "name": nev,
                     "birth": None,
@@ -154,7 +154,7 @@ def processPriest(link, appendHibas):
                 szent = None
 
             if szulev>szentev:
-                print({"név": nev, "hiba": "Szentelése előbbi, mint születése"})
+                print(f"{link} - Szentelése előbbi, mint születése")
 
             if szulev<szentev or appendHibas:
                 return {

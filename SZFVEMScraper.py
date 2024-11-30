@@ -46,16 +46,16 @@ def processPriest(link):
             if response.status_code == 200:
                 html_content = response.content
             else:
-                print("Failed to fetch the website.")
+                print(f"{link} - Failed to fetch the website.")
         except:
             try:
                 response = requests.get(link, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
-                    print("Failed to fetch the website.")
+                    print(f"{link} - Failed to fetch the website.")
             except:
-                print("Big error")
+                print(f"{link} - Big error")
                 return
 
 
@@ -111,7 +111,7 @@ def SZFVEM(filename=None, year=None):
         if response.status_code == 200:
             html_content = response.content
         else:
-            print("Failed to fetch the website.")
+            print(f"{url} - Failed to fetch the website.")
         soup = BeautifulSoup(html_content, 'html.parser')
         _papok = []
         for pap in soup.select_one(".adattar").select(".listadoboz"):

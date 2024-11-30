@@ -88,7 +88,7 @@ def DNYEM(filename=None, year=None):
     if response.status_code == 200:
         html_content = response.content
     else:
-        print("Failed to fetch the website.")
+        print(f"{url} - Failed to fetch the website.")
 
     soup = BeautifulSoup(html_content, 'html.parser')
 
@@ -109,16 +109,16 @@ def DNYEM(filename=None, year=None):
             if response.status_code == 200:
                 html_content = response.content
             else:
-                print("Failed to fetch the website.")
+                print(f"{pap} - Failed to fetch the website.")
         except:
             try:
                 response = requests.get(pap, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
-                    print("Failed to fetch the website.")
+                    print(f"{pap} - Failed to fetch the website.")
             except:
-                print("Big error")
+                print(f"{pap} - Big error")
                 continue
 
         soup = BeautifulSoup(html_content, 'html.parser')
@@ -155,7 +155,6 @@ def DNYEM(filename=None, year=None):
                 })
                 break
 
-            print(name)
             try:
                 sor.select_one("br").replace_with("\n")
             except: pass
@@ -183,9 +182,10 @@ def DNYEM(filename=None, year=None):
                 "deacon": None
             })
             break
-    print(ordinationFailed)
-    print(f"Szentelés hiba: {len(ordinationFailed)}")
-
+    if len(ordinationFailed) > 0:
+        print("DNYEM szentelés hiba:")
+        for of in ordinationFailed:
+            print(of)
     if filename == None:
         return paplista
     else:

@@ -13,7 +13,7 @@ def KO(filename=None, year=None):
     if response.status_code == 200:
         html_content = response.content
     else:
-        print("Failed to fetch the website.")
+        print(f"{url} - Failed to fetch the website.")
 
     # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html_content, 'html.parser')
@@ -37,16 +37,16 @@ def KO(filename=None, year=None):
             if response.status_code == 200:
                 html_content = response.content
             else:
-                print("Failed to fetch the website.")
+                print(f"https://ktp.hu{pap} - Failed to fetch the website.")
         except:
             try:
                 response = requests.get(f"https://ktp.hu{pap}", verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
-                    print("Failed to fetch the website.")
+                    print(f"https://ktp.hu{pap} - Failed to fetch the website.")
             except:
-                print("Big error")
+                print(f"https://ktp.hu{pap} - Big error")
                 continue
         
 
@@ -75,5 +75,5 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.filename==None: print(TP(args.filename))
-    else: TP(args.filename)
+    if args.filename==None: print(KO(args.filename))
+    else: KO(args.filename)

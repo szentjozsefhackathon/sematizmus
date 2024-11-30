@@ -34,16 +34,16 @@ def processPriest(link):
             if response.status_code == 200:
                 html_content = response.content
             else:
-                print("Failed to fetch the website.")
+                print(f"{link} - Failed to fetch the website.")
         except:
             try:
                 response = requests.get(link, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
-                    print("Failed to fetch the website.")
+                    print(f"{link} - Failed to fetch the website.")
             except:
-                print("Big error")
+                print(f"{link} - Big error")
                 return
 
 
@@ -67,7 +67,7 @@ def processPriest(link):
                 if "Diakónussá szentelés" in r.text and not "Pappá szentelés" in soup.text:
                     ordination = str2date(r.text.split(",")[-1])
             except:
-                print(soup.select_one("#parokianev").text)
+                print(link + " - " + soup.select_one("#parokianev").text)
             
         retired = True
         for s in soup.select(".szolgalat td td"):
@@ -94,7 +94,7 @@ def NYEM(filename=None, year=None):
     if response.status_code == 200:
         html_content = response.content
     else:
-        print("Failed to fetch the website.")
+        print(f"{url} - Failed to fetch the website.")
 
     # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html_content, 'html.parser')

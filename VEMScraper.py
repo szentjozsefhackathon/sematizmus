@@ -29,22 +29,21 @@ def str2date(datum):
         return 1987
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 def processPriest(link, retired):
-        print(link)
         try: # Kétszeri próbálkozásra szokott menni
             response = requests.post(link, data={"xajax": "acm_szemely_xr_create_acm_scms"}, verify=False)
             if response.status_code == 200:
                 html_content = response.content
             else:
-                print("Failed to fetch the website.")
+                print(f"{link} - Failed to fetch the website.")
         except:
             try:
                 response = requests.post(link, data={"xajax": "acm_szemely_xr_create_acm_scms"}, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
-                    print("Failed to fetch the website.")
+                    print(f"{link} - Failed to fetch the website.")
             except:
-                print("Big error")
+                print(f"{link} - Big error")
                 return
 
 
@@ -60,6 +59,7 @@ def processPriest(link, retired):
                     ordination = str2date(re.search(r'\(([^)]+)\)', feladat.text.split("(állandó nős diakónus)")[1].strip()).group(1))
 
         except Exception as e:
+            print(link)
             print(soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip())
             print(e)                
 
@@ -90,7 +90,7 @@ def VEM(filename=None, year=None):
     if response.status_code == 200:
         html_content = response.content
     else:
-        print("Failed to fetch the website.")
+        print(f"{url} - Failed to fetch the website.")
 
     # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html_content, features="lxml")
@@ -104,7 +104,7 @@ def VEM(filename=None, year=None):
     if response.status_code == 200:
         html_content = response.content
     else:
-        print("Failed to fetch the website.")
+        print(f"{url} - Failed to fetch the website.")
     
     # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html_content, features="lxml")
@@ -117,7 +117,7 @@ def VEM(filename=None, year=None):
     if response.status_code == 200:
         html_content = response.content
     else:
-        print("Failed to fetch the website.")
+        print(f"{url} - Failed to fetch the website.")
     
     # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html_content, features="lxml")
@@ -125,7 +125,6 @@ def VEM(filename=None, year=None):
         papok.pop("http://sematizmus.vaciegyhazmegye.hu/"+pap['href'], None) # Aki elhunyt, vegye ki
 
             
-    print(list(papok.items()))
     paplista = []
     with Pool() as p:
         paplista = p.starmap(processPriest, list(papok.items()))

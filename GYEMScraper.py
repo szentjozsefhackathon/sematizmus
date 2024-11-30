@@ -44,14 +44,14 @@ def GYEM(filename=None, year=None):
     if response.status_code == 200:
         json_content = json.loads(response.content)
     else:
-        print("Failed to fetch the website.")
+        print(f"{url} - Failed to fetch the website.")
     
     url = f'https://gyor.egyhazmegye.hu/api/priest?limit={json_content["totalElements"]}&offset=0' #Ezzel lesz időtálló
     response = requests.get(url, verify=False)
     if response.status_code == 200:
         json_content = json.loads(response.content)
     else:
-        print("Failed to fetch the website.")
+        print(f"{url} -  to fetch the website.")
     paplista = []
 
 
@@ -80,7 +80,6 @@ def GYEM(filename=None, year=None):
                                         birth = str2date(" ".join(sor.text.split(" ")[-4:]))
                                     except: pass
             if "Papszentelés" in sor.text or "Pappá szentelték" in sor.text or "Pappá szentelés" in sor.text:
-                if pap["name"] == "Ézsöl Krisztián": print("ÉK")
                 try:
                     ordination = str2date(sor.text.split(", ")[1])
                 except:
@@ -107,9 +106,7 @@ def GYEM(filename=None, year=None):
             birth = datetime.date(1981, 2, 17)
 
         if ordination == None:
-            print(pap["name"])
-            print("Szentelés hiba")
-            print(f"https://gyor.egyhazmegye.hu/#/egyhazmegyenk/papok/{pap['id']}")
+            print(f"https://gyor.egyhazmegye.hu/#/egyhazmegyenk/papok/{pap['id']} - Szentelés hiba")
         paplista.append({
             "name": pap["name"].strip(),
             "birth": birth,

@@ -76,7 +76,7 @@ def KEM(filename=None, year=None):
         if response.status_code == 200:
             html_content = response.content
         else:
-            print("Failed to fetch the website.")
+            print(f"{source["url"]} - Failed to fetch the website.")
 
         soup = BeautifulSoup(html_content, 'html.parser')
 
@@ -102,9 +102,7 @@ def KEM(filename=None, year=None):
                 if pap.select_one("h4").text == "Marics József":
                     ordination = datetime.date(1969, 6, 15)
             if ordination == None:
-                print(pap.select_one("h4").text)
-
-                print("Szentelés hiba")
+                print(f"{source["url"]}Szentelés hiba")
             options = {**source["options"]}
             if pap.select_one("h4").text == "Balás Béla":
                 options["bishop"] = True

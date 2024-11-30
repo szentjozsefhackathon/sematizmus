@@ -46,7 +46,7 @@ def VFEM(filename=None, year=None):
     if response.status_code == 200:
         html_content = response.content
     else:
-        print("Failed to fetch the website.")
+        print("VFEM - Failed to fetch the website.")
 
     # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html_content, 'html.parser')
