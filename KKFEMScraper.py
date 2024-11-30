@@ -49,6 +49,8 @@ def processDeanDistrict(link):
                             name = ember.split(":")[-1].strip().split(",")[0].strip()
                             name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
                             name = name.split("P.")[-1].strip()
+                            if name == "":
+                                continue
                             papok.append({
                                             "name": name,
                                             "birth": None,
@@ -66,6 +68,8 @@ def processDeanDistrict(link):
                 if name not in [p["name"] for p in papok]:
                     name = row.split("P.")[1].strip()
                     name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
+                    if name == "":
+                        continue
                     papok.append({
                                     "name": name,
                                     "birth": None,
