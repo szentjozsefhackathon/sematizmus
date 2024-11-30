@@ -172,7 +172,7 @@ def DNYEM(filename=None, year=None):
                 ordinationFailed.append(name)
 
             paplista.append({
-                "name": name,
+                "name": name.split("P.")[-1].strip(),
                 "birth": str2date(sor.text.split("\n")[0].split(", ")[1]),
                 "ordination": ordination,
                 "img": imgSrc,

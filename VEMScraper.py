@@ -69,8 +69,9 @@ def processPriest(link, retired):
         except:
             pass
         try:
+            name = (" ".join([n for n in soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip().split(" ") if n[0].isupper()])).split(",")[0].split("P.")[-1].strip()
             return {
-                "name": (" ".join([n for n in soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip().split(" ") if n[0].isupper()])).split(",")[0], # A pap neve
+                "name": name, # A pap neve
                 "img": imgSrc, # A kép linkje,
                 "src": link,
                 "deacon": "Diakónus igazolvány sorszáma" in str(soup.text),

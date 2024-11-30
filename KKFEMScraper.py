@@ -50,6 +50,7 @@ def processDeanDistrict(link):
                             name = name.replace("Sch.P", "SchP")
                             name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
                             name = name.split("P.")[-1].strip()
+                            name = name.split("Mons.")[-1].strip()
                             if name == "":
                                 continue
                             papok.append({
@@ -68,9 +69,8 @@ def processDeanDistrict(link):
                 name = row.strip().split(" és")[0].split(":")[-1].strip()
                 name = name.replace("Sch.P.", "SchP")
                 name = name.split("P.")[1].strip()
+                name = name.split("Mons.")[-1].strip()
                 if not name in [p["name"] for p in papok]:
-                    print(name)
-
                     name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
                     if name == "":
                         continue
