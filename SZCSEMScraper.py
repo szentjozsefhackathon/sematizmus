@@ -32,7 +32,7 @@ def processDeanDistrict(link):
             if any(title+":" in row for title in titles):
                 try: 
                     papok.append({
-                                    "name": row.split(":")[1].strip(),
+                                    "name": row.split(":")[1].split("P.")[-1].strip(),
                                     "birth": None,
                                     "img": None,
                                     "src": link,
@@ -46,7 +46,7 @@ def processDeanDistrict(link):
             elif "P." in row:
                 try:
                     papok.append({
-                                    "name": row.split("P.")[1].strip(),
+                                    "name": row.split("P.")[-1].strip(),
                                     "birth": None,
                                     "img": None,
                                     "src": link,
@@ -57,7 +57,7 @@ def processDeanDistrict(link):
                                 })
                 except:
                     print(f"{link} - {row}")
-        return [p.split("P.")[-1].strip() for p in papok]
+        return papok
 
 
 def SZCSEM(filename=None, year=None):

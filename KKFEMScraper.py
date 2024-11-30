@@ -48,6 +48,7 @@ def processDeanDistrict(link):
                         try:
                             name = ember.split(":")[-1].strip().split(",")[0].strip()
                             name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
+                            name = name.split("P.")[-1].strip()
                             papok.append({
                                             "name": name,
                                             "birth": None,
@@ -75,7 +76,7 @@ def processDeanDistrict(link):
                                     "deacon": False,
                                     "retired": None
                                 })
-        return [p.split("P.")[-1].strip() for p in papok]
+        return papok
 
 
 def KKFEM(filename=None, year=None):
