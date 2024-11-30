@@ -27,16 +27,16 @@ def processDeanDistrict(link):
             if response.status_code == 200:
                 html_content = response.content
             else:
-                print("Failed to fetch the website.")
+                print(f"{link} - Failed to fetch the website.")
         except:
             try:
                 response = requests.get(link)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
-                    print("Failed to fetch the website.")
+                    print(f"{link} - Failed to fetch the website.")
             except:
-                print("Big error")
+                print(f"{link} - Big error")
                 return
 
         soup = BeautifulSoup(html_content, 'html.parser').get_text().splitlines()
@@ -47,6 +47,7 @@ def processDeanDistrict(link):
                     for ember in row.split(" és "):
                         try:
                             name = ember.split(":")[-1].strip().split(",")[0].strip()
+                            name = name.replace("Sch.P", "SchP")
                             name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
                             name = name.split("P.")[-1].strip()
                             if name == "":
@@ -65,8 +66,11 @@ def processDeanDistrict(link):
                             print(f"{link} - {row}")
             if "P." in row:
                 name = row.strip().split(" és")[0].split(":")[-1].strip()
-                if name not in [p["name"] for p in papok]:
-                    name = row.split("P.")[1].strip()
+                name = name.replace("Sch.P.", "SchP")
+                name = name.split("P.")[1].strip()
+                if not name in [p["name"] for p in papok]:
+                    print(name)
+
                     name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
                     if name == "":
                         continue
