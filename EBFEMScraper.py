@@ -193,7 +193,7 @@ def EBFEM(filename=None, year=None, appendHibas=True, headless = True):
 
     driver.execute_script("(async function() {while (isDataAvailable) {listmore(); await new Promise(r => setTimeout(r, 3000))}})()")
 
-    for i in tqdm(range(40)):
+    for i in tqdm(range(50)):
         time.sleep(1)
 
     soup = BeautifulSoup(driver.page_source, 'html.parser')

@@ -4,6 +4,7 @@ from EFEMScraper import EFEM
 from GYEMScraper import GYEM
 from KEMScraper import KEM
 from PEMScraper import PEM
+from SZCSEMScraper import SZCSEM
 from SZFVEMScraper import SZFVEM
 from SZHEMScraper import SZHEM
 from VEMScraper import VEM
@@ -26,7 +27,7 @@ def priestList(year, filename=None):
         "Székesfehérvári egyházmegye": SZFVEM(year=year),
         # "Kalocsa-Kecskeméti főegyházmegye": ,
         "Pécsi egyházmegye": PEM(year=year),
-        #"Szeged-Csanádi egyházmegye": ,
+        "Szeged-Csanádi egyházmegye": SZCSEM(year=year),
         "Egri főegyházmegye": EFEM(year=year),
         "Váci egyházmegye": VEM(year=year),
         "Debrecen-Nyíregyházi egyházmegye": DNYEM(year=year),
