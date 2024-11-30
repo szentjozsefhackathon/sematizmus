@@ -10,7 +10,7 @@ from selenium.webdriver.common.by import By
 import time
 import datetime
 from multiprocessing import Pool
-
+from mostPriests import mostPriests
 
 honapok = {
     "január": 1,
@@ -169,7 +169,7 @@ def processPriest(link, appendHibas):
                             }
             break
 
-
+@mostPriests(10)
 def EBFEM(filename=None, year=None, appendHibas=True, headless = True):
 
     url = 'https://www.esztergomi-ersekseg.hu/papsag'
