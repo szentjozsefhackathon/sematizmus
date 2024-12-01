@@ -4,7 +4,7 @@ import re
 from tqdm import tqdm
 import json
 import argparse
-import time
+import datetime
 from multiprocessing import Pool
 
 def processDeanDistrict(link):
@@ -110,6 +110,14 @@ def KKFEM(filename=None, year=None):
 
     paplista = sum([x for x in paplista if x is not None], [])
 
+    paplista.append({
+        "name": "Dr. Bábel Balázs",
+        "birth": datetime.date(1950,10,18),
+        "ordination": datetime.date(1976,6,19),
+        "bishop": True,
+        "src": "https://asztrik.hu/index.php/fopasztor",
+        "img": "https://asztrik.hu/sites/default/files/content/Babel_Balazs_ersek_2020_web.jpg"
+    })
     if filename == None:
         return paplista
     else:
