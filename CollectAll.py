@@ -17,6 +17,9 @@ from HdFEMScraper import HdFEM
 from MEMScraper import MEM
 from NYEMScraper import NYEM
 
+
+from SJScraper import SJ
+
 import json
 import argparse
 import numpy
@@ -39,7 +42,8 @@ def priestList(year, filename=None):
         "Miskolci egyházmegye": MEM(year=year),
         "Nyíregyházi egyházmegye": NYEM(year=year),
         #"Pannonhalmi területi főapátság": ,
-        "Katonai Ordinariátus": KO(year=year)
+        "Katonai Ordinariátus": KO(year=year),
+        "Jézus Társasága": SJ(year=year)
     }
 
     priests = []
@@ -55,7 +59,8 @@ def priestList(year, filename=None):
                 "ordination": priest.get("ordination"),
                 "retired": priest.get("retired"),
                 "bishop": priest.get("bishop"),
-                "deacon": priest.get("deacon")
+                "deacon": priest.get("deacon"),
+                "orderAbbreviation": priest.get("orderAbbreviation")
             })
 
     if filename == None:

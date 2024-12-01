@@ -71,7 +71,7 @@
                     columns: [
                         {
                             title: 'Név', data: 'name', render: (data, type, row) => {
-                                return row.src ? `<a href="${row.src}" target="_blank">${data}</a>` : data;
+                                return row.src ? `<a href="${row.src}" target="_blank">${data}${row.orderAbbreviation ? ' '+row.orderAbbreviation:''}</a>` : data;
                             }
                         },
                         { title: 'Egyházmegye', data: 'diocese' },
