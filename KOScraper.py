@@ -117,7 +117,7 @@ def KO(filename=None, year=None):
                         print(f'https://ktp.hu{pap} - {subrow}')
 
         paplista.append({
-            "name": name.title(), # A pap neve
+            "name": name.title().strip(), # A pap neve
             "img": imgSrc, # A kép linkje,
             "birth": birth,
             "ordination": ordination,
