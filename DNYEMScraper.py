@@ -127,10 +127,11 @@ def DNYEM(filename=None, year=None):
         name = " ".join([n for n in soup.select_one("#main article h1").text.split(" ") if n[0].isupper()])
         if name == "P. Maczák Béla MI":
             paplista.append({
-                "name": name,
+                "name": "Maczák Béla",
                 "birth": datetime.date(1980,5,16),
                 "img": imgSrc,
-                "src": pap
+                "src": pap,
+                "orderAbbreviation": "MI"
             })
             continue
         for sor in soup.select_one("#main table").findAll("tr"):
