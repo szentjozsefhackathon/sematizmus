@@ -5,6 +5,7 @@ from tqdm import tqdm
 import json
 import argparse
 import datetime
+from orderAbbreviation import orderAbbreviation
 honapok = {
     "január": 1,
     "február": 2,
@@ -36,7 +37,7 @@ def str2date(datum):
     datum = datum.replace(".", ". ").replace("  ", " ")
     reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
-
+@orderAbbreviation
 def GYEM(filename=None, year=None):
 
     url = 'https://gyor.egyhazmegye.hu/api/priest?limit=116&offset=0'

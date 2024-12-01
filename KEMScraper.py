@@ -5,6 +5,7 @@ from tqdm import tqdm
 import json
 import argparse
 import datetime
+from orderAbbreviation import orderAbbreviation
 honapok = {
     "jan": 1,
     "febr": 2,
@@ -33,7 +34,7 @@ def str2date(datum):
     reszek = [d.strip() for d in datum.split(".")]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
-
+@orderAbbreviation
 def KEM(filename=None, year=None):
     sources = [
         {

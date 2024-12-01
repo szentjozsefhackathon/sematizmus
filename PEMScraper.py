@@ -6,6 +6,7 @@ import json
 import argparse
 import datetime
 from tqdm.contrib.concurrent import process_map
+from orderAbbreviation import orderAbbreviation
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 honapok = {
@@ -74,7 +75,7 @@ def processPriest(link):
         }
 
 
-
+@orderAbbreviation
 def PEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'https://pecsiegyhazmegye.hu/egyhazmegye/papsag/papjaink'

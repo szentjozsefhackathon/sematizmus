@@ -6,6 +6,7 @@ import json
 import argparse
 import datetime
 from multiprocessing import Pool
+from orderAbbreviation import orderAbbreviation
 
 def processDeanDistrict(link):
         titles = ["Plébános", "Plébániai kormányzó", "Káplán", "Kisegítő lelkész", "Templomigazgató"]
@@ -59,7 +60,7 @@ def processDeanDistrict(link):
                     print(f"{link} - {row}")
         return papok
 
-
+@orderAbbreviation
 def SZCSEM(filename=None, year=None):
     deanDistricts = [
         "http://szeged-csanad.hu/szarvasi-esperesseg/", 

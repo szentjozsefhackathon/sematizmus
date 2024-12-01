@@ -6,6 +6,7 @@ import  json
 import argparse
 import datetime
 from multiprocessing import Pool
+from orderAbbreviation import orderAbbreviation
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
@@ -83,6 +84,8 @@ def processPriest(link, retired):
             print(e)
             print(link)
         return
+
+@orderAbbreviation
 def VEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'http://sematizmus.vaciegyhazmegye.hu/szemely.php?lista=cl'

@@ -6,6 +6,7 @@ import  json
 import argparse
 import datetime
 from tqdm.contrib.concurrent import process_map
+from orderAbbreviation import orderAbbreviation
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 honapok = {
@@ -102,7 +103,7 @@ def processPriest(link):
             "retired": "nyugállományban" in adatlapText,
             "ordination": szent
         }
-
+@orderAbbreviation
 def SZFVEM(filename=None, year=None):
     url = "https://www.szfvar.katolikus.hu/"
     papok = []

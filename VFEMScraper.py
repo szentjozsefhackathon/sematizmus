@@ -5,6 +5,7 @@ from tqdm import tqdm
 import  json
 import argparse
 import datetime
+from orderAbbreviation import orderAbbreviation
 
 honapok = {
     "január": 1,
@@ -38,6 +39,7 @@ def str2date(datum):
     reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
+@orderAbbreviation
 def VFEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'https://www.veszpremiersekseg.hu/papok/'

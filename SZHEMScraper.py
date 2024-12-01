@@ -6,6 +6,7 @@ import  json
 import argparse
 import datetime
 from tqdm.contrib.concurrent import process_map
+from orderAbbreviation import orderAbbreviation
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
@@ -91,6 +92,7 @@ def papkereso(link):
         
         return _papok
 
+@orderAbbreviation
 def SZHEM(filename=None, year=None):
     url = "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok?oldal="
     papok = []

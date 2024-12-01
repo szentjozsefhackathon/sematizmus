@@ -6,7 +6,7 @@ import json
 import argparse
 import datetime
 from multiprocessing import Pool
-
+from orderAbbreviation import orderAbbreviation
 def processDeanDistrict(link):
         titles = [
             ("Adminisztrátor", False), 
@@ -86,7 +86,7 @@ def processDeanDistrict(link):
                                 })
         return papok
 
-
+@orderAbbreviation
 def KKFEM(filename=None, year=None):
     deanDistricts = [
         "https://asztrik.hu/index.php/teruleti-beosztas/kalocsai-esperesi-kerulet",
