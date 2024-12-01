@@ -4,7 +4,7 @@ import re
 from tqdm import tqdm
 import json
 import argparse
-import time
+import datetime
 from multiprocessing import Pool
 
 def processDeanDistrict(link):
@@ -78,6 +78,20 @@ def SZCSEM(filename=None, year=None):
         paplista = p.map(processDeanDistrict, [(d) for d in deanDistricts])
 
     paplista = sum([x for x in paplista if x is not None], [])
+
+    paplista.append({
+        "name": "Dr. Kiss-Rigó László",
+        "birth": datetime.date(1955,4,6),
+        "ordination": datetime.date(1981,6,14),
+        "bishop": True,
+        "src": "https://hu.wikipedia.org/wiki/Kiss-Rig%C3%B3_L%C3%A1szl%C3%B3",
+        "img": "https://upload.wikimedia.org/wikipedia/commons/5/57/KissRigoLaszloFotoThalerTamas.JPG"
+    })
+
+    paplista.append({
+        "name": "Dr. Kovács József",
+        "src": "http://szeged-csanad.hu/puspoki-iroda/"
+    })
 
     if filename == None:
         return paplista
