@@ -60,7 +60,8 @@ def priestList(year, filename=None):
                 "retired": priest.get("retired"),
                 "bishop": priest.get("bishop"),
                 "deacon": priest.get("deacon"),
-                "orderAbbreviation": priest.get("orderAbbreviation")
+                "orderAbbreviation": priest.get("orderAbbreviation"),
+                "doctor": priest.get("doctor")
             })
 
     if filename == None:

@@ -5,7 +5,7 @@ from tqdm import tqdm
 import  json
 import argparse
 import datetime
-
+from deleteDr import deleteDr
 honapok = {
     "január": 1,
     "február": 2,
@@ -37,6 +37,7 @@ def str2date(datum):
     reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
+@deleteDr
 def KO(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'https://ktp.hu/js/ajax/listazo.php?url=lelkeszek%2Ftabori-lelkeszi-kar&fm=110&am=173'

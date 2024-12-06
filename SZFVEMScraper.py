@@ -6,6 +6,7 @@ import  json
 import argparse
 import datetime
 from tqdm.contrib.concurrent import process_map
+from deleteDr import deleteDr
 from orderAbbreviation import orderAbbreviation
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
@@ -103,6 +104,8 @@ def processPriest(link):
             "retired": "nyugállományban" in adatlapText,
             "ordination": szent
         }
+
+@deleteDr
 @orderAbbreviation
 def SZFVEM(filename=None, year=None):
     url = "https://www.szfvar.katolikus.hu/"

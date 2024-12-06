@@ -8,6 +8,8 @@ import datetime
 import re
 from tqdm.contrib.concurrent import process_map
 import urllib3
+from deleteDr import deleteDr
+
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 honapok = {
     "január": 1,
@@ -86,6 +88,7 @@ def processPriest(link):
             "retired": retired
         }
 
+@deleteDr
 def NYEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'https://www.nyirgorkat.hu/?q=papok&egyhazmegye=3&l=hu'

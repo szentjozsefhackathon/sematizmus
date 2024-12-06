@@ -6,6 +6,7 @@ import  json
 import argparse
 import datetime
 from orderAbbreviation import orderAbbreviation
+from deleteDr import deleteDr
 
 honapok = {
     "január": 1,
@@ -39,6 +40,7 @@ def str2date(datum):
     reszek = [d.split(".")[0].strip() for d in datum.strip().split(" ")]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
 
+@deleteDr
 @orderAbbreviation
 def VFEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape

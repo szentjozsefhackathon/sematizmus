@@ -35,7 +35,7 @@
                         href="https://github.com/szentjozsefhackathon/sematizmus">GitHubon</a> a fejlesztésbe
                     bekapcsolódni vágyókat.
                 </div>
-                <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok, ezekért felelősséget nem vállalunk!</div>
+                <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok, ezekért felelősséget nem vállalunk! Amennyiben az adatok gyanúsan hibásak, <a href="old/">ezen a linken</a> elérhető egy régebbi verzió</div>
                 <table id="datatable" class="stripe row-border hover"></table>
                 <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok, ezekért felelősséget nem vállalunk!</div>
             </div>
@@ -88,6 +88,7 @@
                                 if (row.retired) infok.push("Nyugalmazott")
                                 if (row.deacon) infok.push("Szerpap")
                                 if (row.bishop) infok.push("Püspök")
+                                if (row.doctor) infok.push("Dr.")
                                 return infok.join(", ");
                             }
                         }

@@ -7,6 +7,7 @@ import argparse
 import datetime
 from multiprocessing import Pool
 from orderAbbreviation import orderAbbreviation
+from deleteDr import deleteDr
 honapok = {
     "1": 1,
     "2": 2,
@@ -119,6 +120,8 @@ def papkereso(link, deacon=False):
 
             _papok.append({"url": pap.select_one("h2 a")["href"], "deacon": deacon})
         return _papok
+
+@deleteDr
 @orderAbbreviation
 def EFEM(filename=None, year=None):
     papok = []

@@ -7,6 +7,7 @@ import argparse
 import datetime
 from tqdm.contrib.concurrent import process_map
 from orderAbbreviation import orderAbbreviation
+from deleteDr import deleteDr
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
@@ -91,7 +92,7 @@ def papkereso(link):
             _papok.append("https://www.martinus.hu"+pap.select_one("a")["href"])
         
         return _papok
-
+@deleteDr
 @orderAbbreviation
 def SZHEM(filename=None, year=None):
     url = "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok?oldal="

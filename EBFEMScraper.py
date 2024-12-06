@@ -12,6 +12,7 @@ import datetime
 from multiprocessing import Pool
 from mostPriests import mostPriests
 from orderAbbreviation import orderAbbreviation
+from deleteDr import deleteDr
 
 honapok = {
     "január": 1,
@@ -169,7 +170,7 @@ def processPriest(link, appendHibas):
                                 "retired": retired
                             }
             break
-
+@deleteDr
 @orderAbbreviation
 @mostPriests(10)
 def EBFEM(filename=None, year=None, appendHibas=True, headless = True):

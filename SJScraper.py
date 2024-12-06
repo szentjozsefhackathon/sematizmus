@@ -6,6 +6,7 @@ import json
 import argparse
 import datetime
 from tqdm.contrib.concurrent import process_map
+from deleteDr import deleteDr
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
@@ -51,7 +52,7 @@ def processPriest(pap):
         }
 
 
-
+@deleteDr
 def SJ(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
     url = 'https://jezsuita.hu/api/api/portraits?status=ALIVE&type=PRIEST'

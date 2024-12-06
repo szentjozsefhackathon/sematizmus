@@ -6,6 +6,7 @@ import json
 import argparse
 import datetime
 from multiprocessing import Pool
+from deleteDr import deleteDr
 from orderAbbreviation import orderAbbreviation
 
 def processDeanDistrict(link):
@@ -60,6 +61,7 @@ def processDeanDistrict(link):
                     print(f"{link} - {row}")
         return papok
 
+@deleteDr
 @orderAbbreviation
 def SZCSEM(filename=None, year=None):
     deanDistricts = [

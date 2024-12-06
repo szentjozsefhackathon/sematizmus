@@ -6,6 +6,7 @@ import json
 import argparse
 import datetime
 from orderAbbreviation import orderAbbreviation
+from deleteDr import deleteDr
 import urllib3
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
@@ -82,6 +83,7 @@ def str2date(datum):
     datum = datum.replace(".", ". ").replace("  ", " ")
     reszek = [d.split(".")[0].strip() for d in datum.split(" ")]
     return datetime.date(int(reszek[0]), honapok[reszek[1]], int(reszek[2]))
+@deleteDr
 @orderAbbreviation
 def DNYEM(filename=None, year=None):
     url = 'https://www.dnyem.hu/papjaink/'

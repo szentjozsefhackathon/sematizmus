@@ -7,6 +7,8 @@ import argparse
 import datetime
 from multiprocessing import Pool
 from orderAbbreviation import orderAbbreviation
+from deleteDr import deleteDr
+
 def processDeanDistrict(link):
         titles = [
             ("Adminisztrátor", False), 
@@ -85,7 +87,7 @@ def processDeanDistrict(link):
                                     "retired": None
                                 })
         return papok
-
+@deleteDr
 @orderAbbreviation
 def KKFEM(filename=None, year=None):
     deanDistricts = [

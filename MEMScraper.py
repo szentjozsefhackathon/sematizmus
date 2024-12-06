@@ -6,6 +6,7 @@ import  json
 import argparse
 import datetime
 from multiprocessing import Pool
+from deleteDr import deleteDr
 
 def processPriest(link, deacon, retired):
         try: # Kétszeri próbálkozásra szokott menni
@@ -55,6 +56,7 @@ def processPriest(link, deacon, retired):
             "bishop": "Orosz Atanáz dr." in soup.select_one("h1.page-title").text
         }
 
+@deleteDr
 def MEM(filename=None, year=None):
     # Replace this with the URL of the website you want to scrape
 
