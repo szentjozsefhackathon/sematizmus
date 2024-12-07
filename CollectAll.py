@@ -19,6 +19,7 @@ from NYEMScraper import NYEM
 
 
 from SJScraper import SJ
+from SDBScraper import SDB
 
 import json
 import argparse
@@ -43,7 +44,8 @@ def priestList(year, filename=None):
         "Nyíregyházi egyházmegye": NYEM(year=year),
         #"Pannonhalmi területi főapátság": ,
         "Katonai Ordinariátus": KO(year=year),
-        "Jézus Társasága": SJ(year=year)
+        "Jézus Társasága": SJ(year=year),
+        "Szent Istvánról elnevezett Magyar Szalézi Tartomány": SDB(year=year)
     }
 
     priests = []

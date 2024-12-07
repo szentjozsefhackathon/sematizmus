@@ -7,6 +7,10 @@ def orderAbbreviation(wrapped_function):
         def _wrapper(*args, **kwargs):
             results = wrapped_function(*args, **kwargs)
             results = [r for r in results if not ("SJ" in r["name"] and not "SJP" in r["name"])]
+            deleteFromDiocese = ["SDB"]
+            for d in deleteFromDiocese:
+                results = [r for r in results if not d in r["name"]]
+
             new_results = []
             orderAbbreviations = ["SJP", "OFM Conv.", "OSB", "OP", "SDS", "SVD", "FSCB", "OSPPE", "FSO", "SDB", "OCD", "OH", "TORG", "SMC", "OFM", "MI", "CM"]
 
