@@ -7,6 +7,7 @@ def orderAbbreviation(wrapped_function):
         def _wrapper(*args, **kwargs):
             results = wrapped_function(*args, **kwargs)
             results = [r for r in results if not ("SJ" in r["name"] and not "SJP" in r["name"])]
+            results = [r for r in results if not(("SchP" in r["name"] or "SP" in r["name"] or "Sch. P" in r["name"] ) and not "OSPPE" in r["name"])]
             deleteFromDiocese = ["SDB"]
             for d in deleteFromDiocese:
                 results = [r for r in results if not d in r["name"]]
@@ -26,10 +27,6 @@ def orderAbbreviation(wrapped_function):
                 if "OFMCap" in r["name"] or "OFM Cap" in r["name"] or "OFM Cap." in r["name"]:
                     r["name"] = r["name"].replace("OFMCap", "").replace("OFM Cap.", "").replace("OFM Cap", "")
                     r["orderAbbreviation"] = "OFMCap"
-
-                if ("SchP" in r["name"] or "SP" in r["name"] or "Sch. P" in r["name"] ) and not "OSPPE" in r["name"]:
-                    r["name"] = r["name"].replace("SchP", "").replace("SP", "").replace("Sch. P", "")
-                    r["orderAbbreviation"] = "SP"
 
                 if "SChr." in r["name"]:
                     r["name"] = r["name"].replace("SChr.", "")
