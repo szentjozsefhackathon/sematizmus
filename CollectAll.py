@@ -66,7 +66,7 @@ def priestList(year, filename=None):
                 "orderAbbreviation": priest.get("orderAbbreviation"),
                 "doctor": priest.get("doctor")
             })
-    priests = deleteMultiplications(priests)
+
     if filename == None:
         return priests
     else:
