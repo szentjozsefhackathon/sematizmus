@@ -41,6 +41,9 @@ jobs:
       - name: Collect data with python
         run: python CollectAll.py --filename data.json
         shell: sh
+      - name: Delete multiplications
+        run: python deleteMultiplications.py
+        shell: sh
       - name: Last update
         run: python lastUpdate.py
         shell: sh

@@ -25,15 +25,6 @@ from SPScraper import SP
 import json
 import argparse
 
-def deleteMultiplications(priests):
-    with open("multiplications.json", "r") as infile:
-        multiplications = json.load(infile)
-    for multiplication in multiplications:
-        if multiplication[0] in priests:
-            for i in range(1, len(multiplication)):
-                if multiplication[i] in priests:
-                    priests.remove(multiplication[i])
-    return priests
 def priestList(year, filename=None): 
     _dioceses = {
         "Esztergom-Budapesti főegyházmegye": EBFEM(year=year),
