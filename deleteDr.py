@@ -17,6 +17,7 @@ def deleteDr(wrapped_function):
                     else:
                         r["doctor"] = False
                 r["name"] = r["name"].replace(", ", " ").replace("  ", " ").strip()
+                r["name"] = (" ".join([t for t in r["name"].split() if t.istitle()])).strip()
                 new_results.append(r)
                 
             return new_results
