@@ -10,8 +10,8 @@ def deleteMultiplications(priests):
                 if multiplication[i] in priests:
                     fields = ["birth", "ordination", "img"]
                     for f in fields:
-                        if multiplication[index][f] == None and multiplication[i][f] != None:
-                            multiplication[index][f] = multiplication[i][f]
+                        if priests[index][f] == None and multiplication[i][f] != None:
+                            priests[index][f] = multiplication[i][f]
                     priests.remove(multiplication[i])
     return priests
 
