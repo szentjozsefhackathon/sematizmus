@@ -108,7 +108,7 @@ def NYEM(filename=None, year=None):
     paplista = process_map(processPriest, papok)
 
     paplista = [pap for pap in paplista if pap != None]
-
+    paplista = list({v['src']:v for v in paplista}.values())
     if filename == None: return paplista
     else:
         with open(filename, "w") as outfile:

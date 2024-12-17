@@ -100,6 +100,7 @@ def MEM(filename=None, year=None):
         paplista = p.starmap(processPriest, papok)
     
     paplista = [p for p in paplista if p != None]
+    paplista = list({v['src']:v for v in paplista}.values())
 
     if filename == None: return paplista
     else:

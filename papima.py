@@ -5,11 +5,9 @@ def papima(datafile):
         priests = json.load(infile)
     
     priests.sort(key=lambda x: x["name"])
-    priests = list({v['src']:v for v in priests}.values())
 
-
-    priests = list(filter(lambda x:( "deacon" in x and x["deacon"] != True) or (not "deacon" in x), priests))
-
+    priests = list(filter(lambda x: x["deacon"]==None or x["deacon"]==False, priests))
+    print(len(priests))
     with open("papima.json", "w") as outfile:
         json.dump(priests, outfile, indent=4)
 
