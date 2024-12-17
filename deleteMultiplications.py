@@ -5,8 +5,13 @@ def deleteMultiplications(priests):
         multiplications = json.load(infile)
     for multiplication in multiplications:
         if multiplication[0] in priests:
+            index = priests.index(multiplication[0])
             for i in range(1, len(multiplication)):
                 if multiplication[i] in priests:
+                    fields = ["birth", "ordination", "img"]
+                    for f in fields:
+                        if multiplication[index][f] == None and multiplication[i][f] != None:
+                            multiplication[index][f] = multiplication[i][f]
                     priests.remove(multiplication[i])
     return priests
 

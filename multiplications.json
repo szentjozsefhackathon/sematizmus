@@ -334,5 +334,33 @@
             "orderAbbreviation": null,
             "doctor": true
         }
+    ],
+    [
+        {
+            "name": "Ocsovai Gr\u00e1ci\u00e1n",
+            "diocese": "Szeged-Csan\u00e1di egyh\u00e1zmegye",
+            "birth": null,
+            "img": null,
+            "src": "http://szeged-csanad.hu/szegedi-esperesseg/",
+            "ordination": null,
+            "retired": null,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": "OFM",
+            "doctor": false
+        },
+        {
+            "name": "Ocsovai G\u00e1bor Gr\u00e1ci\u00e1n",
+            "diocese": "Szombathelyi egyh\u00e1zmegye",
+            "birth": "1963-08-18",
+            "img": "https://www.martinus.hu/misc/directory/priests/86/ocsovai-gabor-gracian.jpg",
+            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/86/ocsovai-gabor-gracian-ofm",
+            "ordination": "1987-06-13",
+            "retired": false,
+            "bishop": false,
+            "deacon": null,
+            "orderAbbreviation": "OFM",
+            "doctor": false
+        }
     ]
 ]
