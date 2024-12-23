@@ -22,6 +22,9 @@ from SJScraper import SJ
 from SDBScraper import SDB
 from SPScraper import SP
 
+from ESZScraper import ESZ
+from KSZScraper import KSZ
+
 import json
 import argparse
 
@@ -46,7 +49,9 @@ def priestList(year, filename=None):
         "Katonai Ordinariátus": KO(year=year),
         "Jézus Társasága Magyarországi Rendtarománya": SJ(year=year),
         "Szent Istvánról elnevezett Magyar Szalézi Tartomány": SDB(year=year),
-        "Piarista Rend Magyar Tartománya": SP(year=year)
+        "Piarista Rend Magyar Tartománya": SP(year=year),
+        "Esztergomi Szeminárium": ESZ(year=year),
+        "Központi Szeminárium": KSZ(year=year)
     }
 
     priests = []
@@ -64,7 +69,8 @@ def priestList(year, filename=None):
                 "bishop": priest.get("bishop"),
                 "deacon": priest.get("deacon"),
                 "orderAbbreviation": priest.get("orderAbbreviation"),
-                "doctor": priest.get("doctor")
+                "doctor": priest.get("doctor"),
+                "seminarist": priest.get("seminarist")
             })
 
     if filename == None:
