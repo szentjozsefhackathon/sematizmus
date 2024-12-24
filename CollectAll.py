@@ -24,6 +24,7 @@ from SPScraper import SP
 
 from ESZScraper import ESZ
 from KSZScraper import KSZ
+from GKPIScraper import GKPI
 
 import json
 import argparse
@@ -51,7 +52,8 @@ def priestList(year, filename=None):
         "Szent Istvánról elnevezett Magyar Szalézi Tartomány": SDB(year=year),
         "Piarista Rend Magyar Tartománya": SP(year=year),
         "Esztergomi Szeminárium": ESZ(year=year),
-        "Központi Szeminárium": KSZ(year=year)
+        "Központi Szeminárium": KSZ(year=year),
+        "Görögkatolikus Papnevelő Intézet": GKPI(year=year)
     }
 
     priests = []
