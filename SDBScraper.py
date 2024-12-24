@@ -45,10 +45,16 @@ def processPriest(link):
         birth = None
         ordination = None
         for sor in soup.select_one("#szaleziak_detail").findAll("tr"): # Papi táblázat
-            if "Születési dátum" in sor.text: 
-                birth = str2date(sor.text.split(":")[1].strip())
+            if "Születési dátum" in sor.text:
+                try:
+                    birth = str2date(sor.text.split(":")[1].strip())
+                except:
+                    pass
             if "Szentelés" in sor.text:
-                ordination = str2date(sor.text.split(":")[1].strip())
+                try:
+                    ordination = str2date(sor.text.split(":")[1].strip())
+                except:
+                    pass
 
         return {
             "name": soup.select_one("#highSpan h4").text, # A pap neve
