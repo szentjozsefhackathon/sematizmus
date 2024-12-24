@@ -34,7 +34,7 @@ def processPriest(link):
 
         soup = BeautifulSoup(html_content, 'html.parser')
     
-        if not "szalézi szerzetes pap" in soup.text:
+        if not "szalézi szerzetes pap" in soup.text and not "szalézi szerzetesnövendék" in soup.text:
             return
 
         imgSrc = ""
@@ -56,7 +56,8 @@ def processPriest(link):
             "ordination": ordination,
             "img": imgSrc,
             "src": link,
-            "orderAbbreviation": "SDB"
+            "orderAbbreviation": "SDB",
+            "seminarist": "szalézi szerzetesnövendék" in soup.text
         }
 
 
