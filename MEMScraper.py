@@ -33,6 +33,8 @@ def processPriest(link, deacon, retired):
             imgSrc = "https://www.migorkat.hu" + soup.select_one("article.person img").get("src")
         except:
             pass
+        if imgSrc == "https://www.migorkat.hu/sites/default/files/styles/med_s2/public/default_images/priest-gray_0.png?itok=QPU_5OR9":
+            imgSrc = None
 
         birth = None
         ordination = None

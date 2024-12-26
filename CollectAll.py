@@ -66,7 +66,7 @@ def priestList(year, filename=None):
                 "name": priest["name"], 
                 "diocese": diocese, 
                 "birth": priest.get("birth"), 
-                "img": priest.get("img"),
+                "img": priest.get("img", "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png") or "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
                 "src": priest.get("src"),
                 "ordination": priest.get("ordination"),
                 "retired": priest.get("retired"),

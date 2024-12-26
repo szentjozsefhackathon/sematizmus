@@ -23,6 +23,8 @@ def GKPI(filename=None, year=None):
     kispaplista = []
     for kispap in soup.select(".entry-content .wp-block-column figure"):
         imgSrc = kispap.select_one("img").get("src")
+        if imgSrc == "https://szeminarium.gorogkatolikus.hu/wp-content/uploads/2023/03/john-doe.jpg":
+            imgSrc = None
         kispaplista.append({
             "name": kispap.select_one("figcaption").text.split(" (")[0],
             "img": imgSrc,

@@ -54,6 +54,8 @@ def processPriest(link):
             imgSrc = "https://hd.gorogkatolikus.hu/" + soup.select_one(".kep-terkep img").get("src")
         except:
             pass
+        if imgSrc == "https://hd.gorogkatolikus.hu/adattar/pap/nincs.jpg":
+            imgSrc = None
         name = soup.select_one(".aloldal_cim").text
         birth = None
         ordination = None

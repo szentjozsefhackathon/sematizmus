@@ -53,6 +53,9 @@ def processPriest(link):
             imgSrc = "https://pecsiegyhazmegye.hu" + soup.select_one(".item-page img").get("src")
         except:
             pass
+
+        if imgSrc == "https://pecsiegyhazmegye.hu/images/szemelyek/80417_lm.png":
+            imgSrc = None
         birth = None
         ordination = None
         for sor in soup.select_one(".kpriest-content-right table").findAll("tr"): # Papi táblázat

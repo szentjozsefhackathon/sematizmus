@@ -59,6 +59,9 @@ def processPriest(link):
             imgSrc = "https://www.martinus.hu" + soup.select_one(".content img").get("src")
         except:
             pass
+
+        if imgSrc == "https://www.martinus.hu/images/caritas-in-veritate.png":
+            imgSrc = None
         birth = None
         ordination = None
 
