@@ -49,7 +49,7 @@ def priestList(year, filename=None):
         "Nyíregyházi egyházmegye": NYEM(year=year),
         #"Pannonhalmi területi főapátság": ,
         "Katonai Ordinariátus": KO(year=year),
-        "Jézus Társasága Magyarországi Rendtarománya": SJ(year=year),
+        "Jézus Társasága Magyarországi Rendtartománya": SJ(year=year),
         "Szent Istvánról elnevezett Magyar Szalézi Tartomány": SDB(year=year),
         "Piarista Rend Magyar Tartománya": SP(year=year),
         "Esztergomi Szeminárium": ESZ(year=year),
