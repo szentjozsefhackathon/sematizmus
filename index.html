@@ -22,29 +22,47 @@
             <h1 class="display-5 fw-bold text-body-emphasis">Sematizmus - Magyarország</h1>
             <div class="col-lg-8 mx-auto">
                 <p class="lead mb-4">Magyarország római- és görögkatolikus egyházmegyéinek, katonai ordinariátusának
-                    papjait, diakónusait és papnövendékeit hivatott összegyűjteni ez az oldal a honlapokon fellelhető adatok alapján.</p>
-                <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok, ezekért felelősséget nem vállalunk!</div>
+                    papjait, diakónusait és papnövendékeit hivatott összegyűjteni ez az oldal a honlapokon fellelhető
+                    adatok alapján.</p>
+                <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok,
+                    ezekért felelősséget nem vállalunk!
+                    A hibák bejelenthetők a <span>voroslaszlo@papima<b style="display: none">.example</b>.hu</span>
+                    email címen.
+                </div>
                 <div class="alert alert-warning">Az egyházmegyék honlapja folyamatos feldolgozás alatt áll a <a
                         href="https://github.com/szentjozsefhackathon/sematizmus">GitHubon</a> elérhető bányász
-                    szkriptek segítségével. 
+                    szkriptek segítségével.
                     A <b>Pannonhalmi Területi Főapátság</b>
                     papjai hiányoznak az <b>adatok hiánya miatt.</b>
                     A kinyert adatok elérhetőek <a href="data.json">ezen a linken.</a>
+                </div>
+                <div class="alert alert-primary">
+                    <h5>PapIma</h5>
+                    Ha szeretnél imádkozni a papokért, akkor a <a href="https://papima.hu">PapIma</a> segítséget nyújt.
                 </div>
                 <div class="alert alert-success">Várjuk a <a
                         href="https://github.com/szentjozsefhackathon/sematizmus">GitHubon</a> a fejlesztésbe
                     bekapcsolódni vágyókat.
                 </div>
-                <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok, ezekért felelősséget nem vállalunk! Amennyiben az adatok gyanúsan hibásak, <a href="old/">ezen a linken</a> elérhető egy régebbi verzió</div>
+                <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok,
+                    ezekért felelősséget nem vállalunk! Amennyiben az adatok gyanúsan hibásak, <a href="old/">ezen a
+                        linken</a> elérhető egy régebbi verzió.
+                    A hibák bejelenthetők a <span>voroslaszlo@papima<b style="display: none">.example</b>.hu</span>
+                    email címen.
+                </div>
                 <table id="datatable" class="stripe row-border hover"></table>
-                <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok, ezekért felelősséget nem vállalunk!</div>
+                <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok,
+                    ezekért felelősséget nem vállalunk!
+                    A hibák bejelenthetők a <span>voroslaszlo@papima<b style="display: none">.example</b>.hu</span>
+                    email címen.
+                </div>
             </div>
         </div>
     </div>
     <center><strong>Készítette: Vörös László.<br />További információ, forráskód, és bekapcsolódási
             lehetőség:<br /> <a
                 href="https://github.com/szentjozsefhackathon/sematizmus">github.com/szentjozsefhackathon/sematizmus</a></strong><br />
-            <strong>Utolsó frissítés <span id="lastUpdate"></span></strong>
+        <strong>Utolsó frissítés <span id="lastUpdate"></span></strong>
     </center>
     <script>
 
@@ -71,7 +89,7 @@
                     columns: [
                         {
                             title: 'Név', data: 'name', render: (data, type, row) => {
-                                return row.src ? `<a href="${row.src}" target="_blank">${data}${row.orderAbbreviation ? ' '+row.orderAbbreviation:''}</a>` : data;
+                                return row.src ? `<a href="${row.src}" target="_blank">${data}${row.orderAbbreviation ? ' ' + row.orderAbbreviation : ''}</a>` : data;
                             }
                         },
                         { title: 'Egyházmegye', data: 'diocese' },
