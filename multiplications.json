@@ -1,6 +1,66 @@
 [
     [
         {
+            "name": "B\u00e1lint Mih\u00e1ly G\u00e1bor",
+            "diocese": "Katonai Ordinari\u00e1tus",
+            "birth": "1984-09-29",
+            "img": "https://ktp.hu/uploads/content/207/kepek/c_13-balint-mihaly-gabor-(2).jpg",
+            "src": "https://ktp.hu/lelkeszek/tabori-lelkeszi-kar/balint-mihaly-gabor",
+            "ordination": "2011-06-29",
+            "retired": null,
+            "bishop": false,
+            "deacon": null,
+            "orderAbbreviation": null,
+            "doctor": false,
+            "seminarist": null
+        },
+        {
+            "name": "B\u00e1lint Mih\u00e1ly",
+            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
+            "birth": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
+            "src": "https://www.esztergomi-ersekseg.hu/papsag/balint-mihaly",
+            "ordination": null,
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": null,
+            "doctor": false,
+            "seminarist": null
+        }        
+    ],
+    [
+        {
+            "name": "Nagy Ferenc Endre",
+            "diocese": "Katonai Ordinari\u00e1tus",
+            "birth": "1978-01-15",
+            "img": "https://ktp.hu/uploads/content/206/kepek/c_nagy-ferenc-endre-szds.-(2).jpg",
+            "src": "https://ktp.hu/lelkeszek/tabori-lelkeszi-kar/nagy-ferenc-endre",
+            "ordination": "2006-02-04",
+            "retired": null,
+            "bishop": false,
+            "deacon": null,
+            "orderAbbreviation": null,
+            "doctor": false,
+            "seminarist": null
+        },
+        {
+            "name": "Nagy Ferenc Endre",
+            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
+            "birth": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
+            "src": "https://www.esztergomi-ersekseg.hu/papsag/nagy-ferenc-endre",
+            "ordination": null,
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": null,
+            "doctor": false,
+            "seminarist": null
+        }        
+    ],
+    [
+        {
             "name": "P\u00e1l D\u00e1niel Csaba",
             "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
             "birth": null,
