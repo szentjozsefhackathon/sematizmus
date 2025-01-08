@@ -1,6 +1,156 @@
 [
     [
         {
+            "name": "Sz\u00e1sz P\u00e1l Zsombor",
+            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
+            "birth": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
+            "src": "https://www.esztergomi-ersekseg.hu/papsag/szasz-pal-zsombor-ofm",
+            "ordination": null,
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": "OFM",
+            "doctor": false,
+            "seminarist": null
+        },
+        {
+            "name": "Sz\u00e1sz P\u00e1l Zsombor",
+            "diocese": "Szombathelyi egyh\u00e1zmegye",
+            "birth": "1975-04-24",
+            "img": "https://www.martinus.hu/misc/directory/priests/136/szasz-zsombor1.jpg",
+            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/136/szasz-pal-zsombor-ofm",
+            "ordination": "2003-06-28",
+            "retired": false,
+            "bishop": false,
+            "deacon": null,
+            "orderAbbreviation": "OFM",
+            "doctor": false,
+            "seminarist": null
+        }
+    ],
+    [
+        {
+            "name": "Hancz G\u00e1bor Tam\u00e1s",
+            "diocese": "Gy\u0151ri egyh\u00e1zmegye",
+            "birth": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
+            "src": "https://gyor.egyhazmegye.hu/#/egyhazmegyenk/papok/46",
+            "ordination": null,
+            "retired": false,
+            "bishop": false,
+            "deacon": null,
+            "orderAbbreviation": "OPraem",
+            "doctor": false,
+            "seminarist": null
+        },
+        {
+            "name": "Hancz G\u00e1bor Tam\u00e1s",
+            "diocese": "Szombathelyi egyh\u00e1zmegye",
+            "birth": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
+            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/140/hancz-gabor-tamas-opraem",
+            "ordination": null,
+            "retired": false,
+            "bishop": false,
+            "deacon": null,
+            "orderAbbreviation": "OPraem",
+            "doctor": false,
+            "seminarist": null
+        }
+    ],
+    [
+        {
+            "name": "P\u00e1l D\u00e1niel Csaba",
+            "diocese": "Kalocsa-Kecskem\u00e9ti f\u0151egyh\u00e1zmegye",
+            "birth": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
+            "src": "https://asztrik.hu/index.php/teruleti-beosztas/felegyhazi-esperesi-kerulet",
+            "ordination": null,
+            "retired": null,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": "OSPPE",
+            "doctor": false,
+            "seminarist": null
+        },
+        {
+            "name": "P\u00e1l D\u00e1niel Csaba",
+            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
+            "birth": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
+            "src": "https://www.esztergomi-ersekseg.hu/papsag/pal-daniel-csaba-osppe",
+            "ordination": null,
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": "OSPPE",
+            "doctor": false,
+            "seminarist": null
+        }
+    ],
+    [
+        {
+            "name": "Martos Levente Bal\u00e1zs",
+            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
+            "birth": 1973,
+            "img": "https://www.esztergomi-ersekseg.hu/uploads/nevtar/3499/kepek/c_martos-puspok-atya.jpg",
+            "src": "https://www.esztergomi-ersekseg.hu/papsag/dr-martos-levente-balazs",
+            "ordination": "1998-06-27",
+            "retired": false,
+            "bishop": true,
+            "deacon": false,
+            "orderAbbreviation": null,
+            "doctor": true,
+            "seminarist": null
+        },
+        {
+            "name": "Martos Levente Bal\u00e1zs",
+            "diocese": "Szombathelyi egyh\u00e1zmegye",
+            "birth": "1973-11-18",
+            "img": "https://www.martinus.hu/misc/directory/priests/73/martos-levente-balazs.jpg",
+            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/73/martos-levente-balazs-dr",
+            "ordination": "1998-06-27",
+            "retired": false,
+            "bishop": false,
+            "deacon": null,
+            "orderAbbreviation": null,
+            "doctor": true,
+            "seminarist": null
+        }
+    ],
+    [
+        {
+            "name": "Balogh P\u00e9ter Piusz",
+            "diocese": "V\u00e1ci egyh\u00e1zmegye",
+            "birth": null,
+            "img": "http://sematizmus.vaciegyhazmegye.hu/mcp.php?id=2191",
+            "src": "http://sematizmus.vaciegyhazmegye.hu/szemely.php?id=5027",
+            "ordination": null,
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": "OPraem",
+            "doctor": false,
+            "seminarist": null
+        },
+        {
+            "name": "Balogh P\u00e9ter Piusz",
+            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
+            "birth": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
+            "src": "https://www.esztergomi-ersekseg.hu/papsag/balogh-petear-piusz-o-praem",
+            "ordination": null,
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": "OPraem",
+            "doctor": false,
+            "seminarist": null
+        }    
+    ],
+    [
+        {
             "name": "Pusk\u00e1s Attila",
             "diocese": "P\u00e9csi egyh\u00e1zmegye",
             "birth": "1965-05-14",
@@ -91,62 +241,6 @@
     ],
     [
         {
-            "name": "P\u00e1l D\u00e1niel Csaba",
-            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
-            "birth": null,
-            "img": "https://www.esztergomi-ersekseg.hu/design/img/profile-img.jpg",
-            "src": "https://www.esztergomi-ersekseg.hu/papsag/pal-daniel-csaba-osppe",
-            "ordination": null,
-            "retired": false,
-            "bishop": false,
-            "deacon": false,
-            "orderAbbreviation": "OSPPE",
-            "doctor": false
-        },
-        {
-            "name": "P\u00e1l D\u00e1niel Csaba",
-            "diocese": "Kalocsa-Kecskem\u00e9ti f\u0151egyh\u00e1zmegye",
-            "birth": null,
-            "img": null,
-            "src": "https://asztrik.hu/index.php/teruleti-beosztas/felegyhazi-esperesi-kerulet",
-            "ordination": null,
-            "retired": null,
-            "bishop": false,
-            "deacon": false,
-            "orderAbbreviation": "OSPPE",
-            "doctor": false
-        }
-    ],
-    [
-        {
-            "name": "Balogh P\u00e9ter Piusz",
-            "diocese": "V\u00e1ci egyh\u00e1zmegye",
-            "birth": null,
-            "img": "http://sematizmus.vaciegyhazmegye.hu/mcp.php?id=2191",
-            "src": "http://sematizmus.vaciegyhazmegye.hu/szemely.php?id=5027",
-            "ordination": null,
-            "retired": false,
-            "bishop": false,
-            "deacon": false,
-            "orderAbbreviation": "OPraem",
-            "doctor": false
-        },
-        {
-            "name": "Balogh P\u00e9ter Piusz",
-            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
-            "birth": null,
-            "img": "https://www.esztergomi-ersekseg.hu/design/img/profile-img.jpg",
-            "src": "https://www.esztergomi-ersekseg.hu/papsag/balogh-petear-piusz-o-praem",
-            "ordination": null,
-            "retired": false,
-            "bishop": false,
-            "deacon": false,
-            "orderAbbreviation": "OPraem",
-            "doctor": false
-        }
-    ],
-    [
-        {
             "name": "Linczenbold Levente",
             "diocese": "Debrecen-Ny\u00edregyh\u00e1zi egyh\u00e1zmegye",
             "birth": "1966-05-29",
@@ -175,34 +269,6 @@
     ],
     [
         {
-            "name": "Hancz G\u00e1bor Tam\u00e1s",
-            "diocese": "Szombathelyi egyh\u00e1zmegye",
-            "birth": null,
-            "img": "https://www.martinus.hu/images/caritas-in-veritate.png",
-            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/140/hancz-gabor-tamas-opraem",
-            "ordination": null,
-            "retired": false,
-            "bishop": false,
-            "deacon": null,
-            "orderAbbreviation": "OPraem",
-            "doctor": false
-        },
-        {
-            "name": "Hancz G\u00e1bor Tam\u00e1s",
-            "diocese": "Gy\u0151ri egyh\u00e1zmegye",
-            "birth": null,
-            "img": null,
-            "src": "https://gyor.egyhazmegye.hu/#/egyhazmegyenk/papok/46",
-            "ordination": null,
-            "retired": false,
-            "bishop": false,
-            "deacon": null,
-            "orderAbbreviation": "OPraem",
-            "doctor": false
-        }
-    ],
-    [
-        {
             "name": "Flisz\u00e1r K\u00e1roly",
             "diocese": "Kaposv\u00e1ri egyh\u00e1zmegye",
             "birth": "1950-08-07",
@@ -219,14 +285,15 @@
             "name": "Flisz\u00e1r K\u00e1roly",
             "diocese": "Szombathelyi egyh\u00e1zmegye",
             "birth": "1950-08-07",
-            "img": "https://www.martinus.hu/images/caritas-in-veritate.png",
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
             "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/156/fliszar-karoly",
             "ordination": "1975-06-29",
             "retired": false,
             "bishop": false,
             "deacon": null,
             "orderAbbreviation": null,
-            "doctor": false
+            "doctor": false,
+            "seminarist": null
         }
     ],
     [
@@ -275,14 +342,15 @@
             "name": "T\u00f3th Ferenc",
             "diocese": "Hajd\u00fadorogi f\u0151egyh\u00e1zmegye",
             "birth": "1970-08-29",
-            "img": "https://hd.gorogkatolikus.hu/adattar/pap/nincs.jpg",
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
             "src": "https://hd.gorogkatolikus.hu/adattar-pap/Toth-Ferenc-1970",
             "ordination": "1994-08-07",
             "retired": false,
             "bishop": false,
             "deacon": false,
             "orderAbbreviation": null,
-            "doctor": false
+            "doctor": false,
+            "seminarist": null
         }
     ],
     [
@@ -381,7 +449,8 @@
             "bishop": false,
             "deacon": null,
             "orderAbbreviation": null,
-            "doctor": true
+            "doctor": true,
+            "seminarist": null
         },
         {
             "name": "\u00cdr\u00f3 S\u00e1ndor",
@@ -394,35 +463,8 @@
             "bishop": false,
             "deacon": null,
             "orderAbbreviation": null,
-            "doctor": true
-        }
-    ],
-    [
-        {
-            "name": "Martos Levente Bal\u00e1zs",
-            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
-            "birth": 1973,
-            "img": "https://www.esztergomi-ersekseg.hu/uploads/nevtar/3499/kepek/c_martos-puspok-atya.jpg",
-            "src": "https://www.esztergomi-ersekseg.hu/papsag/dr-martos-levente-balazs",
-            "ordination": "1998-06-27",
-            "retired": false,
-            "bishop": true,
-            "deacon": false,
-            "orderAbbreviation": null,
-            "doctor": true
-        },
-        {
-            "name": "Martos Levente Bal\u00e1zs",
-            "diocese": "Szombathelyi egyh\u00e1zmegye",
-            "birth": "1973-11-18",
-            "img": "https://www.martinus.hu/misc/directory/priests/73/martos-levente-balazs.jpg",
-            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/73/martos-levente-balazs-dr",
-            "ordination": "1998-06-27",
-            "retired": false,
-            "bishop": false,
-            "deacon": null,
-            "orderAbbreviation": null,
-            "doctor": true
+            "doctor": true,
+            "seminarist": null
         }
     ],
     [
@@ -430,14 +472,15 @@
             "name": "Ocsovai Gr\u00e1ci\u00e1n",
             "diocese": "Szeged-Csan\u00e1di egyh\u00e1zmegye",
             "birth": null,
-            "img": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
             "src": "http://szeged-csanad.hu/szegedi-esperesseg/",
             "ordination": null,
             "retired": null,
             "bishop": false,
             "deacon": false,
             "orderAbbreviation": "OFM",
-            "doctor": false
+            "doctor": false,
+            "seminarist": null
         },
         {
             "name": "Ocsovai G\u00e1bor Gr\u00e1ci\u00e1n",
