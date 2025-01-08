@@ -1,6 +1,36 @@
 [
     [
         {
+            "name": "Pusk\u00e1s Attila",
+            "diocese": "P\u00e9csi egyh\u00e1zmegye",
+            "birth": "1965-05-14",
+            "img": "https://pecsiegyhazmegye.hu/images/szemelyek/80668_puskas_attila.jpg",
+            "src": "https://pecsiegyhazmegye.hu/papsag/szemely/1063",
+            "ordination": "1990-06-16",
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": null,
+            "doctor": true,
+            "seminarist": null
+        },
+        {
+            "name": "Pusk\u00e1s Attila",
+            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
+            "birth": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
+            "src": "https://www.esztergomi-ersekseg.hu/papsag/puskas-attila-dr-",
+            "ordination": null,
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": null,
+            "doctor": true,
+            "seminarist": null
+        }
+    ],
+    [
+        {
             "name": "B\u00e1lint Mih\u00e1ly G\u00e1bor",
             "diocese": "Katonai Ordinari\u00e1tus",
             "birth": "1984-09-29",
