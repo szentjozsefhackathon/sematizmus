@@ -137,6 +137,7 @@ def processPriest(link, appendHibas):
             img = "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src")
             if img == "https://www.esztergomi-ersekseg.hu/design/img/profile-img.jpg":
                 img = None
+            
             if szul == 0:
                 print(f"{link} - Születés nem található")
                 if appendHibas: return {
@@ -164,7 +165,7 @@ def processPriest(link, appendHibas):
                 return {
                                 "name": nev,
                                 "birth": szul if szulev<szentev else None,
-                                "img": "https://www.esztergomi-ersekseg.hu" + soup.select_one(".adatlap img").get("src"),
+                                "img": img,
                                 "src": link,
                                 "ordination": szent,
                                 "bishop": bishop,
