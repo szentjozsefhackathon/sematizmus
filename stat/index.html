@@ -118,8 +118,20 @@
         <canvas id="birthCanvas"></canvas>
         <h1 id="ordinationLabel" style="display: none">Élő papok és diakónusok adott szentelési évből</h1>
         <canvas id="ordinationCanvas"></canvas>
-        <h1 id="ordinationAgeLabel" style="display: none">Élő papok és diakónusok átlagéletkora adott szentelési évből</h1>
+        <h1 id="ordinationAgeLabel" style="display: none">Élő papok és diakónusok átlagéletkora adott szentelési évben</h1>
         <canvas id="ordinationAgeCanvas"></canvas>
+        <h1 id="priestBirthLabel" style="display: none">Élő papok adott születési évből</h1>
+        <canvas id="priestBirthCanvas"></canvas>
+        <h1 id="priestOrdinationLabel" style="display: none">Élő papok adott szentelési évből</h1>
+        <canvas id="priestOrdinationCanvas"></canvas>
+        <h1 id="priestOrdinationAgeLabel" style="display: none">Élő papok átlagéletkora adott szentelési évben</h1>
+        <canvas id="priestOrdinationAgeCanvas"></canvas>
+        <h1 id="deaconBirthLabel" style="display: none">Élő diakónusok adott születési évből</h1>
+        <canvas id="deaconBirthCanvas"></canvas>
+        <h1 id="deaconOrdinationLabel" style="display: none">Élő diakónusok adott szentelési évből</h1>
+        <canvas id="deaconOrdinationCanvas"></canvas>
+        <h1 id="deaconOrdinationAgeLabel" style="display: none">Élő diakónusok átlagéletkora adott szentelési évben</h1>
+        <canvas id="deaconOrdinationAgeCanvas"></canvas>
     </div>
 
     <center><strong>Készítette: Vörös László.<br />További információ, forráskód, és bekapcsolódási
@@ -161,9 +173,12 @@
                         return;
                     }
 
-                    const datatypes = ['birth', 'ordination', 'ordinationAge'];
+                    const datatypes = ['birth', 'ordination', 'ordinationAge', "priestBirth", "priestOrdination", "priestOrdinationAge", "deaconBirth", "deaconOrdination", "deaconOrdinationAge"];
 
                     datatypes.forEach(datatype => {
+                        if (graphs[datatype]) {
+                            graphs[datatype].destroy();
+                        }
                         if (!selectedData[datatype]) {
                             document.getElementById(datatype + 'Label').style.display = 'none';
                             return;
@@ -174,10 +189,6 @@
                         // Chart.js grafikon generálása
                         const ctx = document.getElementById(datatype + 'Canvas').getContext('2d');
                         document.getElementById(datatype + 'Label').style.display = 'block';
-                        if (graphs[datatype]) {
-                            console.log('Destroying old chart');
-                            graphs[datatype].destroy();
-                        }
 
                         graphs[datatype] = new Chart(ctx, {
                             type: 'bar',
