@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Statisztikák a papokról és diakónusokról - születési év és szentelési év alapján egyházmegyénkénti bontásban</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <link href="https://cdn.datatables.net/v/dt/dt-1.13.6/cr-1.7.0/fc-4.3.0/datatables.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.6/cr-1.7.0/fc-4.3.0/datatables.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+    <style>
+        .highlight-data {
+            text-decoration: underline;
+        }
+
+        .badge.even-larger-badge {
+            font-size: 1.1em;
+        }
+
+        th,
+        td {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        #datatable_wrapper {
+            overflow-x: scroll;
+        }
+
+        #sections .container {
+            margin-top: 4em
+        }
+
+        #sections .container h2 {
+            text-align: center
+        }
+
+        .diocese-tooltip {
+            text-align: center;
+            background-color: transparent;
+            color: Black;
+            text-shadow: 1px 1px #ffffff;
+            font-size: large;
+            font-weight: bold;
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+
+    <style>
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+        .legend {
+            text-align: left;
+            line-height: 18px;
+            color: #555;
+        }
+
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <script>var sections = [];</script>
+    <div class="container">
+        <div class="px-4 py-5 my-5 text-center">
+            <h1 class="display-5 fw-bold text-body-emphasis">Statisztikák a papokról és diakónusokról - születési év és szentelési év
+                alapján egyházmegyénkénti bontásban</h1>
+            <div class="col-lg-8 mx-auto">
+                <p class="lead mb-4">A statisztika a <a href="https://szentjozsefhackathon.github.io/sematizmus">
+                        sematizmus adatainak feldolgozásával készül</a></p>
+            </div>
+        </div>
+        <h1>Forrás kiválasztása</h1>
+        <label for="sourceSelector">Válasszon forrást:</label>
+        <select id="sourceSelector">
+            <option value="">Válasszon...</option>
+        </select>
+
+        <h1 id="birthLabel" style="display: none">Élő papok és diakónusok adott születési évből</h1>
+        <canvas id="birthCanvas"></canvas>
+        <h1 id="ordinationLabel" style="display: none">Élő papok és diakónusok adott szentelési évből</h1>
+        <canvas id="ordinationCanvas"></canvas>
+        <h1 id="ordinationAgeLabel" style="display: none">Élő papok és diakónusok átlagéletkora adott szentelési évből</h1>
+        <canvas id="ordinationAgeCanvas"></canvas>
+    </div>
+
+    <center><strong>Készítette: Vörös László.<br />További információ, forráskód, és bekapcsolódási
+            lehetőség:<br /> <a
+                href="https://github.com/szentjozsefhackathon/sematizmus">github.com/szentjozsefhackathon/sematizmus</a></strong>
+    </center>
+
+
+    <script>
+        const graphs = {}
+
+        $(document).ready(function () {
+            const jsonUrl = 'stats.json'; // Az adatokat tartalmazó JSON fájl elérési útja
+            
+            let chartInstance = null;
+
+            // JSON betöltése
+            $.getJSON(jsonUrl, function (data) {
+                // Drop-down feltöltése
+                const sourceSelector = $('#sourceSelector');
+                for (const source in data) {
+                    sourceSelector.append(new Option(source, source));
+                }
+
+                // Forrás kiválasztásának kezelése
+                sourceSelector.change(function () {
+                    const selectedSource = $(this).val();
+
+                    if (!selectedSource) {
+                        alert('Kérjük, válasszon ki egy forrást!');
+                        return;
+                    }
+
+                    // Adatok kinyerése a kiválasztott forrásból
+                    const selectedData = data[selectedSource];
+
+                    if (!selectedData) {
+                        alert('Nincs adat ehhez a forráshoz.');
+                        return;
+                    }
+
+                    const datatypes = ['birth', 'ordination', 'ordinationAge'];
+
+                    datatypes.forEach(datatype => {
+                        if (!selectedData[datatype]) {
+                            document.getElementById(datatype + 'Label').style.display = 'none';
+                            return;
+                        }
+                        const labels = Object.keys(selectedData[datatype]);
+                        const values = Object.values(selectedData[datatype]);
+
+                        // Chart.js grafikon generálása
+                        const ctx = document.getElementById(datatype + 'Canvas').getContext('2d');
+                        document.getElementById(datatype + 'Label').style.display = 'block';
+                        if (graphs[datatype]) {
+                            console.log('Destroying old chart');
+                            graphs[datatype].destroy();
+                        }
+
+                        graphs[datatype] = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: '',
+                                    data: values,
+                                    backgroundColor: 'rgba(75, 192, 192, 1)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    });
+
+                });
+            }).fail(function () {
+                alert('Hiba történt a JSON fájl betöltésekor.');
+            });
+        });
+
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

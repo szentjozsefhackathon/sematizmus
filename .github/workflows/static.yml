@@ -50,6 +50,9 @@ jobs:
       - name: Gererate papima
         run: python papima.py
         shell: sh
+      - name: Generate stats
+        run: python stats.py
+        shell: sh
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact

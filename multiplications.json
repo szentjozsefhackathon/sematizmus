@@ -1,6 +1,36 @@
 [
     [
         {
+            "name": "Varga J\u00f3zsef Kamill",
+            "diocese": "Egri f\u0151egyh\u00e1zmegye",
+            "birth": "1974-07-24",
+            "img": "https://eger.egyhazmegye.hu/uploads/pap//small_RM2Er0.jpg",
+            "src": "https://eger.egyhazmegye.hu/hitelet/pap/varga-jozsef-kamill-ofm",
+            "ordination": "2000-06-24",
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": "OFM",
+            "doctor": false,
+            "seminarist": null
+        },
+        {
+            "name": "Varga Kamill",
+            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
+            "birth": null,
+            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
+            "src": "https://www.esztergomi-ersekseg.hu/papsag/varga-kamill-ofm",
+            "ordination": null,
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": "OFM",
+            "doctor": false,
+            "seminarist": null
+        }
+    ],
+    [
+        {
             "name": "Papp D\u00e1vid",
             "diocese": "K\u00f6zponti Szemin\u00e1rium",
             "birth": null,
@@ -177,7 +207,7 @@
             "orderAbbreviation": "OPraem",
             "doctor": false,
             "seminarist": null
-        }    
+        }
     ],
     [
         {
@@ -237,7 +267,7 @@
             "orderAbbreviation": null,
             "doctor": false,
             "seminarist": null
-        }        
+        }
     ],
     [
         {
@@ -267,7 +297,7 @@
             "orderAbbreviation": null,
             "doctor": false,
             "seminarist": null
-        }        
+        }
     ],
     [
         {
@@ -297,7 +327,7 @@
             "orderAbbreviation": null,
             "doctor": true,
             "seminarist": null
-        }      
+        }
     ],
     [
         {
