@@ -1,6 +1,36 @@
 [
     [
         {
+            "name": "Sz\u00e1sz Gyula",
+            "diocese": "Kaposv\u00e1ri egyh\u00e1zmegye",
+            "birth": "1971-09-26",
+            "img": "https://kaposvar.egyhazmegye.hu/images/Papok2024/Szasz_Gyula.jpg",
+            "src": "https://kaposvar.egyhazmegye.hu/index.php/papok/aktiv-papok",
+            "ordination": "1997-07-05",
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": null,
+            "doctor": false,
+            "seminarist": null
+        },
+        {
+            "name": "Sz\u00e1sz Gyula",
+            "diocese": "V\u00e1ci egyh\u00e1zmegye",
+            "birth": null,
+            "img": "http://sematizmus.vaciegyhazmegye.hu/mcp.php?id=140",
+            "src": "http://sematizmus.vaciegyhazmegye.hu/szemely.php?id=184",
+            "ordination": "1997-07-05",
+            "retired": false,
+            "bishop": false,
+            "deacon": false,
+            "orderAbbreviation": null,
+            "doctor": false,
+            "seminarist": null
+        }
+    ],
+    [
+        {
             "name": "Varga J\u00f3zsef Kamill",
             "diocese": "Egri f\u0151egyh\u00e1zmegye",
             "birth": "1974-07-24",
