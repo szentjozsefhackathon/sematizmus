@@ -155,6 +155,9 @@ def createStats():
         stats[i] = dict(sorted(stats[i].items()))
         for j in stats[i]:
             stats[i][j] = dict(sorted(stats[i][j].items()))
+            for k in range(min(stats[i][j].keys()), max(stats[i][j].keys())):
+                if k not in stats[i][j]:
+                    stats[i][j][k] = 0
     
     return stats
 

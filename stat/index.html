@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Statisztikák a papokról és diakónusokról - születési év és szentelési év alapján egyházmegyénkénti bontásban</title>
+    <title>Statisztikák a papokról és diakónusokról - születési év és szentelési év alapján egyházmegyénkénti bontásban
+    </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
@@ -101,7 +102,8 @@
     <script>var sections = [];</script>
     <div class="container">
         <div class="px-4 py-5 my-5 text-center">
-            <h1 class="display-5 fw-bold text-body-emphasis">Statisztikák a papokról és diakónusokról - születési év és szentelési év
+            <h1 class="display-5 fw-bold text-body-emphasis">Statisztikák a papokról és diakónusokról - születési év és
+                szentelési év
                 alapján egyházmegyénkénti bontásban</h1>
             <div class="col-lg-8 mx-auto">
                 <p class="lead mb-4">A statisztika a <a href="https://szentjozsefhackathon.github.io/sematizmus">
@@ -118,7 +120,8 @@
         <canvas id="birthCanvas"></canvas>
         <h1 id="ordinationLabel" style="display: none">Élő papok és diakónusok adott szentelési évből</h1>
         <canvas id="ordinationCanvas"></canvas>
-        <h1 id="ordinationAgeLabel" style="display: none">Élő papok és diakónusok átlagéletkora adott szentelési évben</h1>
+        <h1 id="ordinationAgeLabel" style="display: none">Élő papok és diakónusok átlagéletkora adott szentelési évben
+        </h1>
         <canvas id="ordinationAgeCanvas"></canvas>
         <h1 id="priestBirthLabel" style="display: none">Élő papok adott születési évből</h1>
         <canvas id="priestBirthCanvas"></canvas>
@@ -145,7 +148,7 @@
 
         $(document).ready(function () {
             const jsonUrl = 'stats.json'; // Az adatokat tartalmazó JSON fájl elérési útja
-            
+
             let chartInstance = null;
 
             // JSON betöltése
@@ -205,8 +208,16 @@
                             options: {
                                 responsive: true,
                                 scales: {
+                                    x: {
+                                        ticks: {
+                                            display: true,
+                                            autoSkip: false
+                                        }
+                                    },
                                     y: {
-                                        beginAtZero: true
+                                        ticks: {
+                                            stepSize: 1
+                                        }
                                     }
                                 },
                                 plugins: {
