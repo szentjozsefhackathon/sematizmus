@@ -57,12 +57,12 @@ def processPriest(link, appendHibas):
             return
 
         bishop = False
+        deacon = False
+        retired = False
         if soup.select_one(".titulus"):
             if ("érsek" in soup.select_one(".titulus").text or "segédpüspök" in soup.select_one(".titulus").text) and not "érseki" in soup.select_one(".titulus").text.lower():
                 bishop = True
-        
-        deacon = False
-        retired = False
+
         szent = 0
         for fieldset in soup.select("fieldset"):
             if "Szentelés" in fieldset.text:
@@ -74,7 +74,7 @@ def processPriest(link, appendHibas):
                 deacon = True
             if not "Életrajz" in fieldset.text:
                 continue
-            if "Nyugállományban" in fieldset.text:
+            if "nyugállományban" in fieldset.text.lower():
                 retired = True
             szul = 0
             try:
