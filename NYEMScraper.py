@@ -75,7 +75,7 @@ def processPriest(link):
         for s in soup.select(".szolgalat td td"):
             if re.search("-<td>", str(s)): retired = False
 
-        if retired == False and "nyugállományban" in soup.text.lower(): retired = True
+        if retired == False and "nyugállományban" in soup.select_one("#pap table.table").text.lower(): retired = True
 
         return {
             "name": soup.select_one("#parokianev").text, # A pap neve

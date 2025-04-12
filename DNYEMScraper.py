@@ -181,7 +181,7 @@ def DNYEM(filename=None, year=None):
                 "ordination": ordination,
                 "img": imgSrc,
                 "src": pap,
-                "retired": "nyugállományban" in soup.text.lower() or "nyugdíjas" in soup.text.lower(),
+                "retired": "nyugállományban" in soup.select_one("main .entry-content").text.lower() or "nyugdíjas" in soup.select_one("main .entry-content").text.lower(), #todo
                 "bishop": "püspök" in soup.select_one("#main article h1").text,
                 "deacon": None
             })

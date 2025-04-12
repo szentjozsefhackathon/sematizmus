@@ -81,7 +81,7 @@ def processPriest(link):
             "deacon": not "Pappá szentelés" in soup.text,
             "ordination": ordination,
             "bishop": name == "dr. Keresztes Szilárd" or name == "Kocsis Fülöp",
-            "retired": "Nyugállományban" in soup.text
+            "retired": "Nyugállományban" in soup.select_one("#adattar-pap").text
         }
 
 @deleteDr

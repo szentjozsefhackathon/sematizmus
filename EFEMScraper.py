@@ -101,7 +101,7 @@ def processPriest(link, deacon):
             "src": link,
             "bishop": bishop,
             "deacon": deacon,
-            "retired": "nyugállományban" in soup.text.lower()
+            "retired": "nyugállományban" in soup.select_one(".article").text.lower()
         }
 
 def papkereso(link, deacon=False):

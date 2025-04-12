@@ -73,9 +73,9 @@ def processPriest(link):
             "ordination": ordination,
             "img": imgSrc, # A kép linkje,
             "src": link,
-            "retired": "nyugállományban" in soup.text or "ny. megyéspüspök" in soup.text,
-            "bishop": "megyéspüspök" in soup.text,
-            "deacon": "diakónus" in soup.text
+            "retired": "nyugállományban" in soup.select_one("#content").text or "ny. megyéspüspök" in soup.select_one("#content").text,
+            "bishop": "megyéspüspök" in soup.select_one("#content").text,
+            "deacon": "diakónus" in soup.select_one("#content").text
         }
 
 

@@ -73,13 +73,15 @@ def processPriest(link):
                 except: pass
             if "Felszentelés" in sor.text:
                 ordination = str2date(sor.text.split(": ")[-1].split(", ")[-1].strip())
+        
+        
         return {
             "name": nev,
             "birth": birth,
             "img": imgSrc,
             "src": link,
-            "retired": "nyugállomány" in soup.text,
-            "bishop": "megyéspüspök" in soup.text or "segédpüspök" in soup.text,
+            "retired": "nyugállomány" in soup.select_one("#main .content").text,
+            "bishop": "megyéspüspök" in soup.select_one("#main .content").text or "segédpüspök" in soup.select_one("#main .content").text,
             "ordination": ordination
         }
 
