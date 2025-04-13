@@ -71,13 +71,24 @@ def processPriest(link, retired):
         except:
             pass
         try:
-            name = (" ".join([n for n in soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip().split(" ") if n[0].isupper()])).split(",")[0].split("P.")[-1].strip()
+            name = soup.select_one('[t="szemely_nev"]').text
+            name = name.split("]]>")
+            name = name[0]
+            name = name.strip()
+            name = name.split(" ")
+            name = [n for n in name if len(n)>0 and n[0].isupper()]
+            name = " ".join(name)
+            name = name.split(",")
+            name = name[0]
+            name = name.split("P.")
+            name = name[-1]
+            name = name.strip()
             return {
                 "name": name, # A pap neve
                 "img": imgSrc, # A kép linkje,
                 "src": link,
                 "deacon": "Diakónus igazolvány sorszáma" in str(soup.text),
-                "bishop": "feladatkor.php?id=243" in str(soup) or "feladatkor_kategoria.php?id=15&egyhazmegye=true" in str(soup),
+                "bishop": "feladatkor.php?id=243" in str(soup) or "feladatkor_kategoria.php?id=15&amp;egyhazmegye=true" in str(soup),
                 "retired": retired,
                 "ordination": ordination,
             }
@@ -139,7 +150,6 @@ def VEM(filename=None, year=None):
     else:
         with open(filename, "w") as outfile:
             outfile.write(json.dumps(paplista, default=str))
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
