@@ -1,3 +1,5 @@
+from CardinalScraper import Cardinal
+
 from DNYEMScraper import DNYEM
 from EBFEMScraper import EBFEM
 from EFEMScraper import EFEM
@@ -32,6 +34,7 @@ import argparse
 
 def priestList(year, filename=None): 
     _dioceses = {
+        "Bíborosi Kar": Cardinal(year=year),
         "Esztergom-Budapesti főegyházmegye": EBFEM(year=year),
         "Győri egyházmegye": GYEM(year=year),
         "Székesfehérvári egyházmegye": SZFVEM(year=year),
