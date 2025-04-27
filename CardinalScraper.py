@@ -60,7 +60,7 @@ def Cardinal(filename=None, year=None):
             szuletes = str2date(oszlopok[5].text.strip())
             imgSrc = ""
             try:
-                imgSrc = oszlopok[0].find("img").get("src")
+                imgSrc = "https:" + oszlopok[0].find("img").get("src")
             except:
                 pass
             src = ""
