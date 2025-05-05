@@ -10,10 +10,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <script src="https://cdn.datatables.net/2.1.7/js/dataTables.js"></script>
+    <link
+        href="https://cdn.datatables.net/v/dt/dt-2.3.0/b-3.2.3/b-colvis-3.2.3/b-print-3.2.3/sp-2.3.3/sl-3.0.0/datatables.min.css"
+        rel="stylesheet" integrity="sha384-p9/QibhbGaPZGNHdiVNFY+xXkrDVTIn1jbUwpdsRb50wiGW0ZixcO15fH/Ji1IBJ"
+        crossorigin="anonymous">
+
+    <script
+        src="https://cdn.datatables.net/v/dt/dt-2.3.0/b-3.2.3/b-colvis-3.2.3/b-print-3.2.3/sp-2.3.3/sl-3.0.0/datatables.min.js"
+        integrity="sha384-BPA6dtEmwhSIXb4bcJhSkiUW5VAw0IsIF3KEyQ4uCI1ImrLqJkOvyo4HuK9q0G7Y"
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -81,10 +88,33 @@
             .then(response => response.json())
             .then(json => {
                 data = json;
-                console.log(data);
                 $.fn.dataTableExt.sErrMode = 'none'
 
                 table = new DataTable('#datatable', {
+                    layout: {
+                        top1: {
+                            searchPanes: {
+                                layout: 'columns-2'
+                            }
+                        },
+                        topStart: {
+                            buttons: [{
+                                extend: "print",
+                                exportOptions: {
+                                    stripHtml: false
+                                },
+                                customize: function (win) {
+                                    $(win.document.body)
+                                        .css('font-size', '10pt');
+
+
+                                    $(win.document.body).find('table')
+                                        .addClass('compact')
+                                        .css('font-size', 'inherit');
+                                }
+                            }, 'colvis']
+                        },
+                    },
                     language: {
                         url: 'hu.json',
                     },
@@ -93,16 +123,37 @@
                         {
                             title: 'Név', data: 'name', render: (data, type, row) => {
                                 return row.src ? `<a href="${row.src}" target="_blank">${data}${row.orderAbbreviation ? ' ' + row.orderAbbreviation : ''}</a>` : data;
+                            },
+                            searchPanes: {
+                                show: false
                             }
                         },
-                        { title: 'Egyházmegye', data: 'diocese' },
+                        {
+                            title: 'Egyházmegye', data: 'diocese',
+                            searchPanes: {
+                                show: true
+                            }
+                        },
                         {
                             title: 'Fénykép', data: 'img', render: (data, type, row) => {
                                 return `<img src="${data}" style="max-width: 100px; max-height: 100px;" onerror="this.src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='"/>`;
+                            },
+                            searchPanes: {
+                                show: false
                             }
                         },
-                        { title: 'Születés', data: 'birth' },
-                        { title: 'Diakónus- vagy papszentelés', data: 'ordination' },
+                        {
+                            title: 'Születés', data: 'birth',
+                            searchPanes: {
+                                show: false
+                            }
+                        },
+                        {
+                            title: 'Diakónus- vagy papszentelés', data: 'ordination',
+                            searchPanes: {
+                                show: false
+                            }
+                        },
                         {
                             title: 'Infók', data: 'info', render: (data, type, row) => {
                                 let infok = [];
@@ -112,6 +163,9 @@
                                 if (row.doctor) infok.push("Dr.")
                                 if (row.seminarist) infok.push("Papnövendék")
                                 return infok.join(", ");
+                            },
+                            searchPanes: {
+                                show: true
                             }
                         }
                     ],
