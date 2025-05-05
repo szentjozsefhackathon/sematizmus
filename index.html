@@ -101,7 +101,8 @@
                             buttons: [{
                                 extend: "print",
                                 exportOptions: {
-                                    stripHtml: false
+                                    stripHtml: false,
+                                    columns: ":visible"
                                 },
                                 customize: function (win) {
                                     $(win.document.body)
