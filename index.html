@@ -107,7 +107,8 @@
                                 customize: function (win) {
                                     $(win.document.body)
                                         .css('font-size', '10pt');
-
+                                    $(win.document.body).find('a').css('text-decoration', 'none');
+                                    $(win.document.body).find('a').css('color', 'black');
 
                                     $(win.document.body).find('table')
                                         .addClass('compact')
