@@ -79,6 +79,9 @@ def Cardinal(filename=None, year=None):
                 "seminarist": False
             })
     # print(biboroslista)
+
+    biboroslista = list(filter(lambda x: x["birth"] > datetime.date(1945,4,21) and x["name"] != "Giovanni Angelo Becciu", biboroslista))
+    print(len(biboroslista))
     if filename == None: return biboroslista
     else:
         with open(filename, "w") as outfile:
