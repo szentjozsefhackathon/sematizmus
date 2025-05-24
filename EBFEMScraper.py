@@ -146,6 +146,9 @@ def processPriest(link, appendHibas):
             if img == "https://www.esztergomi-ersekseg.hu/design/img/profile-img.jpg":
                 img = None
             
+            if len(dutyStation) == 0:
+                dutyStation = None
+
             if szul == 0:
                 print(f"{link} - Születés nem található")
                 if appendHibas: return {

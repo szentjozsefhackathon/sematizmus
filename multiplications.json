@@ -12,7 +12,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "Sz\u00e1sz Gyula",
@@ -26,7 +27,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ],
     [
@@ -42,7 +44,8 @@
             "deacon": false,
             "orderAbbreviation": "OFM",
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "Varga Kamill",
@@ -56,7 +59,8 @@
             "deacon": false,
             "orderAbbreviation": "OFM",
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ],
     [
@@ -72,7 +76,8 @@
             "deacon": null,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": true
+            "seminarist": true,
+            "dutyStation": null
         },
         {
             "name": "Papp D\u00e1vid",
@@ -86,7 +91,8 @@
             "deacon": null,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": true
+            "seminarist": true,
+            "dutyStation": null
         }
     ],
     [
@@ -102,21 +108,23 @@
             "deacon": false,
             "orderAbbreviation": "OFM",
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "Sz\u00e1sz P\u00e1l Zsombor",
             "diocese": "Szombathelyi egyh\u00e1zmegye",
             "birth": "1975-04-24",
-            "img": "https://www.martinus.hu/misc/directory/priests/136/szasz-zsombor1.jpg",
-            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/136/szasz-pal-zsombor-ofm",
+            "img": "https://martinus.hu//dokumentumtar/lelkipasztor/lelkipasztor_1723564053881.jpg",
+            "src": "https://martinus.hu/hu/nev-es-cimtar/lelkipasztorok/szasz-pal-zsombor-ofm",
             "ordination": "2003-06-28",
             "retired": false,
             "bishop": false,
-            "deacon": null,
+            "deacon": false,
             "orderAbbreviation": "OFM",
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ],
     [
@@ -132,21 +140,23 @@
             "deacon": null,
             "orderAbbreviation": "OPraem",
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "Hancz G\u00e1bor Tam\u00e1s",
             "diocese": "Szombathelyi egyh\u00e1zmegye",
             "birth": null,
             "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
-            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/140/hancz-gabor-tamas-opraem",
-            "ordination": null,
+            "src": "https://martinus.hu/hu/nev-es-cimtar/lelkipasztorok/hancz-gabor-tamas-opraem",
+            "ordination": "2008-07-12",
             "retired": false,
             "bishop": false,
-            "deacon": null,
+            "deacon": false,
             "orderAbbreviation": "OPraem",
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": "Szombathely Sarl\u00f3s Boldogasszony pl\u00e9b\u00e1nia"
         }
     ],
     [
@@ -162,7 +172,8 @@
             "deacon": false,
             "orderAbbreviation": "OSPPE",
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "P\u00e1l D\u00e1niel Csaba",
@@ -176,37 +187,8 @@
             "deacon": false,
             "orderAbbreviation": "OSPPE",
             "doctor": false,
-            "seminarist": null
-        }
-    ],
-    [
-        {
-            "name": "Martos Levente Bal\u00e1zs",
-            "diocese": "Esztergom-Budapesti f\u0151egyh\u00e1zmegye",
-            "birth": 1973,
-            "img": "https://www.esztergomi-ersekseg.hu/uploads/nevtar/3499/kepek/c_martos-puspok-atya.jpg",
-            "src": "https://www.esztergomi-ersekseg.hu/papsag/dr-martos-levente-balazs",
-            "ordination": "1998-06-27",
-            "retired": false,
-            "bishop": true,
-            "deacon": false,
-            "orderAbbreviation": null,
-            "doctor": true,
-            "seminarist": null
-        },
-        {
-            "name": "Martos Levente Bal\u00e1zs",
-            "diocese": "Szombathelyi egyh\u00e1zmegye",
-            "birth": "1973-11-18",
-            "img": "https://www.martinus.hu/misc/directory/priests/73/martos-levente-balazs.jpg",
-            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/73/martos-levente-balazs-dr",
-            "ordination": "1998-06-27",
-            "retired": false,
-            "bishop": false,
-            "deacon": null,
-            "orderAbbreviation": null,
-            "doctor": true,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ],
     [
@@ -222,7 +204,8 @@
             "deacon": false,
             "orderAbbreviation": "OPraem",
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "Balogh P\u00e9ter Piusz",
@@ -236,7 +219,8 @@
             "deacon": false,
             "orderAbbreviation": "OPraem",
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": "Templomigazgat\u00f3: Belv\u00e1rosi Szent Mih\u00e1ly Templomigazgat\u00f3s\u00e1g"
         }
     ],
     [
@@ -252,7 +236,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": true,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": "P\u00e1zm\u00e1ny P\u00e9ter Katolikus Egyetem, teol\u00f3giai tan\u00e1r"
         },
         {
             "name": "Pusk\u00e1s Attila",
@@ -266,7 +251,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": true,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ],
     [
@@ -282,7 +268,8 @@
             "deacon": null,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "B\u00e1lint Mih\u00e1ly",
@@ -296,7 +283,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": "A papi k\u00f6z\u00f6ss\u00e9g moder\u00e1tora: Budapest-Tisztvisel\u0151telepi Magyarok Nagyasszonya Pl\u00e9b\u00e1nia"
         }
     ],
     [
@@ -312,7 +300,8 @@
             "deacon": null,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "Nagy Ferenc Endre",
@@ -326,7 +315,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": "A papi k\u00f6z\u00f6ss\u00e9g tagja: Budapest-Tisztvisel\u0151telepi Magyarok Nagyasszonya Pl\u00e9b\u00e1nia"
         }
     ],
     [
@@ -342,7 +332,8 @@
             "deacon": null,
             "orderAbbreviation": null,
             "doctor": true,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": "Egyh\u00e1zmegy\u00e9n k\u00edv\u00fcli szolg\u00e1lat"
         },
         {
             "name": "Linczenbold Levente",
@@ -356,7 +347,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": true,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ],
     [
@@ -372,21 +364,23 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "Flisz\u00e1r K\u00e1roly",
             "diocese": "Szombathelyi egyh\u00e1zmegye",
             "birth": "1950-08-07",
             "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
-            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/156/fliszar-karoly",
+            "src": "https://martinus.hu/hu/nev-es-cimtar/lelkipasztorok/fliszar-karoly",
             "ordination": "1975-06-29",
-            "retired": false,
+            "retired": true,
             "bishop": false,
-            "deacon": null,
+            "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": "Zalaegerszeg Szent M\u00e1ria Magdolna pl\u00e9b\u00e1nia"
         }
     ],
     [
@@ -402,7 +396,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "J\u00e1rmi Zolt\u00e1n",
@@ -416,7 +411,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ],
     [
@@ -432,7 +428,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "T\u00f3th Ferenc",
@@ -446,7 +443,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ],
     [
@@ -462,7 +460,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "Mosolyg\u00f3 Tibor",
@@ -476,7 +475,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ],
     [
@@ -492,7 +492,8 @@
             "deacon": false,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "Szentesi Csaba",
@@ -506,37 +507,8 @@
             "deacon": null,
             "orderAbbreviation": null,
             "doctor": false,
-            "seminarist": null
-        }
-    ],
-    [
-        {
-            "name": "K\u00e1linger Roland",
-            "diocese": "Katonai Ordinari\u00e1tus",
-            "birth": "1973-09-25",
-            "img": "https://ktp.hu/uploads/content/200/kepek/c_kalinger-roland-jozsef-alez.-(2).jpg",
-            "src": "https://ktp.hu/lelkeszek/tabori-lelkeszi-kar/kalinger-roland",
-            "ordination": "1997-06-19",
-            "retired": null,
-            "bishop": false,
-            "deacon": null,
-            "orderAbbreviation": null,
-            "doctor": false,
-            "seminarist": null
-        },
-        {
-            "name": "K\u00e1linger Roland",
-            "diocese": "Szombathelyi egyh\u00e1zmegye",
-            "birth": "1973-09-25",
-            "img": "https://www.martinus.hu/misc/directory/priests/58/kalinger-roland.jpg",
-            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/58/kalinger-roland",
-            "ordination": "1997-06-19",
-            "retired": false,
-            "bishop": false,
-            "deacon": null,
-            "orderAbbreviation": null,
-            "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ],
     [
@@ -552,7 +524,8 @@
             "deacon": null,
             "orderAbbreviation": null,
             "doctor": true,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         },
         {
             "name": "\u00cdr\u00f3 S\u00e1ndor",
@@ -566,37 +539,8 @@
             "deacon": null,
             "orderAbbreviation": null,
             "doctor": true,
-            "seminarist": null
-        }
-    ],
-    [
-        {
-            "name": "Ocsovai Gr\u00e1ci\u00e1n",
-            "diocese": "Szeged-Csan\u00e1di egyh\u00e1zmegye",
-            "birth": null,
-            "img": "https://szentjozsefhackathon.github.io/sematizmus/ftPlaceholder.png",
-            "src": "http://szeged-csanad.hu/szegedi-esperesseg/",
-            "ordination": null,
-            "retired": null,
-            "bishop": false,
-            "deacon": false,
-            "orderAbbreviation": "OFM",
-            "doctor": false,
-            "seminarist": null
-        },
-        {
-            "name": "Ocsovai G\u00e1bor Gr\u00e1ci\u00e1n",
-            "diocese": "Szombathelyi egyh\u00e1zmegye",
-            "birth": "1963-08-18",
-            "img": "https://www.martinus.hu/misc/directory/priests/86/ocsovai-gabor-gracian.jpg",
-            "src": "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok/86/ocsovai-gabor-gracian-ofm",
-            "ordination": "1987-06-13",
-            "retired": false,
-            "bishop": false,
-            "deacon": null,
-            "orderAbbreviation": "OFM",
-            "doctor": false,
-            "seminarist": null
+            "seminarist": null,
+            "dutyStation": null
         }
     ]
 ]
