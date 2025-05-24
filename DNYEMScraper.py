@@ -128,13 +128,25 @@ def DNYEM(filename=None, year=None):
         firstLine = True
         imgSrc = soup.select_one("#main img").get("src")
         name = " ".join([n for n in soup.select_one("#main article h1").text.split(" ") if n[0].isupper()])
+
+        dutyStation = None
+        nextRowIsDutyStation = False
+        for sor in soup.select("#main table tr"):
+            if nextRowIsDutyStation:
+                dutyStation = ', '.join(sor.text.strip().split("\n"))
+                break
+            if "Jelenlegi szolgálati helye:" in sor.text:
+                nextRowIsDutyStation = True
+
+
         if name == "P. Maczák Béla MI":
             paplista.append({
                 "name": "Maczák Béla",
                 "birth": datetime.date(1980,5,16),
                 "img": imgSrc,
                 "src": pap,
-                "orderAbbreviation": "MI"
+                "orderAbbreviation": "MI",
+                "dutyStation": dutyStation
             })
             continue
         for sor in soup.select_one("#main table").findAll("tr"):
@@ -147,7 +159,8 @@ def DNYEM(filename=None, year=None):
                     "name": name,
                     "birth": 1968,
                     "img": imgSrc,
-                    "src": pap
+                    "src": pap,
+                    "dutyStation": dutyStation
                 })
                 break
             if name == "Sári András":
@@ -155,7 +168,8 @@ def DNYEM(filename=None, year=None):
                     "name": name,
                     "birth": 1971,
                     "img": imgSrc,
-                    "src": pap
+                    "src": pap,
+                    "dutyStation": dutyStation
                 })
                 break
 
@@ -174,6 +188,8 @@ def DNYEM(filename=None, year=None):
             
             if ordination == None:
                 ordinationFailed.append(name)
+            
+
 
             paplista.append({
                 "name": name.split("P.")[-1].strip(),
@@ -183,7 +199,8 @@ def DNYEM(filename=None, year=None):
                 "src": pap,
                 "retired": "nyugállományban" in soup.select_one("main .entry-content").text.lower() or "nyugdíjas" in soup.select_one("main .entry-content").text.lower(), #todo
                 "bishop": "püspök" in soup.select_one("#main article h1").text,
-                "deacon": None
+                "deacon": None,
+                "dutyStation": dutyStation,
             })
             break
     if len(ordinationFailed) > 0:
