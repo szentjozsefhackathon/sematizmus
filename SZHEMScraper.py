@@ -50,7 +50,7 @@ def processPriest(link, deacon):
         img = None
 
     return {
-        "name": soup.select_one(".lelkipasztorNagyNev").text.strip().title() if soup.select_one(".lelkipasztorNagyNev") else (soup.select_one(".mainContentText h2").text.strip().title() if soup.select_one(".mainContentText h2") else None),
+        "name": soup.select_one(".lelkipasztorNagyNev").text.strip() if soup.select_one(".lelkipasztorNagyNev") else (soup.select_one(".mainContentText h2").text.strip() if soup.select_one(".mainContentText h2") else None),
         "ordination": str2date(soup.select_one(".datum_ertek").text.strip()) if soup.select_one(".datum_ertek") else None,
         "deacon": deacon,
         "src": link,
@@ -106,10 +106,13 @@ def SZHEM(filename=None, year=None):
     archiv = SZHEM_A()
     for i in range(len(paplista)):
         for archivPap in archiv:
+            paplista[i]["name"] = paplista[i]["name"].title()
             if paplista[i]["name"] == archivPap["name"] and paplista[i]["ordination"] == archivPap["ordination"]:
                 paplista[i]["birth"] = archivPap.get("birth")
+                if paplista[i]["img"] is None:
+                    paplista[i]["img"] = archivPap.get("img")
                 break
-    
+            
     if filename is None:
         return paplista
     else:
