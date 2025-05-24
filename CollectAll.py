@@ -77,7 +77,8 @@ def priestList(year, filename=None):
                 "deacon": priest.get("deacon"),
                 "orderAbbreviation": priest.get("orderAbbreviation"),
                 "doctor": priest.get("doctor"),
-                "seminarist": priest.get("seminarist")
+                "seminarist": priest.get("seminarist"),
+                "dutyStation": priest.get("dutyStation")
             })
 
     if filename == None:

@@ -58,6 +58,7 @@ def processPriest(link):
             imgSrc = None
         birth = None
         ordination = None
+        dutyStation = None
         for sor in soup.select_one(".kpriest-content-right table").findAll("tr"): # Papi táblázat
             if(sor.select_one("th").text == "Született"): 
                 birth = str2date(sor.select_one("td").text.strip().split(", ")[1])
@@ -67,6 +68,8 @@ def processPriest(link):
                     ordination = str2date(sor.select_one("td").text.strip().split(", ")[1])
                 except:
                     ordination = str2date(sor.select_one("td").text.strip())
+            if(sor.select_one("th").text == "Szolgálati hely"):
+                dutyStation = sor.select_one("td").text.strip()
         return {
             "name": soup.select_one(".page-header h2").text, # A pap neve
             "birth": birth,
@@ -75,7 +78,8 @@ def processPriest(link):
             "src": link,
             "retired": "nyugállományban" in soup.select_one("#content").text or "ny. megyéspüspök" in soup.select_one("#content").text,
             "bishop": "megyéspüspök" in soup.select_one("#content").text,
-            "deacon": "diakónus" in soup.select_one("#content").text
+            "deacon": "diakónus" in soup.select_one("#content").text,
+            "dutyStation": dutyStation
         }
 
 
