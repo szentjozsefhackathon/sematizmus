@@ -44,6 +44,10 @@ def processPriest(link, deacon):
             return
 
     soup = BeautifulSoup(html_content, 'html.parser')
+    
+    img = soup.select_one(".lelkipasztorKepNagy").get("src") if soup.select_one(".lelkipasztorKepNagy") else (soup.select_one(".KepNagy").get("src") if soup.select_one(".KepNagy") else None)
+    if img == "https://martinus.hu//dokumentumtar/lelkipasztor/lelkipasztor.svg":
+        img = None
 
     return {
         "name": soup.select_one(".lelkipasztorNagyNev").text.strip().title() if soup.select_one(".lelkipasztorNagyNev") else (soup.select_one(".mainContentText h2").text.strip().title() if soup.select_one(".mainContentText h2") else None),
@@ -51,7 +55,7 @@ def processPriest(link, deacon):
         "deacon": deacon,
         "src": link,
         "bishop": link == "https://martinus.hu/hu/nev-es-cimtar/lelkipasztorok/fekete-szabolcs-benedek" or link == "https://martinus.hu/hu/nev-es-cimtar/lelkipasztorok/szekely-janos-dr",
-        "img": soup.select_one(".lelkipasztorKepNagy").get("src") if soup.select_one(".lelkipasztorKepNagy") else (soup.select_one(".KepNagy").get("src") if soup.select_one(".KepNagy") else None),
+        "img": img,
         "dutyStation": soup.select_one("#lelkipasztorKepDiv .capitalize").text.strip() if soup.select_one("#lelkipasztorKepDiv .capitalize") else None,
         "retired": "nyugállományban" in soup.text.lower()
     }
