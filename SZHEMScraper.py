@@ -51,7 +51,7 @@ def processPriest(link, deacon):
         "deacon": deacon,
         "src": link,
         "bishop": link == "https://martinus.hu/hu/nev-es-cimtar/lelkipasztorok/fekete-szabolcs-benedek" or link == "https://martinus.hu/hu/nev-es-cimtar/lelkipasztorok/szekely-janos-dr",
-        "img": soup.select_one(".lelkipasztorKepNagy").get("src") if soup.select_one(".lelkipasztorKepNagy") else None,
+        "img": soup.select_one(".lelkipasztorKepNagy").get("src") if soup.select_one(".lelkipasztorKepNagy") else (soup.select_one(".KepNagy").get("src") if soup.select_one(".KepNagy") else None),
         "dutyStation": soup.select_one("#lelkipasztorKepDiv .capitalize").text.strip() if soup.select_one("#lelkipasztorKepDiv .capitalize") else None,
         "retired": "nyugállományban" in soup.text.lower()
     }
@@ -60,10 +60,10 @@ def processPriest(link, deacon):
 @orderAbbreviation
 def SZHEM_current(year=None):
     sources = [
-        # {
-        #     "url": "https://martinus.hu/hu/nev-es-cimtar/lelkipasztorok",
-        #     "deacon": False
-        # },
+        {
+            "url": "https://martinus.hu/hu/nev-es-cimtar/lelkipasztorok",
+            "deacon": False
+        },
         {
             "url": "https://martinus.hu/hu/nev-es-cimtar/allando-diakonusok",
             "deacon": True
