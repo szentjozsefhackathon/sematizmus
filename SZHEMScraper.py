@@ -9,6 +9,7 @@ from tqdm.contrib.concurrent import process_map
 from orderAbbreviation import orderAbbreviation
 from deleteDr import deleteDr
 import urllib3
+import time
 urllib3.disable_warnings(category=urllib3.exceptions.InsecureRequestWarning)
 
 honapok = {
@@ -39,6 +40,7 @@ def processPriest(link):
                 print(f"{link} - Failed to fetch the website.")
         except:
             try:
+                time.sleep(5)
                 response = requests.get(link, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
@@ -56,11 +58,11 @@ def processPriest(link):
 
         imgSrc = ""
         try:
-            imgSrc = "https://www.martinus.hu" + soup.select_one(".content img").get("src")
+            imgSrc = "https://www.archiv.martinus.hu" + soup.select_one(".content img").get("src")
         except:
             pass
 
-        if imgSrc == "https://www.martinus.hu/images/caritas-in-veritate.png":
+        if imgSrc == "https://www.archiv.martinus.hu/images/caritas-in-veritate.png":
             imgSrc = None
         birth = None
         ordination = None
@@ -94,20 +96,24 @@ def papkereso(link):
         soup = BeautifulSoup(html_content, 'html.parser')
         _papok = []
         for pap in soup.select_one(".content ul").select("li"):
-            _papok.append("https://www.martinus.hu"+pap.select_one("a")["href"])
+            _papok.append("https://www.archiv.martinus.hu"+pap.select_one("a")["href"])
         
         return _papok
 @deleteDr
 @orderAbbreviation
 def SZHEM(filename=None, year=None):
-    url = "https://www.martinus.hu/nev-es-cimtar/lelkipasztorok?oldal="
+    url = "https://www.archiv.martinus.hu/nev-es-cimtar/lelkipasztorok?oldal="
     papok = []
 
+    for i in tqdm(range(6,-1,-1), desc="Fetching pages"):
+        time.sleep(5)
+        papok += papkereso(f"{url}{i}")
     
-    papok = process_map(papkereso, [f"{url}{i}" for i in range(6,-1,-1)])
-    papok = sum(papok, [])
+    paplista = []
+    for pap in tqdm(papok, desc="Processing priests"):
+        time.sleep(5)
+        paplista.append(processPriest(pap))
 
-    paplista = process_map(processPriest, papok)
     paplista = [p for p in paplista if p != None]
 
     if filename == None: return paplista
