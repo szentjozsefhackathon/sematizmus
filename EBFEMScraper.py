@@ -64,6 +64,7 @@ def processPriest(link, appendHibas):
                 bishop = True
 
         szent = 0
+        dutyStation = []
         for fieldset in soup.select("fieldset"):
             if "Szentelés" in fieldset.text:
                 try:
@@ -72,6 +73,13 @@ def processPriest(link, appendHibas):
                     pass
             if "Jelenlegi beosztások" in fieldset.text and "Diakónus" in fieldset.text:
                 deacon = True
+            if "Jelenlegi beosztások" in fieldset.text:
+                for beosztas in fieldset.select("p"):
+                    dutyStation.append(beosztas.text.strip())
+                if len(dutyStation) == 0:
+                    dutyStation = None
+                else:
+                    dutyStation = ", ".join(dutyStation)
             if not "Életrajz" in fieldset.text:
                 continue
             if "nyugállományban" in fieldset.text.lower():
@@ -148,7 +156,8 @@ def processPriest(link, appendHibas):
                     "ordination": szent if szent != 0 else None,
                     "bishop": bishop,
                     "deacon": deacon,
-                    "retired": retired
+                    "retired": retired,
+                    "dutyStation": dutyStation
                 }
                 
             
@@ -170,7 +179,8 @@ def processPriest(link, appendHibas):
                                 "ordination": szent,
                                 "bishop": bishop,
                                 "deacon": deacon,
-                                "retired": retired
+                                "retired": retired,
+                                "dutyStation": dutyStation
                             }
             break
 @deleteDr
