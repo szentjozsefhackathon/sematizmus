@@ -84,6 +84,7 @@ def processPriest(link):
                     if szolgIdo.text.endswith("-") or szolgIdo.text == f"{datetime.date.today().year}":
                         dutyStation.append(szolgHelyek.select("div")[i+1].text.strip())
         dutyStation = ", ".join(dutyStation)
+        if len(dutyStation) == 0: dutyStation = None
         return {
             "name": name, 
             "img": imgSrc, 

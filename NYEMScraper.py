@@ -76,7 +76,12 @@ def processPriest(link):
             if re.search("-<td>", str(s)): retired = False
 
         if retired == False and "nyugállományban" in soup.select_one("#pap table.table").text.lower(): retired = True
-
+        dutyStation = []
+        for s in soup.select("tr.szolgalat table tbody tr"):
+            if not (s.select("td")[0].text.strip().endswith("-") or s.select("td")[0].text.strip() == f"{datetime.date.today().year}"):
+                dutyStation.append(s.select("td")[1].text.strip() + " - " + s.select("td")[2].text.strip())
+        dutyStation = ", ".join(dutyStation)
+        if len(dutyStation) == 0: dutyStation = None
         return {
             "name": soup.select_one("#parokianev").text, # A pap neve
             "img": imgSrc, # A kép linkje,
@@ -85,7 +90,8 @@ def processPriest(link):
             "ordination": ordination,
             "deacon": not "Pappá szentelés" in soup.text,
             "bishop": "Szocska A. Ábel" in soup.select_one("#parokianev").text,
-            "retired": retired
+            "retired": retired,
+            "dutyStation": dutyStation
         }
 
 @deleteDr
