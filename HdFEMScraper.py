@@ -76,9 +76,10 @@ def processPriest(link):
             if "Szolgálati helyek:" in sor.text:
                 szolgHelyek = sor.select_one(".f400")
                 for i in range(len(szolgHelyek.select("div"))):
-                    if i % 2 == 0:
+                    if i % 2 == 1:
                         continue
                     szolgIdo = szolgHelyek.select("div")[i]
+                    print(szolgIdo.text)
                     if not (szolgIdo.has_attr("class") and len(szolgIdo["class"]) == 1 and szolgIdo["class"][0] == "tolig"):
                         continue
                     if szolgIdo.text.endswith("-") or szolgIdo.text == f"{datetime.date.today().year}":
