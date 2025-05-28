@@ -65,11 +65,25 @@ def processPriest(link, retired):
             print(soup.select_one('[t="szemely_nev"]').text.split("]]>")[0].strip())
             print(e)                
 
-        imgSrc = ""
+        imgSrc = None
         try:
             imgSrc = "http://sematizmus.vaciegyhazmegye.hu" + re.search(r'<img src="([^"]+)" class="scm-szemely-fenykep"', str(html_content)).group(1)
         except:
             pass
+
+        dutyStation = []
+        for ds in soup.select("#szemely_feladatkor_ellatasok table tbody tr td.feladatkor-ellatas a"):
+            if ds.text.strip() == "Áldozópap":
+                continue
+            if ds.text.strip() == "Állandó diakónus":
+                continue
+            if ds.text.strip() == "Püspök":
+                continue
+
+            dutyStation.append(ds.text.strip())
+        
+        dutyStation = ", ".join(dutyStation)
+        if len(dutyStation) == 0: dutyStation = None
         try:
             name = soup.select_one('[t="szemely_nev"]').text
             name = name.split("]]>")
@@ -91,6 +105,7 @@ def processPriest(link, retired):
                 "bishop": "feladatkor.php?id=243" in str(soup) or "feladatkor_kategoria.php?id=15&amp;egyhazmegye=true" in str(soup),
                 "retired": retired,
                 "ordination": ordination,
+                "dutyStation": dutyStation,
             }
         except Exception as e:
             print(e)
