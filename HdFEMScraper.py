@@ -59,6 +59,7 @@ def processPriest(link):
         name = soup.select_one(".aloldal_cim").text
         birth = None
         ordination = None
+        dutyStation = []
         for sor in soup.select(".adattar_sor"):
             if "Születés" in sor.text:
                 try:
@@ -72,30 +73,38 @@ def processPriest(link):
                 try:
                     ordination = str2date(sor.text.split(", ")[-1])
                 except: pass
-
+            if "Szolgálati helyek:" in sor.text:
+                szolgHelyek = sor.select_one(".f400")
+                for i in range(len(szolgHelyek.select("div"))):
+                    if i % 2 == 0:
+                        continue
+                    szolgIdo = szolgHelyek.select("div")[i]
+                    if not (szolgIdo.has_attr("class") and len(szolgIdo["class"]) == 1 and szolgIdo["class"][0] == "tolig"):
+                        continue
+                    if szolgIdo.text.endswith("-") or szolgIdo.text == f"{datetime.date.today().year}":
+                        dutyStation.append(szolgHelyek.select("div")[i+1].text.strip())
+        dutyStation = ", ".join(dutyStation)
         return {
-            "name": name, # A pap neve
-            "img": imgSrc, # A kép linkje,
+            "name": name, 
+            "img": imgSrc, 
             "src": link,
             "birth": birth,
             "deacon": not "Pappá szentelés" in soup.text,
             "ordination": ordination,
             "bishop": name == "dr. Keresztes Szilárd" or name == "Kocsis Fülöp",
-            "retired": "Nyugállományban" in soup.select_one("#adattar-pap").text
+            "retired": "Nyugállományban" in soup.select_one("#adattar-pap").text,
+            "dutyStation": dutyStation, 
         }
 
 @deleteDr
 def HdFEM(filename=None, year=None):
-    # Replace this with the URL of the website you want to scrape
     url = 'https://hd.gorogkatolikus.hu/adattar-papjaink'
     response = requests.get(url, verify=False)
-    # Check if the request was successful
     if response.status_code == 200:
         html_content = response.content
     else:
         print(f"{url} - Failed to fetch the website.")
 
-    # Parse the HTML content with BeautifulSoup
     soup = BeautifulSoup(html_content, 'html.parser')
     papok = []
     for pap in soup.select(".adattar_cont"):
