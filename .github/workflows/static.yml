@@ -47,9 +47,6 @@ jobs:
       - name: Last update
         run: python lastUpdate.py
         shell: sh
-      - name: Gererate papima
-        run: python papima.py
-        shell: sh
       - name: Generate stats
         run: python stat.py
         shell: sh
