@@ -1,6 +1,7 @@
-beautifulsoup4==4.12.2
-lxml==5.3.0
-numpy==1.26.4
-requests==2.31.0
-selenium==4.24.0
-tqdm==4.65.0
+beautifulsoup4
+lxml
+numpy
+requests
+selenium
+tqdm
+html5lib
