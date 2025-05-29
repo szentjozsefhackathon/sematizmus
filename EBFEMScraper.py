@@ -80,7 +80,7 @@ def processPriest(link, appendHibas):
                 if len(dutyStation) == 0:
                     dutyStation = None
                 else:
-                    dutyStation = ", ".join(dutyStation)
+                    dutyStation = "; ".join(dutyStation)
             if not "Életrajz" in fieldset.text:
                 continue
             if "nyugállományban" in fieldset.text.lower():

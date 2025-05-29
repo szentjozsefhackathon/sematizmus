@@ -133,7 +133,7 @@ def DNYEM(filename=None, year=None):
         nextRowIsDutyStation = False
         for sor in soup.select("#main table tr"):
             if nextRowIsDutyStation:
-                dutyStation = ', '.join(sor.get_text(strip=True, separator='\n').splitlines())
+                dutyStation = '; '.join(sor.get_text(strip=True, separator='\n').splitlines())
                 break
             if "Jelenlegi szolgálati helye:" in sor.text:
                 nextRowIsDutyStation = True

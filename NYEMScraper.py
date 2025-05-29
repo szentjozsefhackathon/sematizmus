@@ -80,7 +80,7 @@ def processPriest(link):
         for s in soup.select("tr.szolgalat td table tr"): 
             if (s.select("td")[0].text.strip().endswith("-") or s.select("td")[0].text.strip() == f"{datetime.date.today().year}"):
                 dutyStation.append(s.select("td")[1].text.strip() + " - " + s.select("td")[2].text.strip())
-        dutyStation = ", ".join(dutyStation)
+        dutyStation = "; ".join(dutyStation)
         if len(dutyStation) == 0: dutyStation = None
         return {
             "name": soup.select_one("#parokianev").text, # A pap neve
