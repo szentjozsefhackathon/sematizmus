@@ -97,7 +97,8 @@ def VFEM(filename=None, year=None):
             "birth": birth,
             "ordination": ordination,
             "retired": "ny." in pap.text.lower() or "nyugalomban" in pap.text.lower(),
-            "bishop": "Udvardy György dr." in pap.select_one(".entry-title").text or "Márfi Gyula" in pap.select_one(".entry-title").text
+            "bishop": "Udvardy György dr." in pap.select_one(".entry-title").text or "Márfi Gyula" in pap.select_one(".entry-title").text,
+            "dutyStation": pap.select_one(".pl-cim").text.strip() if pap.select_one(".pl-cim") else None,
         })
 
 
