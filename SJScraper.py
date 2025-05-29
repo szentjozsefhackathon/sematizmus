@@ -36,9 +36,17 @@ def processPriest(pap):
             pass
 
         retired = False
+        dutyStation = None
         try:
             retired = "nyugdíjas" in json_content["task"]
         except: pass
+        if not retired:
+            try:
+                dutyStation = f"{json_content['location'] if 'location' in json_content else ''} - {json_content['task'] if 'task' in json_content else ''}".strip()
+            except: pass
+        
+        if dutyStation == "-" or dutyStation == "":
+            dutyStation = None
         return {
             "name": json_content["name"], # A pap neve
             "birth": birth, # Születési dátum
@@ -48,7 +56,8 @@ def processPriest(pap):
             "retired": retired,
             "bishop": False,
             "deacon": None,
-            "orderAbbreviation": "SJ"
+            "orderAbbreviation": "SJ",
+            "dutyStation": dutyStation
         }
 
 
