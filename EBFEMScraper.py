@@ -75,7 +75,8 @@ def processPriest(link, appendHibas):
                 deacon = True
             if "Jelenlegi beosztások" in fieldset.text:
                 for beosztas in fieldset.select("p"):
-                    dutyStation.append(beosztas.text.strip())
+                    for albeosztas in beosztas.get_text(strip=True, separator='\n').splitlines():
+                        dutyStation.append(albeosztas.strip())
                 if len(dutyStation) == 0:
                     dutyStation = None
                 else:
