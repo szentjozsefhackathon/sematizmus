@@ -47,7 +47,7 @@ def processPriest(link):
                 return
 
 
-        soup = BeautifulSoup(html_content, 'html.parser')
+        soup = BeautifulSoup(html_content, 'html5lib')
         imgSrc = ""
         try:
             imgSrc = "https://pecsiegyhazmegye.hu" + soup.select_one(".item-page img").get("src")
@@ -58,7 +58,7 @@ def processPriest(link):
             imgSrc = None
         birth = None
         ordination = None
-        dutyStation = None
+        dutyStation = set()
         for sor in soup.select_one(".kpriest-content-right table").findAll("tr"): # Papi táblázat
             if(sor.select_one("th").text == "Született"): 
                 birth = str2date(sor.select_one("td").text.strip().split(", ")[1])
@@ -69,7 +69,12 @@ def processPriest(link):
                 except:
                     ordination = str2date(sor.select_one("td").text.strip())
             if(sor.select_one("th").text == "Szolgálati hely"):
-                dutyStation = sor.select_one("td").text.strip()
+                for ds in sor.select_one("td").select("p"):
+                    dutyStation.add(ds.text.strip())
+        
+        dutyStation = "; ".join(list(dutyStation))
+        if len(dutyStation) == 0:
+            dutyStation = None
         return {
             "name": soup.select_one(".page-header h2").text, # A pap neve
             "birth": birth,
