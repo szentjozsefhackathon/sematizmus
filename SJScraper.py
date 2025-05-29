@@ -42,10 +42,16 @@ def processPriest(pap):
         except: pass
         if not retired:
             try:
-                dutyStation = f"{json_content['location'] if 'location' in json_content else ''} - {json_content['task'] if 'task' in json_content else ''}".strip()
+                dutyStation = []
+                if "location" in json_content and json_content["location"]:
+                    dutyStation.append(json_content["location"])
+                if "task" in json_content and json_content["task"]:
+                    dutyStation.append(json_content["task"])
+                
+                dutyStation = " - ".join(dutyStation)
             except: pass
         
-        if dutyStation == "-" or dutyStation == "":
+        if dutyStation == "":
             dutyStation = None
         return {
             "name": json_content["name"], # A pap neve
