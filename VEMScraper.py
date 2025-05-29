@@ -72,7 +72,8 @@ def processPriest(link, retired):
             pass
 
         dutyStation = []
-        for ds in soup.select('[t="szemely_feladatkor_ellatasok"] table tbody tr td.feladatkor-ellatas a'):
+        for ds in soup.select('[t="szemely_feladatkor_ellatasok"] table tr td.feladatkor-ellatas a'):
+            print(ds.text.strip())
             if ds.text.strip() == "Áldozópap":
                 continue
             if ds.text.strip() == "Állandó diakónus":
@@ -82,7 +83,7 @@ def processPriest(link, retired):
 
             dutyStation.append(ds.text.strip())
         
-        dutyStation = ", ".join(dutyStation)
+        dutyStation = "; ".join(dutyStation)
         if len(dutyStation) == 0: dutyStation = None
         try:
             name = soup.select_one('[t="szemely_nev"]').text
