@@ -41,51 +41,59 @@ def processDeanDistrict(link):
                 print(f"{link} - Big error")
                 return
 
-        soup = BeautifulSoup(html_content, 'html.parser').get_text().splitlines()
+        soup = BeautifulSoup(html_content, 'html5lib').select_one("article div div")
         papok = []
-        for row in soup:
-            for title in titles:
-                if title[0]+":" in row:
-                    for ember in row.split(" és "):
-                        try:
-                            name = ember.split(":")[-1].strip().split(",")[0].strip()
-                            name = name.replace("Sch.P", "SchP")
-                            name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
-                            name = name.split("P.")[-1].strip()
-                            name = name.split("Mons.")[-1].strip()
-                            if name == "":
-                                continue
-                            papok.append({
-                                            "name": name,
-                                            "birth": None,
-                                            "img": None,
-                                            "src": link,
-                                            "ordination": None,
-                                            "bishop": False,
-                                            "deacon": title[1],
-                                            "retired": None
-                                        })
-                        except:
-                            print(f"{link} - {row}")
-            if "P." in row:
-                name = row.strip().split(" és")[0].split(":")[-1].strip()
-                name = name.replace("Sch.P.", "SchP")
-                name = name.split("P.")[1].strip()
-                name = name.split("Mons.")[-1].strip()
-                if not name in [p["name"] for p in papok]:
-                    name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
-                    if name == "":
-                        continue
-                    papok.append({
-                                    "name": name,
-                                    "birth": None,
-                                    "img": None,
-                                    "src": link,
-                                    "ordination": None,
-                                    "bishop": False,
-                                    "deacon": False,
-                                    "retired": None
-                                })
+        dutyStation = None
+        for div in soup.select("div"):
+            if len(div.text.split(":")) == 1:
+                for strong in div.select("strong"):
+                    dutyStation = strong.text.split(".")[-1].strip().replace(" - ", "-").title()
+            rows = div.text.splitlines()
+            for row in rows:
+                for title in titles:
+                    if title[0]+":" in row:
+                        for ember in row.split(" és "):
+                            try:
+                                name = ember.split(":")[-1].strip().split(",")[0].strip()
+                                name = name.replace("Sch.P", "SchP")
+                                name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
+                                name = name.split("P.")[-1].strip()
+                                name = name.split("Mons.")[-1].strip()
+                                if name == "":
+                                    continue
+                                papok.append({
+                                                "name": name,
+                                                "birth": None,
+                                                "img": None,
+                                                "src": link,
+                                                "ordination": None,
+                                                "bishop": False,
+                                                "deacon": title[1],
+                                                "retired": None,
+                                                "dutyStation": dutyStation
+                                            })
+                            except:
+                                print(f"{link} - {row} - {dutyStation}")
+                if "P." in row:
+                    name = row.strip().split(" és")[0].split(":")[-1].strip()
+                    name = name.replace("Sch.P.", "SchP")
+                    name = name.split("P.")[1].strip()
+                    name = name.split("Mons.")[-1].strip()
+                    if not name in [p["name"] for p in papok]:
+                        name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
+                        if name == "":
+                            continue
+                        papok.append({
+                                        "name": name,
+                                        "birth": None,
+                                        "img": None,
+                                        "src": link,
+                                        "ordination": None,
+                                        "bishop": False,
+                                        "deacon": False,
+                                        "retired": None,
+                                        "dutyStation": dutyStation
+                                    })
         return papok
 @deleteDr
 @orderAbbreviation
