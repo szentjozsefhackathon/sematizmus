@@ -28,37 +28,45 @@ def processDeanDistrict(link):
                 print(f"{link} - Big error")
                 return
 
-        soup = BeautifulSoup(html_content, 'html.parser').select_one(".entry-content").get_text().splitlines()
+        soup = BeautifulSoup(html_content, 'html.parser').select_one(".entry-content")
         papok = []
-        for row in soup:
-            if any(title+":" in row for title in titles):
-                try: 
-                    papok.append({
-                                    "name": row.split(":")[1].split("P.")[-1].strip(),
-                                    "birth": None,
-                                    "img": None,
-                                    "src": link,
-                                    "ordination": None,
-                                    "bishop": False,
-                                    "deacon": False,
-                                    "retired": None
-                                })
-                except:
-                    print(f"{link} - {row}")
-            elif "P." in row:
-                try:
-                    papok.append({
-                                    "name": row.split("P.")[-1].strip(),
-                                    "birth": None,
-                                    "img": None,
-                                    "src": link,
-                                    "ordination": None,
-                                    "bishop": False,
-                                    "deacon": False,
-                                    "retired": None
-                                })
-                except:
-                    print(f"{link} - {row}")
+        for p in soup.select("p"):
+            rows = p.get_text().splitlines()
+            dutyStation = None
+            try: 
+                dutyStation = rows[0].split(".")[1].strip().title()
+            except: pass
+            for row in rows:
+                if any(title+":" in row for title in titles):
+                    try: 
+                        papok.append({
+                                        "name": row.split(":")[1].split("P.")[-1].strip(),
+                                        "birth": None,
+                                        "img": None,
+                                        "src": link,
+                                        "ordination": None,
+                                        "bishop": False,
+                                        "deacon": False,
+                                        "retired": None,
+                                        "dutyStation": dutyStation
+                                    })
+                    except:
+                        print(f"{link} - {row}")
+                elif "P." in row:
+                    try:
+                        papok.append({
+                                        "name": row.split("P.")[-1].strip(),
+                                        "birth": None,
+                                        "img": None,
+                                        "src": link,
+                                        "ordination": None,
+                                        "bishop": False,
+                                        "deacon": False,
+                                        "retired": None,
+                                        "dutyStation": dutyStation
+                                    })
+                    except:
+                        print(f"{link} - {row}")
         return papok
 
 @deleteDr
