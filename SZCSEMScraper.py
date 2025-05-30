@@ -30,11 +30,13 @@ def processDeanDistrict(link):
 
         soup = BeautifulSoup(html_content, 'html.parser').select_one(".entry-content")
         papok = []
+        dutyStation = None
         for p in soup.select("p"):
             rows = p.get_text().splitlines()
-            dutyStation = None
             try: 
-                dutyStation = rows[0].split(".")[1].strip().title()
+                if rows[0].startswith("F.") or rows[0].startswith("P."):
+                    pass
+                else: dutyStation = rows[0].split(".")[1].strip().title()
             except: pass
             for row in rows:
                 if any(title+":" in row for title in titles):
