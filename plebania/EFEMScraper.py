@@ -9,12 +9,18 @@ from multiprocessing import Pool
 
 from getPriest import get_priest
 def phone_format(phone):
+    szamok = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
     phones = []
     if phone == None:
         return []
-    phone = phone.replace("és", ";").replace("/", "").replace(" ", "").replace("-","").replace("+36","")
+    phone = phone.replace("és", ";").replace("/", "").replace(" ", "").replace("-","").replace("+36","").replace(",",";")
     for p in phone.split(";"):
-        phones.append(f"0036{p.strip()}")
+        _phone = "0036"
+        for s in p.strip():
+            if s in szamok:
+                _phone += s
+        if _phone!="0036":
+            phones.append(_phone)
     return phones
 
 def processDeanDistrict(link):
@@ -73,7 +79,7 @@ def processDeanDistrict(link):
                 continue
             parishioner = None
             phones = None
-            website = None
+            websites = []
             postalCode = None
             settlement = None
             address = None
@@ -109,7 +115,10 @@ def processDeanDistrict(link):
                         parishioner = get_priest(None, parishionerName, dontFind=True)
                         break
                 if row.startswith("Honlap:"):
-                    website = ":".join(row.split(":")[1:]).strip()
+                    for ws in row.split(":")[1:]:
+                        for sws in ws.split(","):
+                            if "e-mail" not in sws.lower() and "email" not in sws.lower() and not "@" in sws and "." in sws:
+                                websites.append(sws.strip().replace("/",""))
                 if row.startswith("E-mail:") or row.startswith("Email:"):
                     email = row.split(":")[1].strip()
                 if row.startswith("Tel.:") or row.startswith("Mobil:"):
@@ -132,6 +141,8 @@ def processDeanDistrict(link):
                 if email_matches:
                     for email in email_matches:
                         emails.add(email.strip())
+
+                
             try: 
                 plebaniak.append({
                     "name": name, # A plébánia neve
@@ -139,7 +150,7 @@ def processDeanDistrict(link):
                     "src": link,
                     "emails": list(emails), # E-mail
                     "phones": phone_format(phones), # Telefonszám
-                    "websites": [website], # Honlap
+                    "websites": list(set(websites)), # Honlap
                     "postalCode": postalCode, # Irányítószám
                     "settlement": settlement, # Település
                     "address": address # Cím

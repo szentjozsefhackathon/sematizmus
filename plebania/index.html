@@ -132,6 +132,9 @@
                         {
                             title: 'Plébániavezető', data: 'parishioner',
                             render: (data, type, row) => {
+                                if (!row.parishioner) {
+                                    return '';
+                                }
                                 return row.parishioner.src ? `<a href="${row.parishioner.src}" target="_blank">${row.parishioner.name}</a>` : row.parishioner.name;
                             },
                             searchPanes: {
