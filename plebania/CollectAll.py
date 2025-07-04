@@ -11,9 +11,9 @@ from SZCSEMScraper import SZCSEM
 # from VEMScraper import VEM
 # from VFEMScraper import VFEM
 
-from HdFEMScraper import HdFEM
-from MEMScraper import MEM
-from NYEMScraper import NYEM
+# from HdFEMScraper import HdFEM
+# from MEMScraper import MEM
+# from NYEMScraper import NYEM
 
 
 import json

@@ -78,7 +78,7 @@ def processDeanDistrict(link):
             settlement = None
             address = None
             emails = set()
-            name = rows[0]
+            name = ".".join(rows[0].split(".")[1:]).strip()
             for row in rows[1:]:
                 addressStarts = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                 parishionerStarts = ["Plébános", "Plébániai kormányzó"]
@@ -123,6 +123,8 @@ def processDeanDistrict(link):
                     break
                 if "lelkész" in row.lower() and not "egyetemi lelkész" in row.lower() and not "kórházlelkész" in row.lower() and not "iskolalelkész" in row.lower():
                     break
+                if "diakónus" in row.lower():
+                    break
 
                 # if email address regexp in row, add email to emails
                 email_regex = r'[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-zA-Z]{2,}'
@@ -135,7 +137,7 @@ def processDeanDistrict(link):
                     "name": name, # A plébánia neve
                     "parishioner": parishioner, # A plébános
                     "src": link,
-                    "emails": [email], # E-mail
+                    "emails": list(emails), # E-mail
                     "phones": phone_format(phones), # Telefonszám
                     "websites": [website], # Honlap
                     "postalCode": postalCode, # Irányítószám
