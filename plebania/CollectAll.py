@@ -1,7 +1,7 @@
 from DNYEMScraper import DNYEM
 from EBFEMScraper import EBFEM
 from EFEMScraper import EFEM
-# from GYEMScraper import GYEM
+from GYEMScraper import GYEM
 # from KEMScraper import KEM
 # from KKFEMScraper import KKFEM
 from PEMScraper import PEM
@@ -24,7 +24,7 @@ def parishList(year, filename=None):
     _dioceses = {
         # "Bíborosi Kar": Cardinal(year=year),
         "Esztergom-Budapesti főegyházmegye": EBFEM(year=year),
-        # "Győri egyházmegye": GYEM(year=year),
+        "Győri egyházmegye": GYEM(year=year),
         # "Székesfehérvári egyházmegye": SZFVEM(year=year),
         # "Kalocsa-Kecskeméti főegyházmegye": KKFEM(year=year),
         "Pécsi egyházmegye": PEM(year=year),
