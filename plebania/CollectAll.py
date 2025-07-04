@@ -48,14 +48,14 @@ def parishList(year, filename=None):
 
             parishes.append({
             "name": parish["name"],  # A plébánia neve
-            "parishioner": parish.get("parishioner"),
-            "src": parish.get("src"),  # Forrás link
-            "phones": parish.get("phones"),  # Telefonszám
-            "websites": parish.get("websites"),  # Honlap
-            "postalCode": parish.get("postalCode"),  # Irányítószám
-            "settlement": parish.get("settlement"),  # Település
-            "address": parish.get("address"),  # Cím
-            "emails": parish.get("emails"),
+            "parishioner": parish.get("parishioner", {}),
+            "src": parish.get("src", ""),  # Forrás link
+            "phones": parish.get("phones", []),  # Telefonszám
+            "websites": parish.get("websites", []),  # Honlap
+            "postalCode": parish.get("postalCode", ""),  # Irányítószám
+            "settlement": parish.get("settlement", ""),  # Település
+            "address": parish.get("address", ""),  # Cím
+            "emails": parish.get("emails", []),
             "diocese": diocese
             })
 

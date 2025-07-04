@@ -51,6 +51,7 @@ def processDeanDistrict(link):
                 for szam in szamok:
                     if strong.text.startswith(szam):
                         if elsoPlebania:
+                            plebania = []
                             elsoPlebania = False
                         else:
                             if len(plebania) > 0:
@@ -60,6 +61,7 @@ def processDeanDistrict(link):
             plebania.append(p.text.strip())
         if len(plebania) > 0:
             plebaniak_nyers.append(plebania)
+
         for plebaniai in range(len(plebaniak_nyers)):
             for sori in range(len(plebaniak_nyers[plebaniai])):
                 if plebaniak_nyers[plebaniai][sori] == "Plébános:" or plebaniak_nyers[plebaniai][sori] == "Plébániai kormányzó:":

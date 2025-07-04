@@ -3,12 +3,15 @@ import json
 
 def get_priest(url, name, dontFind = False):
     priests = []
+    priest = None
     try:
         with open("priests.json", "r") as f:
             priests = json.load(f)
         if not dontFind:
-            return next(p for p in priests if p["src"] == url)
+            priest = next(p for p in priests if p["src"] == url)
     finally:
+        if priest is not None:
+            return priest
         priest = {
                 "name": name, 
                 "diocese": None, 

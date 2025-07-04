@@ -42,6 +42,8 @@ def processDeanDistrict(link):
             if "templomigazgató" in p.text.lower():
                 continue
             rows = p.get_text().splitlines()
+            if "ellátja" in p.get_text().lower():
+                continue
             
             if rows[0].startswith("F.") or rows[0].startswith("P."):
                 continue
