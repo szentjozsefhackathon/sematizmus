@@ -35,9 +35,9 @@ def parishList(year, filename=None):
         # "Veszprémi főegyházmegye": VFEM(year=year),
         # "Kaposvári egyházmegye": KEM(year=year),
         # "Szombathelyi egyházmegye": SZHEM(year=year),
-        "Hajdúdorogi főegyházmegye": HdFEM(year=year),
-        "Miskolci egyházmegye": MEM(year=year),
-        "Nyíregyházi egyházmegye": NYEM(year=year),
+        # "Hajdúdorogi főegyházmegye": HdFEM(year=year),
+        # "Miskolci egyházmegye": MEM(year=year),
+        # "Nyíregyházi egyházmegye": NYEM(year=year),
         # "Pannonhalmi területi főapátság": ,
     }
 
