@@ -38,7 +38,7 @@ jobs:
           python-version: '3.x'
       - name: install python modules
         run: pip install -r requirements.txt
-      - name: Collect data with python
+      - name: Collect data with python (priests)
         run: python CollectAll.py --filename data.json
         shell: sh
       - name: Delete multiplications
@@ -49,6 +49,9 @@ jobs:
         shell: sh
       - name: Generate stats
         run: python stat.py
+        shell: sh
+      - name: Collect data with python (parishes)
+        run: python ./plebania/downloadPriests.py && python ./plebania/CollectAll.py --filename ./plebania/data.json && rm -rf ./plebania/priests.json
         shell: sh
       - name: Setup Pages
         uses: actions/configure-pages@v5
