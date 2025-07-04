@@ -86,7 +86,7 @@ def processDeanDistrict(link):
             settlement = None
             address = None
             emails = set()
-            name = ".".join(rows[0].split(".")[1:]).strip()
+            name = ".".join(rows[0].split(".")[1:]).strip().split("Római Katolikus Plébánia")[0].strip()
             for row in rows[1:]:
                 addressStarts = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                 parishionerStarts = ["Plébános", "Plébániai kormányzó"]
