@@ -7,7 +7,7 @@ from KEMScraper import KEM
 from PEMScraper import PEM
 from SZCSEMScraper import SZCSEM
 from SZFVEMScraper import SZFVEM
-# from SZHEMScraper import SZHEM
+from SZHEMScraper import SZHEM
 from VEMScraper import VEM
 from VFEMScraper import VFEM
 
@@ -33,7 +33,7 @@ def parishList(year, filename=None):
         "Debrecen-Nyíregyházi egyházmegye": DNYEM(year=year),
         "Veszprémi főegyházmegye": VFEM(year=year),
         "Kaposvári egyházmegye": KEM(year=year),
-        # "Szombathelyi egyházmegye": SZHEM(year=year),
+        "Szombathelyi egyházmegye": SZHEM(year=year),
         # "Hajdúdorogi főegyházmegye": HdFEM(year=year),
         # "Miskolci egyházmegye": MEM(year=year),
         # "Nyíregyházi egyházmegye": NYEM(year=year),
