@@ -8,7 +8,7 @@ from PEMScraper import PEM
 from SZCSEMScraper import SZCSEM
 # from SZFVEMScraper import SZFVEM
 # from SZHEMScraper import SZHEM
-# from VEMScraper import VEM
+from VEMScraper import VEM
 # from VFEMScraper import VFEM
 
 # from HdFEMScraper import HdFEM
@@ -30,7 +30,7 @@ def parishList(year, filename=None):
         "Pécsi egyházmegye": PEM(year=year),
         "Szeged-Csanádi egyházmegye": SZCSEM(year=year),
         "Egri főegyházmegye": EFEM(year=year),
-        # "Váci egyházmegye": VEM(year=year),
+        "Váci egyházmegye": VEM(year=year),
         "Debrecen-Nyíregyházi egyházmegye": DNYEM(year=year),
         # "Veszprémi főegyházmegye": VFEM(year=year),
         # "Kaposvári egyházmegye": KEM(year=year),
