@@ -2,7 +2,7 @@ from DNYEMScraper import DNYEM
 from EBFEMScraper import EBFEM
 from EFEMScraper import EFEM
 from GYEMScraper import GYEM
-# from KEMScraper import KEM
+from KEMScraper import KEM
 # from KKFEMScraper import KKFEM
 from PEMScraper import PEM
 from SZCSEMScraper import SZCSEM
@@ -31,8 +31,8 @@ def parishList(year, filename=None):
         "Egri főegyházmegye": EFEM(year=year),
         "Váci egyházmegye": VEM(year=year),
         "Debrecen-Nyíregyházi egyházmegye": DNYEM(year=year),
-        # "Veszprémi főegyházmegye": VFEM(year=year),
-        # "Kaposvári egyházmegye": KEM(year=year),
+        "Veszprémi főegyházmegye": VFEM(year=year),
+        "Kaposvári egyházmegye": KEM(year=year),
         # "Szombathelyi egyházmegye": SZHEM(year=year),
         # "Hajdúdorogi főegyházmegye": HdFEM(year=year),
         # "Miskolci egyházmegye": MEM(year=year),
