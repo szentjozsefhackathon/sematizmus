@@ -9,7 +9,7 @@ from SZCSEMScraper import SZCSEM
 from SZFVEMScraper import SZFVEM
 # from SZHEMScraper import SZHEM
 from VEMScraper import VEM
-# from VFEMScraper import VFEM
+from VFEMScraper import VFEM
 
 # from HdFEMScraper import HdFEM
 # from MEMScraper import MEM
