@@ -53,9 +53,9 @@ jobs:
       - name: Collect data with python (parishes)
         run: python ./plebania/downloadPriests.py && python ./plebania/CollectAll.py --filename ./plebania/data.json && rm -rf ./plebania/priests.json
         shell: sh
-      - name: Generate CSV
-        run: cd plebania && python csvgenerator.py && cd ..
-        shell: sh
+      # - name: Generate CSV
+      #   run: cd plebania && python csvgenerator.py && cd ..
+      #   shell: sh
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
