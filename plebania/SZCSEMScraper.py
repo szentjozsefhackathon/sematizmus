@@ -107,7 +107,9 @@ def processDeanDistrict(link):
                     email = row.split(":")[1].strip()
                 if row.startswith("Tel.:") or row.startswith("Mobil:"):
                     phones = row.split(":")[1].strip()
-            try: 
+            try:
+                if parishioner == None:
+                    continue
                 plebaniak.append({
                     "name": name, # A plébánia neve
                     "parishioner": parishioner, # A plébános
