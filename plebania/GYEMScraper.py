@@ -60,8 +60,12 @@ def GYEM(filename=None, year=None):
 
         if plebania["parentChurch"] != None:
             continue
+        if plebania["type"] != "PLEBANIA":
+            continue
+        if plebania["name"].strip() == "teszt":
+            continue
 
-        parishioner = None
+        parishioner = {}
         
         for priest in plebania["priests"]:
             if priest["post"] == "PLEBANOS" or priest["post"]=="PLEBANIAI_KORMANYZO":

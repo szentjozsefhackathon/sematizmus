@@ -51,6 +51,8 @@ def processParish(link):
         address = None
         if "Oldallagosan ellátott plébánia" in soup.text:
             return None
+        if "Társplébánia" in soup.text:
+            return None
         for sor in soup.select_one(".kpriest-content-right table").findAll("tr"): # Papi táblázat
             if sor.select_one("th").text == "Plébánia vezető":
                 plink = sor.select_one("td a")["href"]

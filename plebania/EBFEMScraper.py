@@ -54,7 +54,7 @@ def processParish(link):
             return None
         if "kápolnaigazgatóság" in soup.text.lower():
             return None
-        parishioner = None
+        parishioner = {}
         phones = None
         websites = []
         postalCode = None

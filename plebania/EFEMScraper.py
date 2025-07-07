@@ -79,7 +79,7 @@ def processDeanDistrict(link):
         for rows in plebaniak_nyers:
             if "Ellátja:" in "".join(rows):
                 continue
-            parishioner = None
+            parishioner = {}
             phones = None
             websites = []
             postalCode = None

@@ -111,7 +111,7 @@ def processDeanDistrict(link):
                 if parishioner == None:
                     continue
                 plebaniak.append({
-                    "name": name, # A plébánia neve
+                    "name": name.title(), # A plébánia neve
                     "parishioner": parishioner, # A plébános
                     "src": link,
                     "emails": [email], # E-mail
