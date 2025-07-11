@@ -45,7 +45,7 @@ def processParish(link):
                 settlement = sor.text.split(":")[1].strip().split(" ")[1].split(',')[0].strip().title()
                 address = " ".join(sor.text.split(":")[1].strip().split(" ")[2:]).strip()
             if "Telefonszám" in sor.text:
-                phones = [f'0036{sor.text.split(":")[1].strip().replace(" ", "").replace("(","").replace(")","")}']
+                phones = [f'0036{sor.text.split(":")[1].strip().replace(" ", "").replace("(","").replace(")","").replace("-", "")}']
             if "Saját oldalak" in sor.text:
                 for _link in sor.select("a"):
                     if _link.has_attr("href"):
