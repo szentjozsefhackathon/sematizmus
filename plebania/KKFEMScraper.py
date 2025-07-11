@@ -86,6 +86,14 @@ def processDeanDistrict(link):
                     
                     plebaniak_nyers[plebaniai][sori+1] = "tel.: " + plebaniak_nyers[plebaniai][sori].split("tel.:")[1].strip()
                     plebaniak_nyers[plebaniai][sori] = plebaniak_nyers[plebaniai][sori].split("tel.:")[0].strip()
+                if "tel. :" in plebaniak_nyers[plebaniai][sori] and not plebaniak_nyers[plebaniai][sori].startswith("tel. :"):
+                    plebaniak_nyers[plebaniai].append(None)
+                    for i in range(sori+1, len(plebaniak_nyers[plebaniai])-1):
+                        plebaniak_nyers[plebaniai][i+1] = plebaniak_nyers[plebaniai][i]
+                    
+                    plebaniak_nyers[plebaniai][sori+1] = "tel. : " + plebaniak_nyers[plebaniai][sori].split("tel. :")[1].strip()
+                    plebaniak_nyers[plebaniai][sori] = plebaniak_nyers[plebaniai][sori].split("tel. :")[0].strip()
+
         plebaniak = []
         for rows in plebaniak_nyers:
 
