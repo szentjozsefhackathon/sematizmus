@@ -11,7 +11,7 @@ from SZHEMScraper import SZHEM
 from VEMScraper import VEM
 from VFEMScraper import VFEM
 
-# from HdFEMScraper import HdFEM
+from HdFEMScraper import HdFEM
 # from MEMScraper import MEM
 # from NYEMScraper import NYEM
 
@@ -34,7 +34,7 @@ def parishList(year, filename=None):
         "Veszprémi főegyházmegye": VFEM(year=year),
         "Kaposvári egyházmegye": KEM(year=year),
         "Szombathelyi egyházmegye": SZHEM(year=year),
-        # "Hajdúdorogi főegyházmegye": HdFEM(year=year),
+        "Hajdúdorogi főegyházmegye": HdFEM(year=year),
         # "Miskolci egyházmegye": MEM(year=year),
         # "Nyíregyházi egyházmegye": NYEM(year=year),
         # "Pannonhalmi területi főapátság": ,
