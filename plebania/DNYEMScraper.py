@@ -15,7 +15,7 @@ def phone_format(phone):
         return []
     
     phones = ["0036"+phone.replace("+36", "").replace("/", "").replace(" ", "").replace("-", "")]
-
+    phones = [p for p in phones if p!="0036"]
     return phones
 
 def processParish(link):
