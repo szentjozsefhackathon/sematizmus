@@ -55,11 +55,18 @@ def processParish(link):
             for karakter in soup.select_one("#plebaniaTelefon").text.strip().replace(",", ";"):
                 if karakter in alkalmasKarakterek:
                     _phone += karakter
+                
         
             phones = [f"0036{phone.strip()}" for phone in _phone.split(";") if phone.strip() != ""]
+            for phone in _phone.split(";"):
+                if phone.strip() != "":
+                    if phone.strip().startswith("06"):
+                        phones.append(phone.strip()[2:])
+                    else:
+                        phones.append(f"0036{phone.strip()}")
         for pap in soup.select("a.ellatoSzemelyek"):
             if "plébános" in pap.text.lower() or "plébániai kormányzó" in pap.text.lower():
-                parishioner = get_priest(pap["href"], pap.text.strip())
+                parishioner = get_priest(pap["href"], pap.text.split("(")[0].strip())
                 break
         
         for emailweb in soup.select("#plebaniaEmail"):
