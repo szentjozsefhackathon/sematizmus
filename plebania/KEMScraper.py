@@ -27,10 +27,16 @@ def KEM(filename=None, year=None):
         emails = []
 
         for row in rows:
+            if "diakónus" in row.lower():
+                break
             if row.lower().startswith("plébános:") or row.lower().startswith("plébániai kormányzó:"):
-                parishioner = get_priest(None, row.split(":")[1].strip(), dontFind=True)
+                parishioner_name = " ".join([nev for nev in row.split(":")[1].strip().split(" ") if nev!="" and nev[0].isupper()])
+                parishioner = get_priest(None, parishioner_name, dontFind=True)
             if row.lower().startswith("tel.:"):
-                phones.append("0036" + row.split(":")[1].split("(")[0].replace(" ", "").replace("/","").replace("-","").strip())
+                fullRow = row.split(":")[1].split("(")[0].replace(" ", "").replace("/","").replace("-","").replace("+36","").split(",")
+                for phone in fullRow:
+                    if phone.strip() != "":
+                        phones.append("0036" + phone.strip())
             if row.lower().startswith("web:"):
                 websites = ":".join(row.split(":")[1:]).strip().replace(" ", "").split(",")
             if row.lower().startswith("e-mail:"):
