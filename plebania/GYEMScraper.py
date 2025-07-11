@@ -76,7 +76,7 @@ def GYEM(filename=None, year=None):
             "name": plebania["name"].strip(),
             "src": f"https://gyor.egyhazmegye.hu/#/egyhazmegyenk/plebaniak/{plebania['id']}",
             "emails": [plebania["email"].strip()] if plebania["email"] != None and plebania["email"] != "" else [],
-            "phones": [f"0036{telefon.strip() if not telefon.strip().startswith('06') else telefon.strip()[2:]}" for telefon in plebania['phone'].strip().replace('/', '').replace('-','').replace("+36", "").replace(",",";").split(";")] if plebania["phone"] != None and plebania["phone"] != "" else [],
+            "phones": [f"0036{telefon.strip() if not telefon.strip().startswith('06') else telefon.strip()[2:]}" for telefon in plebania['phone'].strip().replace('/', '').replace('-','').replace("+36", "").replace(",",";").replace(" ","").split(";")] if plebania["phone"] != None and plebania["phone"] != "" else [],
             "websites": [plebania["web"].strip()] if plebania["web"] != None and plebania["web"] != "" else [],
             "postalCode": f"{plebania['zip']}",
             "settlement": plebania["city"]["name"].strip() if plebania["city"] != None and plebania["city"]["name"] != None else "",
