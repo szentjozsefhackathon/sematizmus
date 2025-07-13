@@ -4,7 +4,7 @@ import json
 import argparse
 from getPriest import get_priest
 
-def RO_T(filename=None, year=None):
+def RO_TEM(filename=None, year=None):
     url = 'https://gerhardus.ro/hu/plebaniak-2/'
     response = requests.get(url, verify=False)
     if response.status_code == 200:
@@ -97,6 +97,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.filename == None:
-        print(RO_T(args.filename))
+        print(RO_TEM(args.filename))
     else:
-        RO_T(args.filename)
+        RO_TEM(args.filename)
