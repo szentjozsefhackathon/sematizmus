@@ -15,6 +15,8 @@ from HdFEMScraper import HdFEM
 from MEMScraper import MEM
 from NYEMScraper import NYEM
 
+from RO_TScraper import RO_T
+
 
 import json
 import argparse
@@ -37,6 +39,7 @@ def parishList(year, filename=None):
         "Hajdúdorogi főegyházmegye": HdFEM(year=year),
         "Miskolci egyházmegye": MEM(year=year),
         "Nyíregyházi egyházmegye": NYEM(year=year),
+        "Temesvári egyházmegye": RO_T(year=year),
         # "Pannonhalmi területi főapátság": ,
     }
 
