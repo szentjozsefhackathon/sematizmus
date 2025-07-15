@@ -18,6 +18,7 @@ from NYEMScraper import NYEM
 from RO_TEMScraper import RO_TEM
 from RO_SZEMScraper import RO_SZEM
 from RO_NEMScraper import RO_NEM
+from RO_GYFEMScraper import RO_GYFEM
 
 import json
 import argparse
@@ -43,6 +44,7 @@ def parishList(year, filename=None):
         "Temesvári egyházmegye": RO_TEM(year=year),
         "Szatmári egyházmegye": RO_SZEM(year=year),
         "Nagyváradi egyházmegye": RO_NEM(year=year),
+        "Gyulafehérvári főegyházmegye": RO_GYFEM(year=year)
         # "Pannonhalmi területi főapátság": ,
     }
 
