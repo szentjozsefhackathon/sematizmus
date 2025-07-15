@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import argparse
 from getPriest import get_priest
+import re
 
 def RO_TEM(filename=None, year=None):
     url = 'https://gerhardus.ro/hu/plebaniak-2/'
@@ -33,7 +34,12 @@ def RO_TEM(filename=None, year=None):
                     websites.append(ws.strip())
             if "e-mail" in row.lower():
                 for email in ":".join(row.split(":")[1:]).strip().replace(" ","").split(","):
-                    emails.append(email.strip())
+                    email = email.split("(")[0].strip()
+                    email_regex = r'[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-zA-Z]{2,}'
+                    email_matches = re.findall(email_regex, email)
+                    if email_matches:
+                        for _email in email_matches:
+                            emails.append(_email.strip())
 
 
         for row in plebania.get_text(strip=True, separator="\n").splitlines():
@@ -45,7 +51,7 @@ def RO_TEM(filename=None, year=None):
                     parishioner = get_priest("https://gerhardus.ro/hu/plebaniak-2/", parishioner_name, dontFind=True)
                 except:
                     print(f"{url} - {row} - Plébános feldolgozási hiba")
-            if ("telefon" in row.lower() or "tel" in row.lower()) and not "szentel" in row.lower():
+            if ("telefon" in row.lower() or "tel" in row.lower()) and not "szentel" in row.lower() and not "otelec" in row.lower() and not "telep" in row.lower():
                 for phone in row.split(":")[-1].strip().replace(" / ", ",").replace(" ", "").replace("-", "").replace("/", "").replace("(", "").replace(")", "").replace(";",",").split(","):
                     _phone = "".join([p for p in phone if p.isdigit()])
                     if len(_phone) > 0:
@@ -63,9 +69,14 @@ def RO_TEM(filename=None, year=None):
                     print(f"{url} - {row} - Cím feldolgozási hiba")
             if "e-mail" in row.lower():
                 for email in ":".join(row.split(":")[1:]).strip().replace(" ","").split(","):
-                    emails.append(email.strip())
+                    email_regex = r'[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-zA-Z]{2,}'
+                    email_matches = re.findall(email_regex, email.split("(")[0].strip())
+                    if email_matches:
+                        for _email in email_matches:
+                            emails.append(_email.strip())
 
-        emails = list(set([email.strip() for email in emails if email.strip() != ""]))
+
+        emails = list(set([email.strip().replace(".comFili", ".com") for email in emails if email.strip() != ""])) # TODO: Pankota
         phones = list(set([phone.strip() for phone in phones if phone.strip() != ""]))
         websites = list(set([website.strip() for website in websites if website.strip() != ""]))
         plebanialista.append({

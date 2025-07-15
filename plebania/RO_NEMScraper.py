@@ -54,7 +54,7 @@ def processParish(link):
             if "postacím" in raw[i].lower():
                 fullAddress = ":".join(raw[i].split(":")[1:]).strip()
                 if fullAddress:
-                    fullAddress = fullAddress.replace("\u2013", "").replace("-", "")
+                    fullAddress = fullAddress.replace("\u2013", "").replace("-", " ")
                     while fullAddress.count("  ") > 0:
                         fullAddress = fullAddress.replace("  ", " ")
                     try:
@@ -82,7 +82,8 @@ def processParish(link):
                 for email in email_matches:
                     emails.add(email.strip())
             
-
+        if parishioner == {}:
+            return None
         return {
             "name": soup.select_one("h2").get_text(), # A plébánia neve
             "parishioner": parishioner, # A plébános

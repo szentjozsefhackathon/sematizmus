@@ -54,7 +54,7 @@ def processDeanDistrict(link):
             settlement = None
             emails = set()
             name = plebania[0].strip().replace("plébánia", "").replace("Plébánia", "").strip()
-            postalCode = plebania[1].split("-")[0].strip()
+            postalCode = plebania[1].split("-")[0].replace("Cím:","").strip()
             settlement = plebania[1].split(",")[0].split("-")[1].strip()
             address = ",".join(plebania[1].split(",")[1:]).strip()
 
@@ -64,7 +64,7 @@ def processDeanDistrict(link):
                 for start in parishionerStarts:
                     if row.startswith(start):
                         parishionerName = []
-                        for s in row.split(":")[1].strip().split(" "):
+                        for s in row.replace("fr. ","").split(":")[1].strip().split(" "):
                             if len(s) > 0 and s[0].isupper():
                                 parishionerName.append(s.split(",")[0].strip())
                             else:
