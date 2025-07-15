@@ -38,7 +38,7 @@
                 <div class="alert alert-warning">Az egyházmegyék honlapja folyamatos feldolgozás alatt áll a <a
                         href="https://github.com/szentjozsefhackathon/sematizmus">GitHubon</a> elérhető bányász
                     szkriptek segítségével.
-                    A kinyert adatok elérhetőek <a href="data.json">ezen a linken.</a>
+                    A kinyert adatok elérhetőek <a href="data.json">ezen a linken json formátumban</a> és <a href="data.csv">ezen a linken csv formátumban.</a>
                 </div>
                 <div class="alert alert-primary">
                     <h5>Papi sematizmus</h5>
@@ -50,14 +50,12 @@
                 </div>
                 <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok,
                     ezekért felelősséget nem vállalunk!
-                    A hibák bejelenthetők a <span>voroslaszlo@papima<b style="display: none">.example</b>.hu</span>
-                    email címen.
+                    A hibák bejelenthetők a <a href="https://github.com/szentjozsefhackathon/sematizmus/issues">GitHubon issueként.</a>
                 </div>
                 <table id="datatable" class="stripe row-border hover"></table>
                 <div class="alert alert-danger"><b>Figyelem!</b> Az adatokban előfordulhatnak hibák és hiányosságok,
                     ezekért felelősséget nem vállalunk!
-                    A hibák bejelenthetők a <span>voroslaszlo@papima<b style="display: none">.example</b>.hu</span>
-                    email címen.
+                    A hibák bejelenthetők a <a href="https://github.com/szentjozsefhackathon/sematizmus/issues">GitHubon issueként.</a>
                 </div>
             </div>
         </div>
@@ -72,7 +70,7 @@
         let data = [];
         let table;
 
-        fetch('/lastUpdate.json')
+        fetch('/sematizmus/lastUpdate.json')
             .then(response => response.json())
             .then(json => {
                 document.getElementById('lastUpdate').innerText = json.lastUpdate;
