@@ -15,19 +15,24 @@ def processParish(link):
             else:
                 print(f"{link} - Failed to fetch the website.")
         except:
-            try:
                 response = requests.get(link)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
                     print(f"{link} - Failed to fetch the website.")
-            except:
-                print(f"{link} - Big error")
-                return
 
         soup = BeautifulSoup(html_content, 'html5lib')
         parishioner = {}
-        phones = ["0040"+soup.select_one(".views-field-field-templom-tel .field-content").get_text().replace("/","").replace(" ","").replace(".","").replace("-","").strip()] if soup.select_one(".views-field-field-templom-tel .field-content") else []
+        phones = []
+        _phones = soup.select_one(".views-field-field-templom-tel .field-content").get_text().replace("/","").replace(" ","").replace(".","").replace("-","").replace(";",",").split("(")[0].strip() if soup.select_one(".views-field-field-templom-tel .field-content") else ""
+        for p in _phones.split(","):
+            _phone = ""
+            for d in p:
+                if d.isdigit():
+                    _phone += d
+            if p.strip() != "":
+                phones.append(f"0040{_phone.strip()}")
+
         emails = [soup.select_one(".views-field-field-templom-email .field-content").get_text().strip()] if soup.select_one(".views-field-field-templom-email .field-content") else []
         name = soup.select_one("h3").get_text() if soup.select_one("h3") else ""
         fullAddress = soup.select_one(".views-field-field-templom-postacim .field-content").get_text() if soup.select_one(".views-field-field-templom-postacim .field-content") else ""
@@ -79,15 +84,11 @@ def processPage(link):
             else:
                 print(f"{link} - Failed to fetch the website.")
         except:
-            try:
                 response = requests.get(link)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
                     print(f"{link} - Failed to fetch the website.")
-            except:
-                print(f"{link} - Big error")
-                return
 
         soup = BeautifulSoup(html_content, 'html5lib')
         plebaniak = []
