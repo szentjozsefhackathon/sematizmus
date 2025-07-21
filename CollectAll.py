@@ -31,35 +31,52 @@ from GYSZScraper import GYSZ
 
 import json
 import argparse
+import requests
+from datetime import date
 
-def priestList(year, filename=None): 
+def priestList(year, filename=None, restore=False): 
+    old = []
+    if restore:
+        r = requests.get("https://szentjozsefhackathon.github.io/sematizmus/data.json")
+        old = r.json()
     _dioceses = {
         # "Bíborosi Kar": Cardinal(year=year),
-        "Esztergom-Budapesti főegyházmegye": EBFEM(year=year),
-        "Győri egyházmegye": GYEM(year=year),
-        "Székesfehérvári egyházmegye": SZFVEM(year=year),
-        "Kalocsa-Kecskeméti főegyházmegye": KKFEM(year=year),
-        "Pécsi egyházmegye": PEM(year=year),
-        "Szeged-Csanádi egyházmegye": SZCSEM(year=year),
-        "Egri főegyházmegye": EFEM(year=year),
-        "Váci egyházmegye": VEM(year=year),
-        "Debrecen-Nyíregyházi egyházmegye": DNYEM(year=year),
-        "Veszprémi főegyházmegye": VFEM(year=year),
-        "Kaposvári egyházmegye": KEM(year=year),
-        "Szombathelyi egyházmegye": SZHEM(year=year),
-        "Hajdúdorogi főegyházmegye": HdFEM(year=year),
-        "Miskolci egyházmegye": MEM(year=year),
-        "Nyíregyházi egyházmegye": NYEM(year=year),
+        "Esztergom-Budapesti főegyházmegye": EBFEM,
+        "Győri egyházmegye": GYEM,
+        "Székesfehérvári egyházmegye": SZFVEM,
+        "Kalocsa-Kecskeméti főegyházmegye": KKFEM,
+        "Pécsi egyházmegye": PEM,
+        "Szeged-Csanádi egyházmegye": SZCSEM,
+        "Egri főegyházmegye": EFEM,
+        "Váci egyházmegye": VEM,
+        "Debrecen-Nyíregyházi egyházmegye": DNYEM,
+        "Veszprémi főegyházmegye": VFEM,
+        "Kaposvári egyházmegye": KEM,
+        "Szombathelyi egyházmegye": SZHEM,
+        "Hajdúdorogi főegyházmegye": HdFEM,
+        "Miskolci egyházmegye": MEM,
+        "Nyíregyházi egyházmegye": NYEM,
         #"Pannonhalmi területi főapátság": ,
-        "Katonai Ordinariátus": KO(year=year),
-        "Jézus Társasága Magyarországi Rendtartománya": SJ(year=year),
-        "Szent Istvánról elnevezett Magyar Szalézi Tartomány": SDB(year=year),
-        "Piarista Rend Magyar Tartománya": SP(year=year),
-        "Esztergomi Szeminárium": ESZ(year=year),
-        "Központi Szeminárium": KSZ(year=year),
-        "Görögkatolikus Papnevelő Intézet": GKPI(year=year),
-        "Győri Szeminárium": GYSZ(year=year)
+        "Katonai Ordinariátus": KO,
+        "Jézus Társasága Magyarországi Rendtartománya": SJ,
+        "Szent Istvánról elnevezett Magyar Szalézi Tartomány": SDB,
+        "Piarista Rend Magyar Tartománya": SP,
+        "Esztergomi Szeminárium": ESZ,
+        "Központi Szeminárium": KSZ,
+        "Görögkatolikus Papnevelő Intézet": GKPI,
+        "Győri Szeminárium": GYSZ
     }
+    for key in _dioceses.keys():
+        try:
+            _dioceses[key] = _dioceses[key](year=year)
+        except:
+            _dioceses[key] = []
+            for d in old:
+                if d["diocese"] == key:
+                    _dioceses[key].append(d)
+                    if _dioceses[key][-1].get("restored", None) is None:
+                        _dioceses[key][-1]["restored"] = date.today().isoformat()
+
 
     priests = []
     for diocese, data in _dioceses.items():
@@ -78,7 +95,8 @@ def priestList(year, filename=None):
                 "orderAbbreviation": priest.get("orderAbbreviation"),
                 "doctor": priest.get("doctor"),
                 "seminarist": priest.get("seminarist"),
-                "dutyStation": priest.get("dutyStation")
+                "dutyStation": priest.get("dutyStation"),
+                "restored": priest.get("restored", None),  # Dátum, mikor lett visszaállítva
             })
 
     if filename == None:
@@ -93,10 +111,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
                         description='Sematizmus')
     parser.add_argument('--filename', required=False, action="store", default=None, help="JSON to save. If not set, the result will be displayed on screen")
+    parser.add_argument('--restore', required=False, action="store_true", default=False, help="Restore from the old data")
     parser.add_argument('--year', required=False, action="store", default=2024, help="Actual year")
     args = parser.parse_args()
 
 
-    if args.filename==None: print(priestList(int(args.year)))
-    else: priestList(int(args.year), args.filename)
+    if args.filename==None: print(priestList(int(args.year), restore=args.restore))
+    else: priestList(int(args.year), args.filename, restore=args.restore)
 
