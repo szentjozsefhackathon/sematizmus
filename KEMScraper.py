@@ -75,13 +75,25 @@ def KEM(filename=None, year=None):
         "deacon": False
     }]
     for source in sources:
-        response = requests.get(source["url"], verify=False)
-        if response.status_code == 200:
-            html_content = response.content
-        else:
-            print(f"{source["url"]} - Failed to fetch the website.")
+        try:
+            response = requests.get(source["url"], verify=False)
+            if response.status_code == 200:
+                html_content = response.content
+            else:
+                print(f"{source["url"]} - Failed to fetch the website.")
 
-        soup = BeautifulSoup(html_content, 'html.parser')
+            soup = BeautifulSoup(html_content, 'html.parser')
+        except:
+            try:
+                response = requests.get(source["url"], verify=False)
+                if response.status_code == 200:
+                    html_content = response.content
+                else:
+                    print(f"{source["url"]} - Failed to fetch the website.")
+
+                soup = BeautifulSoup(html_content, 'html.parser')
+            except:
+                raise Exception(f"{source['url']} - Failed to fetch the website after retrying.")
 
         for pap in soup.select(".qx-element-person"):
             ordination = None
