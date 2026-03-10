@@ -77,6 +77,7 @@ def KEM(filename=None, year=None):
     for source in sources:
         try:
             response = requests.get(source["url"], verify=False)
+            print(f"KEM státusz: {response.status_code}")
             if response.status_code == 200:
                 html_content = response.content
             else:
@@ -86,6 +87,7 @@ def KEM(filename=None, year=None):
         except:
             try:
                 response = requests.get(source["url"], verify=False)
+                print(f"KEM státusz: {response.status_code}")
                 if response.status_code == 200:
                     html_content = response.content
                 else:
