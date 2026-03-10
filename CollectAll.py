@@ -69,7 +69,9 @@ def priestList(year, filename=None, restore=False):
     for key in _dioceses.keys():
         try:
             _dioceses[key] = _dioceses[key](year=year)
-        except:
+        except Exception as e:
+            if not restore:
+                raise e
             _dioceses[key] = []
             for d in old:
                 if d["diocese"] == key:
