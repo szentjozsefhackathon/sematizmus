@@ -77,7 +77,7 @@ def processDeanDistrict(link):
                 if "P." in row:
                     name = row.strip().split(" és")[0].split(":")[-1].strip()
                     name = name.replace("Sch.P.", "SchP")
-                    name = name.split("P.")[1].strip()
+                    name = name.split("P.")[-1].strip()
                     name = name.split("Mons.")[-1].strip()
                     if not name in [p["name"] for p in papok]:
                         name = " ".join([nt for nt in name.split(" ") if nt[0].isupper()])
