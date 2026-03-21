@@ -40,7 +40,7 @@ def str2date(datum):
 def KEM(filename=None, year=None):
     sources = [
         {
-            "url": "https://kaposvar.egyhazmegye.hu/index.php/papok/aktiv-papok",
+            "url": "http://civitas.hcbc.hu/kaposvar.egyhazmegye.hu/index.php/papok/aktiv-papok",
             "options": {
                 "retired": False,
                 "bishop": False,
@@ -48,7 +48,7 @@ def KEM(filename=None, year=None):
             }
         },
         {
-            "url": "https://kaposvar.egyhazmegye.hu/index.php/papok/diakonusok",
+            "url": "http://civitas.hcbc.hu/kaposvar.egyhazmegye.hu/index.php/papok/diakonusok",
             "options": {
                 "retired": False,
                 "bishop": False,
@@ -56,7 +56,7 @@ def KEM(filename=None, year=None):
             }
         },
         {
-            "url": "https://kaposvar.egyhazmegye.hu/index.php/papok/nyugdijas-papok",
+            "url": "http://civitas.hcbc.hu/kaposvar.egyhazmegye.hu/index.php/papok/nyugdijas-papok",
             "options": {
                 "retired": True,
                 "bishop": False,
@@ -139,7 +139,6 @@ def KEM(filename=None, year=None):
     else:
         with open(filename, "w") as outfile:
             outfile.write(json.dumps(paplista, default=str))
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

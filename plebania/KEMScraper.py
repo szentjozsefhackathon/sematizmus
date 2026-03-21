@@ -5,7 +5,7 @@ import argparse
 from getPriest import get_priest
 
 def KEM(filename=None, year=None):
-    url = 'https://kaposvar.egyhazmegye.hu/index.php/plebaniak/plebaniak'
+    url = 'http://civitas.hcbc.hu/kaposvar.egyhazmegye.hu/index.php/plebaniak/plebaniak'
     response = requests.get(url, verify=False)
     if response.status_code == 200:
         html_content = response.content

@@ -37,8 +37,12 @@ from datetime import date
 def priestList(year, filename=None, restore=False): 
     old = []
     if restore:
-        r = requests.get("https://szentjozsefhackathon.github.io/sematizmus/data.json")
-        old = r.json()
+        try:            
+            with open("data_old.json", "r") as f:
+                old = json.load(f)
+        except FileNotFoundError:
+            r = requests.get("https://szentjozsefhackathon.github.io/sematizmus/data.json")
+            old = r.json()
     _dioceses = {
         # "Bíborosi Kar": Cardinal(year=year),
         "Esztergom-Budapesti főegyházmegye": EBFEM,

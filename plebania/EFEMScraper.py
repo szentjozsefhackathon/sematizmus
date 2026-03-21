@@ -29,17 +29,13 @@ def processDeanDistrict(link):
             if response.status_code == 200:
                 html_content = response.content
             else:
-                print(f"{link} - Failed to fetch the website.")
+                raise Exception(f"{link} - Failed to fetch the website.")
         except:
-            try:
                 response = requests.get(link)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
-                    print(f"{link} - Failed to fetch the website.")
-            except:
-                print(f"{link} - Big error")
-                return
+                    raise Exception(f"{link} - Failed to fetch the website.")
 
         soup = BeautifulSoup(html_content, 'html.parser')
         plebaniak_nyers = []
@@ -164,25 +160,24 @@ def processDeanDistrict(link):
 
 def EFEM(filename=None, year=None):
     deanDistricts = [
-        "https://eger.egyhazmegye.hu/hitelet/eger-es-videke-esperesi-kerulet-150/eger-es-videke-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/mezokovesdi-esperesi-kerulet-153/mezokovesdi-esperesi-kerulet-121",
-        "https://eger.egyhazmegye.hu/hitelet/paradi-esperesi-kerulet-154/paradi-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/fuzesabonyi-esperesi-kerulet-155/fuzesabonyi-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/hevesi-esperesi-kerulet-156/hevesi-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/gyongyosi-esperesi-kerulet-157/gyongyosi-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/patai-esperesi-kerulet-158/patai-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/miskolci-esperesi-kerulet/miskolci-esperesi-kerulet-148",
-        "https://eger.egyhazmegye.hu/hitelet/onodi-esperesi-kerulet/onodi-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/ozdi-esperesi-kerulet/ozdi-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/szendroi-esperesi-kerulet/szendroi-esperesi-kerulet-1246",
-        "https://eger.egyhazmegye.hu/hitelet/jaszberenyi-esperesi-kerulet/jaszberenyi-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/jaszapati-esperesi-kerulet/jaszapati-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/torokszentmiklosi-esperesi-kerulet/torokszentmiklosi-esperesi-kerulet",
-        "https://eger.egyhazmegye.hu/hitelet/gonci-esperesi-kerulet/gonci-esperesi-kerulet-1215",
-        "https://eger.egyhazmegye.hu/hitelet/szikszo-encsi-esperesi-kerulet/szikszo-encsi-esperesi-kerulet-1242",
-        "https://eger.egyhazmegye.hu/hitelet/szerencsi-esperesi-kerulet/szerencsi-esperesi-kerulet-1222",
-        "https://eger.egyhazmegye.hu/hitelet/sarospataki-esperesi-kerulet/sarospataki-esperesi-kerulet-1224",
-        "https://eger.egyhazmegye.hu/hitelet/satoraljaujhely-bodrogkozi-esperesi-kerulet/satoraljaujhely-bodrogkozi-esperesi-kerulet-1227"
+        "https://eger.egyhazmegye.hu/hivatal/eger-es-videke-esperesi-kerulet-115/eger-es-videke-esperesi-kerulet-1237",
+        "https://eger.egyhazmegye.hu/hivatal/mezokovesdi-esperesi-kerulet-116/mezokovesdi-esperesi-kerulet",
+        "https://eger.egyhazmegye.hu/hivatal/paradi-esperesi-kerulet-117/paradi-esperesi-kerulet-154",
+        "https://eger.egyhazmegye.hu/hivatal/fuzesabony-hevesi-esperesi-kerulet-315/fuzesabony-hevesi-esperesi-kerulet-5013",
+        "https://eger.egyhazmegye.hu/hivatal/gyongyosi-esperesi-kerulet/gyongyosi-esperesi-kerulet-157",
+        "https://eger.egyhazmegye.hu/hivatal/patai-esperesi-kerulet/patai-esperesi-kerulet-158",
+        "https://eger.egyhazmegye.hu/hivatal/miskolci-esperesi-kerulet-180/miskolci-esperesi-kerulet-159",
+        "https://eger.egyhazmegye.hu/hivatal/onodi-esperesi-kerulet-181/onodi-esperesi-kerulet-160",
+        "https://eger.egyhazmegye.hu/hivatal/ozdi-esperesi-kerulet-182/ozdi-esperesi-kerulet-161",
+        "https://eger.egyhazmegye.hu/hivatal/szendroi-esperesi-kerulet-183/szendroi-esperesi-kerulet",
+        "https://eger.egyhazmegye.hu/hivatal/jaszberenyi-esperesi-kerulet-184/jaszberenyi-esperesi-kerulet-163",
+        "https://eger.egyhazmegye.hu/hivatal/jaszapati-esperesi-kerulet-185/jaszapati-esperesi-kerulet-164",
+        "https://eger.egyhazmegye.hu/hivatal/torokszentmiklosi-esperesi-kerulet-187/torokszentmiklosi-esperesi-kerulet-165",
+        "https://eger.egyhazmegye.hu/hivatal/gonci-esperesi-kerulet-188/gonci-esperesi-kerulet",
+        "https://eger.egyhazmegye.hu/hivatal/szikszo-encsi-esperesi-kerulet-189/szikszo-encsi-esperesi-kerulet",
+        "https://eger.egyhazmegye.hu/hivatal/szerencsi-esperesi-kerulet-190/szerencsi-esperesi-kerulet",
+        "https://eger.egyhazmegye.hu/hivatal/sarospataki-esperesi-kerulet-191/sarospataki-esperesi-kerulet",
+        "https://eger.egyhazmegye.hu/hivatal/satoraljaujhely-bodrogkozi-esperesi-kerulet-1/satoraljaujhely-bodrogkozi-esperesi-kerulet"
     ]
     
     plebanialista = []
