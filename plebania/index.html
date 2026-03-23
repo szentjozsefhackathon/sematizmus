@@ -68,6 +68,7 @@
     <script>
 
         let data = [];
+        let hardBounceEmails = new Set();
         let table;
 
         fetch('/sematizmus/lastUpdate.json')
@@ -75,10 +76,18 @@
             .then(json => {
                 document.getElementById('lastUpdate').innerText = json.lastUpdate;
             });
-        fetch('data.json')
-            .then(response => response.json())
-            .then(json => {
+        Promise.all([
+            fetch('data.json').then(response => response.json()),
+            fetch('hardbounce.txt').then(response => response.text())
+        ])
+            .then(([json, hardBounceText]) => {
                 data = json;
+                hardBounceEmails = new Set(
+                    hardBounceText
+                        .split(/\r?\n/)
+                        .map(email => email.trim().toLowerCase())
+                        .filter(email => email.length > 0)
+                );
                 $.fn.dataTableExt.sErrMode = 'none'
 
                 table = new DataTable('#datatable', {
@@ -141,8 +150,23 @@
                         },
                         {
                             title: 'Email-címek', data: 'emails',
-                            render: (data, type, row) => {
-                                return data ? data.join(', ') : '';
+                            render: (data, type) => {
+                                if (!data) {
+                                    return '';
+                                }
+
+                                if (type !== 'display') {
+                                    return data.join(', ');
+                                }
+
+                                return data
+                                    .map(email => {
+                                        const normalizedEmail = String(email).trim().toLowerCase();
+                                        return hardBounceEmails.has(normalizedEmail)
+                                            ? `<span class="text-danger fw-semibold">${email} (visszapattant a levél)</span>`
+                                            : email;
+                                    })
+                                    .join(', ');
                             },
                             searchPanes: {
                                 show: false
