@@ -50,7 +50,7 @@ def processPriest(link):
         soup = BeautifulSoup(html_content, 'html5lib')
         imgSrc = ""
         try:
-            imgSrc = "https://pecsiegyhazmegye.hu" + soup.select_one(".item-page img").get("src")
+            imgSrc = "https://pecsiegyhazmegye.hu" + soup.select_one(".theContent img").get("src")
         except:
             pass
 
@@ -59,7 +59,7 @@ def processPriest(link):
         birth = None
         ordination = None
         dutyStation = set()
-        for sor in soup.select_one(".kpriest-content-right table").findAll("tr"): # Papi táblázat
+        for sor in soup.select_one(".theContent table").findAll("tr"): # Papi táblázat
             if(sor.select_one("th").text == "Született"): 
                 birth = str2date(sor.select_one("td").text.strip().split(", ")[1])
             
@@ -76,14 +76,14 @@ def processPriest(link):
         if len(dutyStation) == 0:
             dutyStation = None
         return {
-            "name": soup.select_one(".page-header h2").text, # A pap neve
+            "name": soup.select_one("h1.pageTitle").text, # A pap neve
             "birth": birth,
             "ordination": ordination,
             "img": imgSrc, # A kép linkje,
             "src": link,
-            "retired": "nyugállományban" in soup.select_one("#content").text or "ny. megyéspüspök" in soup.select_one("#content").text,
-            "bishop": "megyéspüspök" in soup.select_one("#content").text,
-            "deacon": "diakónus" in soup.select_one("#content").text,
+            "retired": "nyugállományban" in soup.select_one(".theContent").text or "ny. megyéspüspök" in soup.select_one(".theContent").text,
+            "bishop": "megyéspüspök" in soup.select_one(".theContent").text,
+            "deacon": "diakónus" in soup.select_one(".theContent").text,
             "dutyStation": dutyStation
         }
 
@@ -105,7 +105,8 @@ def PEM(filename=None, year=None):
 
     papok = []
     firstLine = True # Az első sor csak fejléc
-    for sor in soup.select_one(".item-page table").tbody.findAll("tr"): # Táblázat sorainak keresése
+    print(soup.select_one(".theContent").table)
+    for sor in soup.select_one(".theContent").table.findAll("tr"): # Táblázat sorainak keresése
         if firstLine:
             firstLine = False
             continue

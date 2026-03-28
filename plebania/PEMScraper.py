@@ -31,15 +31,11 @@ def processParish(link):
             else:
                 print(f"{link} - Failed to fetch the website.")
         except:
-            try:
                 response = requests.get(link, verify=False)
                 if response.status_code == 200:
                     html_content = response.content
                 else:
                     print(f"{link} - Failed to fetch the website.")
-            except:
-                print(f"{link} - Big error")
-                return
 
 
         soup = BeautifulSoup(html_content, 'html5lib')
@@ -53,7 +49,7 @@ def processParish(link):
             return None
         if "Társplébánia" in soup.text:
             return None
-        for sor in soup.select_one(".kpriest-content-right table").findAll("tr"): # Papi táblázat
+        for sor in soup.select_one(".theContent table").findAll("tr"): # Papi táblázat
             if sor.select_one("th").text == "Plébánia vezető":
                 plink = sor.select_one("td a")["href"]
                 parishioner = get_priest(plink, sor.select_one("td a").text.strip())
@@ -68,7 +64,7 @@ def processParish(link):
                 address = fullAddress.split(",")[1].strip() # Cím
         
         return {
-            "name": soup.select_one(".page-header h2").text, # A plébánia neve
+            "name": soup.select_one("h1.pageTitle").text, # A plébánia neve
             "parishioner": parishioner, # A plébános
             "src": link,
             "phones": phone_format(phones), # Telefonszám
@@ -95,12 +91,12 @@ def PEM(filename=None, year=None):
 
     plebaniak = []
     firstLine = True # Az első sor csak fejléc
-    for sor in soup.select_one(".item-page table").tbody.findAll("tr"): # Táblázat sorainak keresése
+    for sor in soup.select_one(".theContent table").findAll("tr"): # Táblázat sorainak keresése
         if firstLine:
             firstLine = False
             continue
-
-        plebaniak.append(f"https://pecsiegyhazmegye.hu{sor.findAll('td')[0].select_one('a')['href']}") 
+    
+        plebaniak.append(sor.findAll('td')[0].select_one('a')['href']) 
 
     plebanialista = process_map(processParish, plebaniak)
     plebanialista = [p for p in plebanialista if p != None]
