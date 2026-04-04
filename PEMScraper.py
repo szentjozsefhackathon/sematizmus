@@ -50,7 +50,7 @@ def processPriest(link):
         soup = BeautifulSoup(html_content, 'html5lib')
         imgSrc = ""
         try:
-            imgSrc = "https://pecsiegyhazmegye.hu" + soup.select_one(".theContent img").get("src")
+            imgSrc = soup.select_one(".theContent img").get("src")
         except:
             pass
 
