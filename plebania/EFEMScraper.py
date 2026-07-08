@@ -84,6 +84,8 @@ def processDeanDistrict(link):
         for rows in plebaniak_nyers:
             if "templomigazgató" in " ".join(rows).lower():
                 continue
+            if "kápolnaigazgató" in " ".join(rows).lower():
+                continue
             if "Ellátja:" in "".join(rows):
                 continue
             parishioner = {}
@@ -121,6 +123,7 @@ def processDeanDistrict(link):
                             else:
                                 break
                         parishionerName = " ".join(parishionerName)
+                        parishionerName = parishionerName.lower().title()
                         parishioner = get_priest(None, parishionerName, dontFind=True)
                         break
                 if row.startswith("Honlap:"):
